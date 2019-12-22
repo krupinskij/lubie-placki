@@ -8,7 +8,7 @@ class App extends React.Component {
   }
 
   componentDidMount = () => {
-    fetch(`http://localhost:8080/recipes`)
+    fetch(`http://localhost:3004/recipes`)
     .then(resp => resp.json())
     .then(resp => {
       this.setState({
@@ -20,7 +20,7 @@ class App extends React.Component {
   render() {
     const recipes = this.state.recipes.map(recipe => {
       return(
-        <li>Nazwa: { recipe.title }, wykonanie { recipe.text } </li>
+        <li key={ Math.random() }>Nazwa: { recipe.title }, wykonanie { recipe.text } </li>
       )
     })
 

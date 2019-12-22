@@ -24,6 +24,7 @@ public class RecipeController {
         return ResponseEntity.ok().body(recipeRepository.save(recipe));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "")
     public List<Recipe> getAllEmployees() {
         return recipeRepository.findAll();
