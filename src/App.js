@@ -1,87 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+import Navbar from './components/Navbar';
+import HomePage from './components/HomePage';
+import RandomPage from './components/RandomPage';
+import AddPage from './components/AddPage';
+import TopPage from './components/TopPage';
 
 class App extends React.Component {
-  state = {
-    recipes: []
-  }
-
-  componentDidMount = () => {
-    fetch(`http://localhost:3004/recipes`)
-    .then(resp => resp.json())
-    .then(resp => {
-      this.setState({
-        recipes: resp
-      })
-    })
-  }
-
-  render() {
-    
-    const recipes = this.state.recipes.map(recipe => {
-
-      const ingredients = recipe.ingredients.map(ingredient => {
-        return(
-          <li key={ Math.random() }>
-            { ingredient[0] } {ingredient[1]}
-          </li>
-        )
-      })
-
-      const directions = recipe.directions.map(direction => {
-        return(
-          <li key={ Math.random() }>
-            { direction }
-          </li>
-        )
-      })
-
-      const hints = recipe.hints.map(hint => {
-        return(
-          <li key={ Math.random() }>
-            { hint }
-          </li>
-        )
-      })
-
-      return(
-        <div key={ Math.random() }>
-          <h2>{ recipe.title }</h2>
-          <div>
-            <h3>Opis: </h3>
-            { recipe.description }
-          </div>
-          <div>
-            <h3>Składniki:</h3>
-            <ul>
-              { ingredients }
-            </ul>
-          </div>
-          <div>
-            <h3>Sposób wykonania:</h3>
-            <ol>
-              { directions }
-            </ol>
-          </div>
-          <div>
-            <h3>Wskazówki:</h3>
-            <ul>
-              { hints }
-            </ul>
-          </div>
-        </div>
-      )
-    })
-
-    return(
-      
-      <div>
-        <h1>Przepisy</h1>
-          { recipes }
-      </div>
-    )
-  }
+	render() {
+		return(
+			<BrowserRouter>
+				<div>
+					<Navbar/>
+					<Route exact path="/" component={HomePage} />
+					<Route path="/random" component={RandomPage} />
+					<Route path="/add" component={AddPage} />
+					<Route path="/top" component={TopPage} />
+				</div>
+			</BrowserRouter>
+		)
+	}
 }
 
 export default App;
