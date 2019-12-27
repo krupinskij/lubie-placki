@@ -1,68 +1,80 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Lubię Placki 
+Portal do dzielenia się przepisami na ciasta
 
-## Available Scripts
+## Jak otworzyć?
+Pobierz to repozytorium na swój lokalny komputer (pobierz lub sklonuj):
 
-In the project directory, you can run:
+![repozytorium na GitHubie](https://pics.tinypic.pl/i/00994/jntcj5e1sc6h.png)
 
-### `npm start`
+Zapisz w wybranym przez siebie miejscu:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![klonowanie w terminalu](https://pics.tinypic.pl/i/00994/3zkj10wohx2a.png)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Otwarcie portalu składa się z trzech części:
+- utworzenie bazy danych
+- uruchomienie serwera
+- włączenie strony
 
-### `npm test`
+### Utworzenie bazy danych
+`(pgAdmin 4)`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+W folderze *lubie-placki/backend* powinien znajdować się plik *database.backup*:
 
-### `npm run build`
+![plik database.backup](https://pics.tinypic.pl/i/00994/4dy8d4u0jxnq.png)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Baza danych została stworzona na platformie PostgreSQL. Jeśli nie masz tego systemu, możesz go pobrać [TUTAJ](https://www.postgresql.org/download/)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Otwieramy program *pgAdmin 4*:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![program pgAdmin 4](https://pics.tinypic.pl/i/00994/dfv3m1rgxj51.png)
 
-### `npm run eject`
+Tworzymy nową bazę danych:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![tworzenie bazy danych](https://pics.tinypic.pl/i/00994/albzeac4p7jp.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Nazywamy bazę danych: *lubie-placki*:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![nazywanie bazy danych](https://pics.tinypic.pl/i/00994/92lp38vibqzl.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Wybieramy opcję *Restore*:
 
-## Learn More
+![przywracanie z pliku](https://pics.tinypic.pl/i/00994/urww0qryjc0d.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Wybieramy plik *database.backup* z zapisaną bazą danych i zaznaczamy opcję *Clean before restore*:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![wybieranie pliku](https://pics.tinypic.pl/i/00994/xksbzjpmisnt.png)
+![zaznaczanie opcji](https://pics.tinypic.pl/i/00994/wwgkpi8vgcm7.png)
 
-### Code Splitting
+Może wystąpić błąd, ale mimo wszystko baza danych powinna zostać zaktualizowana.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Uruchomienie serwera
+`(IntelliJ)`
 
-### Analyzing the Bundle Size
+Otwieramy folder *lubie-placki/backend*:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Klikamy prawym przyciskiem myszy na plik *LubiePlackiBackendApplication* w drzewie projektu i wybieramy opcję *Run...*:
 
-### Making a Progressive Web App
+![uruchamianie serwera](https://pics.tinypic.pl/i/00994/6rsv2dhgmglq.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+W ten sposób uruchomiliśmy serwer:
 
-### Advanced Configuration
+![uruchomienie serwera](https://pics.tinypic.pl/i/00994/281i0krbrnem.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Włączenie strony
+`(Visual Studio Code)`
 
-### Deployment
+Otwieramy folder *lubie-placki*
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Włączamy terminal (można utworzyć skrótu klawiszowego `` Ctrl + ` ``  ).
 
-### `npm run build` fails to minify
+W terminalu wpisujemy `npm install`, by zainstalować wszystkie dependencje.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![wpisanie npm install](https://pics.tinypic.pl/i/00994/35g2dgldvbwd.png)
+
+A następnie `npm start`, by włączyć stronę
+
+![wpisanie npm start](https://pics.tinypic.pl/i/00994/9pogvbvi61f2.png)
+
+Ostatecznie możemy cieszyć się naszą piękną stroną :)
+
+![widok strony internetowej](https://pics.tinypic.pl/i/00994/c883std8emdp.png)
