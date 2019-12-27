@@ -1,5 +1,5 @@
 {
-  "name": "lubie-placki-frontend",
+  "name": "lubie-placki",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,7 +11,7 @@
     "react-scripts": "3.3.0"
   },
   "scripts": {
-    "start": "react-scripts start | java -jar backend/target/lubie-placki-backend-0.0.1-SNAPSHOT.jar",
+    "start": "react-scripts start | java -jar backend/lubie-placki-backend.jar",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
