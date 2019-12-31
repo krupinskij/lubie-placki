@@ -20,30 +20,30 @@ class HomePage extends React.Component {
 
 			const ingredients = recipe.ingredients.map(ingredient => {
 				return (
-					<li key={Math.random()}>
-						{ingredient[0]} {ingredient[1]}
+					<li key={ingredient.id}>
+						{ingredient.name} - {ingredient.quantity}{ingredient.unit}
 					</li>
 				)
 			})
 
 			const directions = recipe.directions.map(direction => {
 				return (
-					<li key={Math.random()}>
-						{direction}
+					<li key={direction.id}>
+						{direction.text}
 					</li>
 				)
 			})
 
 			const hints = recipe.hints.map(hint => {
 				return (
-					<li key={Math.random()}>
-						{hint}
+					<li key={hint.id}>
+						{hint.text}
 					</li>
 				)
 			})
 
 			return (
-				<div key={Math.random()}>
+				<div key={recipe.id}>
 					<h2>{recipe.title}</h2>
 					<div>
 						<h3>Opis: </h3>

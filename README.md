@@ -2,6 +2,15 @@
 Portal do dzielenia się przepisami na ciasta
 
 ## Jak otworzyć?
+
+Otwarcie strony internetowej składa się z czterech części:
+- pobranie repozytorium
+- utworzenie bazy danych
+- uruchomienie serwera
+- uruchomienie strony
+
+### Pobranie repozytorium
+
 Pobierz to repozytorium na swój lokalny komputer (pobierz lub sklonuj):
 
 ![repozytorium na GitHubie](https://pics.tinypic.pl/i/00994/jntcj5e1sc6h.png)
@@ -10,17 +19,10 @@ Zapisz w wybranym przez siebie miejscu:
 
 ![klonowanie w terminalu](https://pics.tinypic.pl/i/00994/3zkj10wohx2a.png)
 
-Otwarcie portalu składa się z trzech części:
-- utworzenie bazy danych
-- uruchomienie serwera
-- włączenie strony
 
 ### Utworzenie bazy danych
 `(pgAdmin 4)`
 
-W folderze *lubie-placki/backend* powinien znajdować się plik *database.backup*:
-
-![plik database.backup](https://pics.tinypic.pl/i/00994/4dy8d4u0jxnq.png)
 
 Baza danych została stworzona na platformie PostgreSQL. Jeśli nie masz tego systemu, możesz go pobrać [TUTAJ](https://www.postgresql.org/download/)
 
@@ -36,16 +38,7 @@ Nazywamy bazę danych: *lubie-placki*:
 
 ![nazywanie bazy danych](https://pics.tinypic.pl/i/00994/92lp38vibqzl.png)
 
-Wybieramy opcję *Restore*:
-
-![przywracanie z pliku](https://pics.tinypic.pl/i/00994/urww0qryjc0d.png)
-
-Wybieramy plik *database.backup* z zapisaną bazą danych i zaznaczamy opcję *Clean before restore*:
-
-![wybieranie pliku](https://pics.tinypic.pl/i/00994/xksbzjpmisnt.png)
-![zaznaczanie opcji](https://pics.tinypic.pl/i/00994/wwgkpi8vgcm7.png)
-
-Może wystąpić błąd, ale mimo wszystko baza danych powinna zostać zaktualizowana.
+Podczas uruchomienia serwera tabele zostaną utworzone automatycznie.
 
 ### Uruchomienie serwera
 `(IntelliJ)`
@@ -60,7 +53,7 @@ W ten sposób uruchomiliśmy serwer:
 
 ![uruchomienie serwera](https://pics.tinypic.pl/i/00994/281i0krbrnem.png)
 
-### Włączenie strony
+### Uruchomienie strony
 `(Visual Studio Code)`
 
 Otwieramy folder *lubie-placki*
