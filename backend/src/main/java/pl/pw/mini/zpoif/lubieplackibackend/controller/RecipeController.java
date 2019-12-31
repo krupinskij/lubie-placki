@@ -17,8 +17,8 @@ public class RecipeController {
     }
 
     @GetMapping(path = "")
-    public List<Recipe> getRecipes() {
-        return recipeService.findAll();
+    public List<Recipe> getRecipes(@RequestParam(required = false) String type) {
+        return recipeService.findByType(type);
     }
 
     @GetMapping(path = "/{id}")

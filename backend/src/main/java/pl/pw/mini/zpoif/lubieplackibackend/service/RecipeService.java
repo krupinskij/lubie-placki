@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RecipeService {
 
-    List<Recipe> findAll();
+    List<Recipe> findByType(String type);
     Recipe findById(Long id);
 
     Recipe save(Recipe recipe);

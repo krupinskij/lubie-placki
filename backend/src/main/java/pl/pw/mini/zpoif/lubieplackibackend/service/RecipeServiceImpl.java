@@ -32,8 +32,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findAll() {
-        return recipeRepository.findAll();
+    public List<Recipe> findByType(String type) {
+        if(type!=null) return recipeRepository.findByType(type);
+        else return recipeRepository.findAll();
     }
 
     @Override

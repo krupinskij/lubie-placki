@@ -6,4 +6,5 @@ import pl.pw.mini.zpoif.lubieplackibackend.model.Recipe;
 import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
+    List<Recipe> findByType(String type);
 }

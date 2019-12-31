@@ -1,18 +1,28 @@
 import React from 'react'
+import queryString from 'query-string'
 
 class HomePage extends React.Component {
 	state = {
 		recipes: []
 	}
 
-	componentDidMount = () => {
-		fetch(`http://localhost:3004/recipes`)
+	fetchData = url => {
+		fetch(url)
 			.then(resp => resp.json())
 			.then(resp => {
 				this.setState({
 					recipes: resp
 				})
 			})
+	}
+
+	componentDidMount = () => {
+		this.props.history.listen(location => {
+			const parsed = queryString.parse(location.search);
+
+			this.fetchData("http://localhost:3004/recipes" + (parsed.type ? `?type=${parsed.type}` : ''))
+			
+		})
 	}
 
 	render() {
