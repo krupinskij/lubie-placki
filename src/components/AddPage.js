@@ -132,13 +132,9 @@ class AddPage extends React.Component {
 			type: this.state.type
 		}
 
-		console.log(recipeData);
-
 		const ingredients = this.state.ingredients;
 		const directions = this.state.directions.map((d, i) => {return {...d, direction_order: i }});
 		const hints = this.state.hints;
-
-		console.log(this.state.directions)
 
 		fetch("http://localhost:3004/recipes", {
 			method: 'POST',

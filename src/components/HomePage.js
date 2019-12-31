@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import queryString from 'query-string'
 
 class HomePage extends React.Component {
@@ -21,7 +22,7 @@ class HomePage extends React.Component {
 			const parsed = queryString.parse(location.search);
 
 			this.fetchData("http://localhost:3004/recipes" + (parsed.type ? `?type=${parsed.type}` : ''))
-			
+
 		})
 	}
 
@@ -54,7 +55,9 @@ class HomePage extends React.Component {
 
 			return (
 				<div key={recipe.id}>
-					<h2>{recipe.title}</h2>
+					<h2>
+						<Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+					</h2>
 					<div>
 						<h3>Opis: </h3>
 						{recipe.description}
