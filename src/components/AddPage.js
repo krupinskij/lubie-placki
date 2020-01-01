@@ -218,38 +218,52 @@ class AddPage extends React.Component {
 
 		return (
 			<div>
-				<form onSubmit={this.handleSubmit}>
-					<h1>Dodaj przepis</h1>
+				<form className="form add-recipe-form" onSubmit={this.handleSubmit}>
+					<h2 className="form__header">Dodaj przepis</h2>
 
-					<label htmlFor="title">Nazwa ciasta: </label>
-					<input id="title" name="title" type="text" onChange={this.changeValue} />
+					<div className="form__section">
+						<label className="form__label" htmlFor="title">Nazwa ciasta: </label>
+						<input className="form__input" id="title" name="title" type="text" onChange={this.changeValue} />
+					</div>
+					
+					<div className="form__section">
+						<label className="form__label" htmlFor="desc">Opis: </label>
+						<textarea className="form__textarea" id="desc" name="description" onChange={this.changeValue}></textarea>
+					</div>
 
-					<label htmlFor="desc">Opis: </label>
-					<textarea id="desc" name="description" onChange={this.changeValue}></textarea>
+					<div className="form__section">
+						<label className="form__label" htmlFor="type">Typ ciasta: </label>
+						<input className="form__input" id="type" name="type" type="text" onChange={this.changeValue}/>
+					</div>
 
-					<label htmlFor="type">Typ ciasta: </label>
-					<input id="type" name="type" type="text" onChange={this.changeValue}/>
+					<div className="form__section">
+						<label className="form__label" htmlFor="photo">Zdjęcie ciasta: </label>
+						<input id="photo" name="photo" type="file" onChange={this.changePhoto}/>
+					</div>
 
-					<label htmlFor="photo">Zdjęcie ciasta: </label>
-					<input id="photo" name="photo" type="file" onChange={this.changePhoto}/>
+					<div className="form__section">
+						<label className="form__label">Składniki: </label>
+						<input type="button" value="Dodaj składnik" onClick={this.addIngredient}/>
+						<ul>
+							{ingredients}
+						</ul>
+					</div>
 
-					<h2>Składniki: </h2>
-					<input type="button" value="Dodaj składnik" onClick={this.addIngredient}/>
-					<ul>
-						{ingredients}
-					</ul>
+					<div className="form__section">
+						<label className="form__label">Sposób wykonania: </label>
+						<input type="button" value="Dodaj sposób" onClick={this.addDirection}/>
+						<ol>
+							{directions}
+						</ol>
+					</div>
 
-					<h2>Sposób wykonania: </h2>
-					<input type="button" value="Dodaj sposób" onClick={this.addDirection}/>
-					<ol>
-						{directions}
-					</ol>
-
-					<h2>Wskazówki: </h2>
-					<input type="button" value="Dodaj wskazówkę" onClick={this.addHint}/>
-					<ul>
-						{hints}
-					</ul>
+					<div className="form__section">
+						<label className="form__label">Wskazówki: </label>
+						<input type="button" value="Dodaj wskazówkę" onClick={this.addHint}/>
+						<ul>
+							{hints}
+						</ul>
+					</div>
 
 					<input type="submit" value="Dodaj" />
 				</form>

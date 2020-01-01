@@ -8,6 +8,7 @@ import RandomPage from './components/RandomPage';
 import AddPage from './components/AddPage';
 import TopPage from './components/TopPage';
 
+
 class App extends React.Component {
 	render() {
 		return(

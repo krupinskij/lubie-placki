@@ -1,6 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import queryString from 'query-string'
+
+import Recipe from './Recipe'
 
 class HomePage extends React.Component {
 	state = {
@@ -35,69 +36,9 @@ class HomePage extends React.Component {
 	
 
 	render() {
-		const recipes = this.state.recipes.map(recipe => {
-
-			const ingredients = recipe.ingredients.map(ingredient => {
-				return (
-					<li key={ingredient.id}>
-						{ingredient.name} - {ingredient.quantity}{ingredient.unit}
-					</li>
-				)
-			})
-
-			const directions = recipe.directions.map(direction => {
-				return (
-					<li key={direction.id}>
-						{direction.text}
-					</li>
-				)
-			})
-
-			const hints = recipe.hints.map(hint => {
-				return (
-					<li key={hint.id}>
-						{hint.text}
-					</li>
-				)
-			})
-
-			return (
-				<div key={recipe.id}>
-					<h2>
-						<Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
-					</h2>
-					<div>
-						<h3>Zdjęcie: </h3>
-						<img src={`http://localhost:3004/recipes/recipephotos/${recipe.id}`} alt={recipe.title}/>
-					</div>
-					<div>
-						<h3>Opis: </h3>
-						{recipe.description}
-					</div>
-					<div>
-						<h3>Składniki:</h3>
-						<ul>
-							{ingredients}
-						</ul>
-					</div>
-					<div>
-						<h3>Sposób wykonania:</h3>
-						<ol>
-							{directions}
-						</ol>
-					</div>
-					<div>
-						<h3>Wskazówki:</h3>
-						<ul>
-							{hints}
-						</ul>
-					</div>
-				</div>
-			)
-		})
+		const recipes = this.state.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
 
 		return (
-
 			<div>
 				{recipes}
 			</div>

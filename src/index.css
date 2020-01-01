@@ -1,13 +1,159 @@
-/*body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}*/
+body {
+  font-family: 'Quicksand', sans-serif;
+  overflow-x: hidden;
+
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAIAAABwJOjsAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADPSURBVEhLpZYxDoMwDEUDR+hMt/b+B+rYmV4hdfQjo1hu8u2+AWLE00uY2M7jcXu/SpzP/SnXtLvjhplHlbS7Y8shHy+L+I/bThzy1cSYdltYh6VvqiDn9rCw9N0qSLhXWJj4kyqIukNYcP1lFYRcGxaMT1YB72611r4cUVkgqwrjOicGKkSrAuP+DJvPFYJx/TAE2S+2HGqTrhNWE2Oozbs2bExAtkPuEHZNsGxH3Ss8McGknXB7eGkCt51zW5g0gfHTbvv10Uc8GhYybilfTK7QPW2qfE0AAAAASUVORK5CYII=");
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: white;
+  box-shadow: 0px 0px 10px rgb(100, 100, 100);
+
+  width: 110%;
+  margin: 0 -5%;
+}
+
+.navbar__header {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-content: baseline;
+}
+
+.navbar__title {
+  text-align: center;
+  font-size: 250%;
+  margin: 10px;
+}
+
+.navbar__logo {
+  height: 50px;
+  margin: auto 10px;
+}
+
+.navbar__list {
+  list-style: none;
+  margin: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.navbar__list--top {
+  font-size: 115%;
+  background-color: rgb(168, 0, 0);
+  border-bottom: 2px solid black;
+}
+
+.navbar__list--bottom {
+  font-size: 85%;
+}
+
+
+.navbar__item {
+  margin: 10px;
+}
+
+.navbar__list--bottom .navbar__item {
+  margin: 5px 10px;
+}
+
+.navbar__link {
+  text-decoration: none;
+  margin: 10px;
+  padding: 10px 0;
+  color: white;
+
+  user-select: none;
+}
+
+.navbar__list--bottom .navbar__link {
+  color: black;
+}
+
+.recipe {
+  margin: 5% 20%;
+  width: 50%;
+  padding: 2% 5%;
+
+  font-family: 'Merriweather', serif;
+
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgb(100, 100, 100);
+}
+
+.recipe__header {
+  font-size: 250%;
+  margin: 5px 0;
+  
+  text-align: center;
+}
+
+.recipe__title {
+  text-decoration: none;
+  color: black;
+}
+
+.recipe__photo {
+  width: 100%;
+}
+
+.recipe__section {
+  text-align: center;
+  margin: 10px;
+}
+
+.add-recipe-form {
+  background-color: white;
+
+  margin: 5% 20%;
+  width: 50%;
+  padding: 2% 5%;
+
+  font-family: 'Merriweather', serif;
+
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgb(100, 100, 100);
+}
+
+.form__header {
+  font-size: 250%;
+  margin: 5px 0;
+  
+  text-align: center;
+}
+
+.form__section {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+
+  margin: 20px 0;
+}
+
+.form__label {
+  font-size: 150%;
+}
+
+.form__input {
+  font-size: 24px;
+  padding: 10px;
+}
+
+.form__textarea {
+  resize: vertical;
+  font-size: 16px;
+}
