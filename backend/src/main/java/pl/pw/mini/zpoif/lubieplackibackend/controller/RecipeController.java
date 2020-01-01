@@ -1,9 +1,11 @@
 package pl.pw.mini.zpoif.lubieplackibackend.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.pw.mini.zpoif.lubieplackibackend.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.service.RecipeService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,13 @@ public class RecipeController {
         return recipeService.findById(id);
     }
 
+    @GetMapping(path = "/recipephotos/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getRecipePhoto(@PathVariable("id") Long id) throws IOException {
+        RecipePhoto recipePhoto = recipeService.findRecipePhotoByRecipeId(id);
+
+        return recipePhoto.getPhoto();
+    }
+
     @PostMapping(path = "")
     public Recipe saveRecipe(@RequestBody Recipe recipe) {
         return recipeService.save(recipe);
@@ -44,6 +53,11 @@ public class RecipeController {
     @PostMapping(path = "/{id}/hints")
     public List<Hint> saveHints(@PathVariable Long id,  @RequestBody List<Hint> hints) {
         return recipeService.saveAllHints(id, hints);
+    }
+
+    @PostMapping(path = "/{id}/recipephoto")
+    public RecipePhoto saveRecipePhoto(@PathVariable Long id, @RequestBody byte[] photo) {
+        return recipeService.saveRecipePhoto(id, photo);
     }
 
 

@@ -67,6 +67,10 @@ class HomePage extends React.Component {
 						<Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
 					</h2>
 					<div>
+						<h3>Zdjęcie: </h3>
+						<img src={`http://localhost:3004/recipes/recipephotos/${recipe.id}`} alt={recipe.title}/>
+					</div>
+					<div>
 						<h3>Opis: </h3>
 						{recipe.description}
 					</div>

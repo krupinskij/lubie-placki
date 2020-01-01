@@ -53,6 +53,10 @@ class RecipePage extends React.Component {
         return (
             <div>
                 <h1>{recipe.title}</h1>
+                <div>
+						<h3>Zdjęcie: </h3>
+						<img src={`http://localhost:3004/recipes/recipephotos/${recipe.id}`} alt={recipe.title}/>
+					</div>
 
                 <div>
                     <h3>Opis: </h3>

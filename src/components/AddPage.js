@@ -24,7 +24,9 @@ class AddPage extends React.Component {
 			{
 				text: ""
 			}
-		]
+		],
+
+		photo: ""
 	}
 
 	changeValue = (event) => {
@@ -34,6 +36,15 @@ class AddPage extends React.Component {
 
 		this.setState({
 			[name]: value
+		})
+	}
+
+	changePhoto = (event) => {
+		const target = event.target;
+		const value = target.files[0];
+
+		this.setState({
+			photo: value
 		})
 	}
 
@@ -136,6 +147,9 @@ class AddPage extends React.Component {
 		const directions = this.state.directions.map((d, i) => {return {...d, direction_order: i }});
 		const hints = this.state.hints;
 
+		const photoBlob = this.state.photo;
+
+
 		fetch("http://localhost:3004/recipes", {
 			method: 'POST',
 			headers: {
@@ -156,7 +170,7 @@ class AddPage extends React.Component {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(directions)
-			}).then(resp => console.log(resp));
+			});
 			fetch(`http://localhost:3004/recipes/${resp.id}/hints`, {
 				method: 'POST',
 				headers: {
@@ -164,6 +178,14 @@ class AddPage extends React.Component {
 				},
 				body: JSON.stringify(hints)
 			});
+			fetch(`http://localhost:3004/recipes/${resp.id}/recipephoto`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': "image/jpeg"
+				},
+				body: photoBlob
+			});
+
 		})
 	}
 
@@ -207,6 +229,9 @@ class AddPage extends React.Component {
 
 					<label htmlFor="type">Typ ciasta: </label>
 					<input id="type" name="type" type="text" onChange={this.changeValue}/>
+
+					<label htmlFor="photo">Zdjęcie ciasta: </label>
+					<input id="photo" name="photo" type="file" onChange={this.changePhoto}/>
 
 					<h2>Składniki: </h2>
 					<input type="button" value="Dodaj składnik" onClick={this.addIngredient}/>

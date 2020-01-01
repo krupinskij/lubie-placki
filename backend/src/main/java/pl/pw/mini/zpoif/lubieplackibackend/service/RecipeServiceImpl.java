@@ -2,14 +2,8 @@ package pl.pw.mini.zpoif.lubieplackibackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.pw.mini.zpoif.lubieplackibackend.model.Direction;
-import pl.pw.mini.zpoif.lubieplackibackend.model.Hint;
-import pl.pw.mini.zpoif.lubieplackibackend.model.Ingredient;
-import pl.pw.mini.zpoif.lubieplackibackend.model.Recipe;
-import pl.pw.mini.zpoif.lubieplackibackend.repository.DirectionRepository;
-import pl.pw.mini.zpoif.lubieplackibackend.repository.HintRepository;
-import pl.pw.mini.zpoif.lubieplackibackend.repository.IngredientRepository;
-import pl.pw.mini.zpoif.lubieplackibackend.repository.RecipeRepository;
+import pl.pw.mini.zpoif.lubieplackibackend.model.*;
+import pl.pw.mini.zpoif.lubieplackibackend.repository.*;
 
 import java.util.List;
 
@@ -21,14 +15,17 @@ public class RecipeServiceImpl implements RecipeService {
     private IngredientRepository ingredientRepository;
     private DirectionRepository directionRepository;
     private HintRepository hintRepository;
+    private RecipePhotoRepository recipePhotoRepository;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, DirectionRepository directionRepository, HintRepository hintRepository){
+    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, DirectionRepository directionRepository, HintRepository hintRepository, RecipePhotoRepository recipePhotoRepository){
         this.recipeRepository = recipeRepository;
 
         this.ingredientRepository = ingredientRepository;
         this.directionRepository = directionRepository;
         this.hintRepository = hintRepository;
+
+        this.recipePhotoRepository = recipePhotoRepository;
     }
 
     @Override
@@ -40,6 +37,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findById(Long id) {
         return recipeRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public RecipePhoto findRecipePhotoByRecipeId(Long id) {
+        return recipePhotoRepository.findByRecipeId(id);
     }
 
     @Override
@@ -81,6 +83,17 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return hints;
+    }
+
+    @Override
+    public RecipePhoto saveRecipePhoto(Long id, byte[] photo) {
+        Recipe recipe = recipeRepository.findById(id).orElse(null);
+
+        RecipePhoto recipePhoto = new RecipePhoto();
+        recipePhoto.setRecipe(recipe);
+        recipePhoto.setPhoto(photo);
+
+        return recipePhotoRepository.save(recipePhoto);
     }
 
 

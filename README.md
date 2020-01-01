@@ -70,4 +70,4 @@ A następnie `npm start`, by włączyć stronę
 
 Ostatecznie możemy cieszyć się naszą piękną stroną :)
 
-![widok strony internetowej](https://images.tinypic.pl/i/00994/pmr4uqyi89qr.png)
+![widok strony internetowej](https://pics.tinypic.pl/i/00995/e7pnu635g5e0.png)

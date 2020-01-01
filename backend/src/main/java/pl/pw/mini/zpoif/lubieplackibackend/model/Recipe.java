@@ -35,6 +35,9 @@ public class Recipe implements Serializable {
     @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Hint> hints;
 
+    @OneToOne(mappedBy = "recipe")
+    private RecipePhoto recipe_photo;
+
     public Recipe() {}
 
     public Long getId() {
@@ -91,5 +94,13 @@ public class Recipe implements Serializable {
 
     public void setHints(List<Hint> hints) {
         this.hints = hints;
+    }
+
+    public RecipePhoto getRecipe_photo() {
+        return recipe_photo;
+    }
+
+    public void setRecipe_photo(RecipePhoto recipe_photo) {
+        this.recipe_photo = recipe_photo;
     }
 }
