@@ -4,11 +4,17 @@ import queryString from 'query-string'
 
 class HomePage extends React.Component {
 	state = {
-		recipes: []
+		recipes: [],
+		type: ""
 	}
 
-	fetchData = url => {
-		fetch(url)
+	fetchData = (parsed = queryString.parse(this.props.history.location.search)) => {
+
+		this.setState({
+			type: parsed.type
+		})
+
+		fetch("http://localhost:3004/recipes" + (parsed.type ? `?type=${parsed.type}` : ''))
 			.then(resp => resp.json())
 			.then(resp => {
 				this.setState({
@@ -17,14 +23,16 @@ class HomePage extends React.Component {
 			})
 	}
 
-	componentDidMount = () => {
-		this.props.history.listen(location => {
-			const parsed = queryString.parse(location.search);
-
-			this.fetchData("http://localhost:3004/recipes" + (parsed.type ? `?type=${parsed.type}` : ''))
-
-		})
+	componentDidUpdate = () => {
+		const parsed = queryString.parse(this.props.history.location.search);
+		if(this.state.type!==parsed.type) this.fetchData(parsed);
 	}
+
+	componentDidMount = () => {
+		this.fetchData();
+	}
+
+	
 
 	render() {
 		const recipes = this.state.recipes.map(recipe => {
