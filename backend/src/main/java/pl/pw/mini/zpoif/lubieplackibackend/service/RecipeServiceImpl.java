@@ -1,11 +1,14 @@
 package pl.pw.mini.zpoif.lubieplackibackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import pl.pw.mini.zpoif.lubieplackibackend.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.repository.*;
 
+import java.time.Month;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -42,6 +45,16 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipePhoto findRecipePhotoByRecipeId(Long id) {
         return recipePhotoRepository.findByRecipeId(id);
+    }
+
+    @Override
+    public Long getRandomId() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        Random random = new Random();
+
+        Long id = recipes.get(random.nextInt(recipes.size())).getId();
+
+        return id;
     }
 
     @Override

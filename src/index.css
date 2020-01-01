@@ -139,7 +139,7 @@ body {
 .form__section {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 
   margin: 20px 0;
 }

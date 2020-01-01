@@ -35,6 +35,11 @@ public class RecipeController {
         return recipePhoto.getPhoto();
     }
 
+    @GetMapping(path="/random")
+    public Long getRandomId() {
+        return recipeService.getRandomId();
+    }
+
     @PostMapping(path = "")
     public Recipe saveRecipe(@RequestBody Recipe recipe) {
         return recipeService.save(recipe);

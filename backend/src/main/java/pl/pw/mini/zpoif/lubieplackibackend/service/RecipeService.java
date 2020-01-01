@@ -10,6 +10,8 @@ public interface RecipeService {
     Recipe findById(Long id);
     RecipePhoto findRecipePhotoByRecipeId(Long id);
 
+    Long getRandomId();
+
     Recipe save(Recipe recipe);
     List<Ingredient> saveAllIngredients(Long id, List<Ingredient> ingredients);
     List<Direction> saveAllDirections(Long id, List<Direction> directions);
