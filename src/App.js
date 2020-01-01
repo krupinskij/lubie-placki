@@ -13,7 +13,7 @@ class App extends React.Component {
 	render() {
 		return(
 			<BrowserRouter>
-				<div>
+				<div style={{position: 'absolute', top: 0, flex: 1, alignSelf: 'stretch', right: 0, left: 0}}>
 					<Navbar/>
 					<Route exact path="/" component={HomePage} />
 					<Route path="/recipe/:id" component={RecipePage} />

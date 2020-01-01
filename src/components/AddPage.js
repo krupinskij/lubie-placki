@@ -217,7 +217,7 @@ class AddPage extends React.Component {
 		});
 
 		return (
-			<div>
+			<div className="page">
 				<form className="form add-recipe-form" onSubmit={this.handleSubmit}>
 					<h2 className="form__header">Dodaj przepis</h2>
 

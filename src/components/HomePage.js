@@ -39,7 +39,7 @@ class HomePage extends React.Component {
 		const recipes = this.state.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
 
 		return (
-			<div>
+			<div className="page">
 				{recipes}
 			</div>
 		)

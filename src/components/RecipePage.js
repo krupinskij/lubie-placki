@@ -26,7 +26,9 @@ class RecipePage extends React.Component {
         if(this.state.loading) return(<div>Loading...</div>)
 
         return(
-            <Recipe recipe={this.state.recipe}/>
+            <div className="page">
+                <Recipe recipe={this.state.recipe}/>
+            </div>
         )
     }
 }
