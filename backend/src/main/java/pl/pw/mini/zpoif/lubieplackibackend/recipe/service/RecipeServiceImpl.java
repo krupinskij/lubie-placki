@@ -1,12 +1,12 @@
-package pl.pw.mini.zpoif.lubieplackibackend.service;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
-import pl.pw.mini.zpoif.lubieplackibackend.model.*;
-import pl.pw.mini.zpoif.lubieplackibackend.repository.*;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
+import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
+import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
-import java.time.Month;
 import java.util.List;
 import java.util.Random;
 
@@ -20,8 +20,12 @@ public class RecipeServiceImpl implements RecipeService {
     private HintRepository hintRepository;
     private RecipePhotoRepository recipePhotoRepository;
 
+    ///
+
+    private UserRepository userRepository;
+
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, DirectionRepository directionRepository, HintRepository hintRepository, RecipePhotoRepository recipePhotoRepository){
+    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, DirectionRepository directionRepository, HintRepository hintRepository, RecipePhotoRepository recipePhotoRepository, UserRepository userRepository){
         this.recipeRepository = recipeRepository;
 
         this.ingredientRepository = ingredientRepository;
@@ -29,6 +33,10 @@ public class RecipeServiceImpl implements RecipeService {
         this.hintRepository = hintRepository;
 
         this.recipePhotoRepository = recipePhotoRepository;
+
+        ///
+
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -58,7 +66,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe save(Recipe recipe) {
+    public Recipe save(Long user_id, Recipe recipe) {
+        User user = userRepository.findById(user_id).orElse(null);
+        recipe.setUser(user);
         return recipeRepository.save(recipe);
     }
 

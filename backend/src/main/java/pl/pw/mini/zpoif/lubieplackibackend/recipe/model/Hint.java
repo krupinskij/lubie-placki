@@ -1,4 +1,4 @@
-package pl.pw.mini.zpoif.lubieplackibackend.model;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -6,22 +6,22 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="recipe_photos")
-public class RecipePhoto implements Serializable {
+@Table(name="hints")
+public class Hint implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
-    private byte[] photo;
+    private String text;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="recipe_id")
     @JsonIgnore
     private Recipe recipe;
 
-    public RecipePhoto() {
+    public Hint() {
     }
 
     public Long getId() {
@@ -32,12 +32,12 @@ public class RecipePhoto implements Serializable {
         this.id = id;
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public String getText() {
+        return text;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Recipe getRecipe() {

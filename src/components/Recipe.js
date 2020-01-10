@@ -28,6 +28,9 @@ class Recipe extends React.Component {
                 <h2 className="recipe__header">
                     <Link className="recipe__title" to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
                 </h2>
+                <div className="recipe__author">
+                    autor: <Link className="recipe__user" to={`/user/${recipe.user.id}`}>{recipe.user.login}</Link>
+                </div>
 
                 <img className="recipe__photo" src={`http://localhost:3004/recipes/recipephotos/${recipe.id}`} alt={recipe.title} />
                 

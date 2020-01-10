@@ -1,8 +1,7 @@
-package pl.pw.mini.zpoif.lubieplackibackend.repository;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import pl.pw.mini.zpoif.lubieplackibackend.model.Recipe;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 
 import java.util.List;
 

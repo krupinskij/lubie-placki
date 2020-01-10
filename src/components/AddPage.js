@@ -150,7 +150,7 @@ class AddPage extends React.Component {
 		const photoBlob = this.state.photo;
 
 
-		fetch("http://localhost:3004/recipes", {
+		fetch("http://localhost:3004/recipes/70", {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

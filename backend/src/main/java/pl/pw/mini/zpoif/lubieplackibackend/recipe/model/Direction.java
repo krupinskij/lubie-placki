@@ -1,4 +1,4 @@
-package pl.pw.mini.zpoif.lubieplackibackend.model;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

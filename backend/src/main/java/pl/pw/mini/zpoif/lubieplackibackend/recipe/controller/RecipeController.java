@@ -1,9 +1,9 @@
-package pl.pw.mini.zpoif.lubieplackibackend.controller;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import pl.pw.mini.zpoif.lubieplackibackend.model.*;
-import pl.pw.mini.zpoif.lubieplackibackend.service.RecipeService;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.service.RecipeService;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,9 +40,9 @@ public class RecipeController {
         return recipeService.getRandomId();
     }
 
-    @PostMapping(path = "")
-    public Recipe saveRecipe(@RequestBody Recipe recipe) {
-        return recipeService.save(recipe);
+    @PostMapping(path = "/{user_id}")
+    public Recipe saveRecipe(@PathVariable Long user_id, @RequestBody Recipe recipe) {
+        return recipeService.save(user_id, recipe);
     }
 
     @PostMapping(path = "/{id}/ingredients")

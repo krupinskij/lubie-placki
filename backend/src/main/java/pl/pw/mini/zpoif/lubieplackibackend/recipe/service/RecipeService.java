@@ -1,6 +1,6 @@
-package pl.pw.mini.zpoif.lubieplackibackend.service;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.service;
 
-import pl.pw.mini.zpoif.lubieplackibackend.model.*;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface RecipeService {
 
     Long getRandomId();
 
-    Recipe save(Recipe recipe);
+    Recipe save(Long user_id, Recipe recipe);
     List<Ingredient> saveAllIngredients(Long id, List<Ingredient> ingredients);
     List<Direction> saveAllDirections(Long id, List<Direction> directions);
     List<Hint> saveAllHints(Long id, List<Hint> hints);

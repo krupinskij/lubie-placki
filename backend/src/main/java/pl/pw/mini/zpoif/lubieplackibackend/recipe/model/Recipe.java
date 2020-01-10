@@ -1,10 +1,10 @@
-package pl.pw.mini.zpoif.lubieplackibackend.model;
+package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.List;
 
 @Entity
@@ -36,7 +36,12 @@ public class Recipe implements Serializable {
     private List<Hint> hints;
 
     @OneToOne(mappedBy = "recipe")
+    @JsonIgnore
     private RecipePhoto recipe_photo;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     public Recipe() {}
 
@@ -102,5 +107,13 @@ public class Recipe implements Serializable {
 
     public void setRecipe_photo(RecipePhoto recipe_photo) {
         this.recipe_photo = recipe_photo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
