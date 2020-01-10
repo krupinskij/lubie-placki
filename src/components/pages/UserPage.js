@@ -1,10 +1,12 @@
 import React from 'react';
 import User from '../User';
+import RecipesList from '../RecipesList';
 
 class UserPage extends React.Component {
 
     state = {
         user: null,
+        recipes: [],
         loading: true
     }
 
@@ -16,7 +18,15 @@ class UserPage extends React.Component {
             .then(resp => {
                 this.setState({
                     user: resp,
-                    loading: false
+                })
+
+                fetch("http://localhost:3004/users/" + id + "/recipes")
+                .then(resp => resp.json())
+                .then(resp => {
+                    this.setState({
+                        recipes: resp,
+                        loading: false
+                    })
                 })
             })
     }
@@ -27,6 +37,7 @@ class UserPage extends React.Component {
         return(
             <div className="page">
                 <User user={this.state.user}/>
+                <RecipesList recipes={this.state.recipes}/>
             </div>
         )
 	}

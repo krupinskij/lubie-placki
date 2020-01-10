@@ -1,6 +1,7 @@
 package pl.pw.mini.zpoif.lubieplackibackend.recipe.service;
 
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
+import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import java.util.List;
 

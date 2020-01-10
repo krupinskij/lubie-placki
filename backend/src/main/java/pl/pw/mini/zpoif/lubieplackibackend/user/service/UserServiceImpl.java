@@ -1,23 +1,38 @@
 package pl.pw.mini.zpoif.lubieplackibackend.user.service;
 
 import org.springframework.stereotype.Service;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.RecipeRepository;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
+    private RecipeRepository recipeRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RecipeRepository recipeRepository) {
         this.userRepository = userRepository;
+
+        this.recipeRepository = recipeRepository;
     }
 
+    @Override
     public User findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
 
         return user;
     }
 
+    @Override
+    public List<Recipe> findRecipesByUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return recipeRepository.findByUser(user);
+    }
+
+    @Override
     public User save(User user) {
         return userRepository.save(user);
     }
