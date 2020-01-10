@@ -1,7 +1,7 @@
 import React from 'react'
 import queryString from 'query-string'
 
-import Recipe from './Recipe'
+import RecipesList from '../RecipesList';
 
 class HomePage extends React.Component {
 	state = {
@@ -36,12 +36,8 @@ class HomePage extends React.Component {
 	
 
 	render() {
-		const recipes = this.state.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
-
-		return (
-			<div className="page">
-				{recipes}
-			</div>
+		return(
+			<RecipesList recipes={this.state.recipes}/>
 		)
 	}
 }

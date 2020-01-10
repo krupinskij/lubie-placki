@@ -2,14 +2,16 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
-import HomePage from './components/HomePage';
-import RecipePage from './components/RecipePage';
-import RandomPage from './components/RandomPage';
-import AddPage from './components/AddPage';
-import TopPage from './components/TopPage';
+import HomePage from './components/pages/HomePage';
+import RecipePage from './components/pages/RecipePage';
+import RandomPage from './components/pages/RandomPage';
+import AddPage from './components/pages/AddPage';
+import TopPage from './components/pages/TopPage';
 
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
+
+import UserPage from './components/pages/UserPage';
 
 
 class App extends React.Component {
@@ -26,6 +28,8 @@ class App extends React.Component {
 
 					<Route path="/login" component={LoginPage} />
 					<Route path="/register" component={RegisterPage} />
+
+					<Route path="/user/:id" component={UserPage} />
 				</div>
 			</BrowserRouter>
 		)
