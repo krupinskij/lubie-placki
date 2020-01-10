@@ -8,6 +8,9 @@ import RandomPage from './components/RandomPage';
 import AddPage from './components/AddPage';
 import TopPage from './components/TopPage';
 
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
+
 
 class App extends React.Component {
 	render() {
@@ -20,6 +23,9 @@ class App extends React.Component {
 					<Route path="/random" component={RandomPage} />
 					<Route path="/add" component={AddPage} />
 					<Route path="/top" component={TopPage} />
+
+					<Route path="/login" component={LoginPage} />
+					<Route path="/register" component={RegisterPage} />
 				</div>
 			</BrowserRouter>
 		)
