@@ -11,4 +11,5 @@ public interface UserService {
     List<Recipe> findRecipesByUser(Long user_id);
 
     User save(User user);
+    User authenticate(User user);
 }

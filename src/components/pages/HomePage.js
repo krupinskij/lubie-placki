@@ -43,3 +43,69 @@ class HomePage extends React.Component {
 }
 
 export default HomePage;
+
+// import React from 'react'
+// import queryString from 'query-string'
+// import { connect } from 'react-redux'
+
+// import RecipesList from '../RecipesList';
+
+// import { loadRecipes } from '../../redux/actions/loadRecipes'
+
+// class HomePage extends React.Component {
+
+// 	constructor(props) {
+// 		super(props);
+// 	}
+
+// 	state = {
+// 		type: null
+// 	}
+
+// 	setType = (type) => {
+// 		this.setState({ type: type }, () => {
+// 			//this.props.loadRecipes(type);
+// 		});
+// 	}
+
+// 	componentDidMount() {
+// 		this.props.loadRecipes("");
+// 	}
+
+// 	componentDidUpdate = () => {
+// 		let type = queryString.parse(this.props.history.location.search).type;
+// 		if (!type) type = "";
+
+// 		if (this.state.type !== type) this.setState({ type: type });
+// 	}
+
+// 	render() {
+// 		const { isLoading, recipes } = this.props;
+
+// 		if (isLoading) {
+// 			return <p>Loading ...</p>
+// 		}
+
+// 		return (
+// 			<RecipesList recipes={recipes.filter(recipe => recipe.type.startsWith(this.state.type))} />
+// 		)
+
+// 	}
+// }
+
+// // const mapStateToProps = (state /*, ownProps*/) => {
+// // 	console.log(state)
+// // 	return {
+// // 		recipes: state.recipes,
+// // 		isLoading: state.loading
+// // 	}
+// // }
+
+// // const mapDispatchToProps = (dispatch) => ({
+// // 	loadRecipes: (type) => dispatch(loadRecipes(type))
+// // })
+
+// // export default connect(
+// // 	mapStateToProps,
+// // 	mapDispatchToProps
+// // )(HomePage)

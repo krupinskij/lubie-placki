@@ -2,21 +2,23 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cake from '../cake.svg'
 import 'font-awesome/css/font-awesome.min.css';
-import FA from 'react-fontawesome'
 
-const Navbar = () => {
+import LoginPanel from './LoginPanel'
+import UserPanel from './UserPanel';
+
+import { connect } from 'react-redux'
+
+class Navbar extends React.Component {
+	render() {
+	const {user} = this.props;
+
 	return (
 		<nav className="navbar">
 			<header className="navbar__header">
 				<img className="navbar__logo" src={cake} alt="logo"/>
 				<h1 className="navbar__title">Lubię Placki</h1>
 			</header>
-			<div className="navbar__account-container">
-				<Link className="navbar__account" to="/login">
-					<span className="navbar__login-text">Zaloguj się <br/> lub zarejestruj</span> 
-					<FA className="navbar__login-icon" name="user-circle" />
-				</Link>
-			</div>
+			{user==null ? <LoginPanel/> : <UserPanel/>}
 			<ul className="navbar__list navbar__list--top">
 				<li className="navbar__item"><Link className="navbar__link" to="/">Przepisy</Link></li>
 				<li className="navbar__item"><Link className="navbar__link" to="/random">Losuj</Link></li>
@@ -33,5 +35,15 @@ const Navbar = () => {
 		</nav>
 	)
 }
+}
 
-export default Navbar;
+const mapStateToProps = (state /*, ownProps*/) => {
+	
+	return {
+	  user: state.user,
+	}
+  }
+  
+  export default connect(
+	mapStateToProps
+  )(Navbar)

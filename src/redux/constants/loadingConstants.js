@@ -1,0 +1,3 @@
+export const RECIPES_LOADING = 'Recipes/RECIPES_LOADING';
+export const RECIPES_LOADED = 'Recipes/RECIPES_LOADED';
+export const RECIPES_LOADING_ERROR = 'Recipes/USER_LOGGING_ERROR';

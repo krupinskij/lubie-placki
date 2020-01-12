@@ -26,7 +26,12 @@ public class UserController {
     public List<Recipe> getRecipesByUser(@PathVariable("id") Long id) { return userService.findRecipesByUser(id); }
 
     @PostMapping(path = "")
-    public User saveRecipe(@RequestBody User user) {
+    public User saveUser(@RequestBody User user) {
         return userService.save(user);
+    }
+
+    @PostMapping(path = "/authenticate")
+    public User authenticate(@RequestBody User user) {
+        return userService.authenticate(user);
     }
 }

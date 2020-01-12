@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+
+import { loginUser } from '../../redux/actions/loginActions'
 
 class LoginPage extends React.Component {
     state = {
@@ -20,15 +23,16 @@ class LoginPage extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        const obj = {
+        const user = {
             login: this.state.login,
             password: this.state.password
         }
-
-        console.log(obj)
+console.log(user);
+        this.props.loginUser(user);
     }
 
 	render() {
+
 		return (
 			<div className="page">
                 <form className="form add-recipe-form" onSubmit={this.handleSubmit}>
@@ -53,4 +57,21 @@ class LoginPage extends React.Component {
 	}
 }
 
-export default LoginPage;
+const mapStateToProps = (state /*, ownProps*/) => {
+	console.log(state)
+	return {
+	  user: state.user,
+	  isLogging: state.logging
+	}
+  }
+  
+  const mapDispatchToProps = (dispatch) => ({
+	loginUser: (user) => dispatch(loginUser(user))
+  })
+  
+  export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+  )(LoginPage)
+
+// export default LoginPage;
