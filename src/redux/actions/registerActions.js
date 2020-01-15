@@ -1,13 +1,13 @@
 import {
-    LOGIN_REQUEST, 
-    LOGIN_SUCCESS, 
-    LOGIN_ERROR
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_ERROR
 } from '../constants/userConstants';
 
-export const loginUser = (user) => {
+export const registerUser = (user) => {
     return dispatch => {
-        dispatch(loginRequest())
-        return fetch('http://localhost:3004/users/login', {
+        dispatch(registerRequest())
+        return fetch('http://localhost:3004/users/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -16,34 +16,34 @@ export const loginUser = (user) => {
         })
             .then(user => user.json())
             .then(user => {
-                dispatch(loginSuccess(user));
+                dispatch(registerSuccess(user));
                 localStorage.setItem('user', JSON.stringify(user));
             })
             .catch(error => {
-                dispatch(loginError(error))
+                dispatch(registerError(error))
                 alert("Źle");
             })
     }
 }
 
-const loginRequest = () => {
+const registerRequest = () => {
     return {
-        type: LOGIN_REQUEST
+        type: REGISTER_REQUEST
     }
 }
 
-const loginSuccess = user => {
+const registerSuccess = user => {
     return {
-        type: LOGIN_SUCCESS,
+        type: REGISTER_SUCCESS,
         payload: {
             user
         }
     };
 }
 
-const loginError = error => {
+const registerError = error => {
     return {
-        type: LOGIN_ERROR,
+        type: REGISTER_ERROR,
         payload: {
             error
         }

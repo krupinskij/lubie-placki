@@ -137,7 +137,7 @@ DROP SEQUENCE IF EXISTS public.user_id_seq;
 
 CREATE TABLE public.users (
     id bigint NOT NULL,
-    login text NOT NULL,
+    username text NOT NULL,
     password text NOT NULL
 );
 
@@ -204,7 +204,7 @@ INSERT INTO public.recipes (id, title, description, type, user_id) VALUES (100, 
 INSERT INTO public.recipes (id, title, description, type, user_id) VALUES (107, 'Makowiec', 'Fajny makowiec', 'makowiec', 70);
 
 
-INSERT INTO public.users (id, login, password) VALUES (70, 'admin', 'admin1');
+INSERT INTO public.users (id, username, password) VALUES (70, 'admin', 'admin1');
 
 
 SELECT pg_catalog.setval('public.directions_id_seq', 1, false);

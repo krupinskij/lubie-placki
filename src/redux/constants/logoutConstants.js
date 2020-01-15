@@ -1,1 +1,0 @@
-export const USER_LOGOUT = 'Users/USER_LOGOUT';

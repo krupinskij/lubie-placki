@@ -1,35 +1,49 @@
 import { 
-  USER_LOGGED, 
-  USER_LOGGING, 
-  USER_LOGGING_ERROR
-} from './constants/loginConstants';
+  LOGIN_REQUEST, 
+  LOGIN_SUCCESS, 
+  LOGIN_ERROR,
+  
+  LOGOUT_REQUEST,
 
-import { 
-  USER_LOGOUT 
-} from './constants/logoutConstants';
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_ERROR
+} from './constants/userConstants';
 
 export const initialState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user')),
   logging: false
 };
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
 
-    case USER_LOGGING: {
+    case LOGIN_REQUEST: {
       return Object.assign({}, state, { user: null, logging: true, error: null })
     }
-    case USER_LOGGED: {
+    case LOGIN_SUCCESS: {
       const { user } = action.payload;
       return Object.assign({}, state, { user, logging: false, error: false });
     }
-    case USER_LOGGING_ERROR: {
+    case LOGIN_ERROR: {
       const { error } = action.payload;
       return Object.assign({}, state, { logging: false, error })
     }
 
-    case USER_LOGOUT: {
+    case LOGOUT_REQUEST: {
       return Object.assign({}, state, { user: null, logging: false, error: null })
+    }
+
+    case REGISTER_REQUEST: {
+      return Object.assign({}, state, { user: null, logging: true, error: null })
+    }
+    case REGISTER_SUCCESS: {
+      const { user } = action.payload;
+      return Object.assign({}, state, { user, logging: false, error: false });
+    }
+    case REGISTER_ERROR: {
+      const { error } = action.payload;
+      return Object.assign({}, state, { logging: false, error })
     }
 
     default:

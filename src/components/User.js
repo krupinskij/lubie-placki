@@ -7,7 +7,7 @@ class User extends React.Component {
         return (
 			<div className="user">
                 <h1 className="user__login">
-                    {user.login}
+                    {user.username}
                 </h1>
             </div>
 		)

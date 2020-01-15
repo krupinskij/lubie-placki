@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
+import { registerUser } from '../../redux/actions/registerActions'
 
 class RegisterPage extends React.Component {
 	state = {
-        login: "",
+        username: "",
         password: "",
         repeat: ""
     }
@@ -21,13 +25,13 @@ class RegisterPage extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        const obj = {
-            login: this.state.login,
-            password: this.state.password,
-            repeat: this.state.repeat
+        const user = {
+            username: this.state.username,
+            password: this.state.password
         }
 
-        console.log(obj)
+        this.props.registerUser(user);
+        this.props.history.push("/");
     }
 
 	render() {
@@ -37,8 +41,8 @@ class RegisterPage extends React.Component {
                     <h2 className="form__header">Zarejestruj się</h2>
 
                     <div className="form__section">
-						<label className="form__label" htmlFor="login">Login: </label>
-						<input className="form__input" id="login" name="login" type="login" onChange={this.changeValue} />
+						<label className="form__label" htmlFor="username">Nazwa użytkownika: </label>
+						<input className="form__input" id="username" name="username" type="text" onChange={this.changeValue} />
 					</div>
 
                     <div className="form__section">
@@ -60,4 +64,18 @@ class RegisterPage extends React.Component {
 	}
 }
 
-export default RegisterPage;
+const mapStateToProps = (state /*, ownProps*/) => {
+	return {
+	  user: state.user,
+	  isLogging: state.logging
+	}
+  }
+  
+  const mapDispatchToProps = (dispatch) => ({
+	registerUser: (user) => dispatch(registerUser(user))
+  })
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+  )(withRouter(RegisterPage))

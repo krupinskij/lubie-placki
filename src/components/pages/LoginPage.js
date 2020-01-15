@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import { loginUser } from '../../redux/actions/loginActions'
 
 class LoginPage extends React.Component {
     state = {
-        login: "",
+        username: "",
         password: ""
     }
 
@@ -17,18 +18,20 @@ class LoginPage extends React.Component {
 
         this.setState({
             [name]: value
-        })
+        }, console.log(this.state))
+
+        
     }
 
     handleSubmit = event => {
         event.preventDefault();
 
         const user = {
-            login: this.state.login,
+            username: this.state.username,
             password: this.state.password
         }
-console.log(user);
         this.props.loginUser(user);
+        this.props.history.push("/");
     }
 
 	render() {
@@ -39,8 +42,8 @@ console.log(user);
                     <h2 className="form__header">Zaloguj się</h2>
 
                     <div className="form__section">
-						<label className="form__label" htmlFor="login">Login: </label>
-						<input className="form__input" id="login" name="login" type="login" onChange={this.changeValue} />
+						<label className="form__label" htmlFor="username">Nazwa użytkownika: </label>
+						<input className="form__input" id="username" name="username" type="text" onChange={this.changeValue} />
 					</div>
 
                     <div className="form__section">
@@ -58,7 +61,7 @@ console.log(user);
 }
 
 const mapStateToProps = (state /*, ownProps*/) => {
-	console.log(state)
+	//console.log(state)
 	return {
 	  user: state.user,
 	  isLogging: state.logging
@@ -72,6 +75,4 @@ const mapStateToProps = (state /*, ownProps*/) => {
   export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-  )(LoginPage)
-
-// export default LoginPage;
+  )(withRouter(LoginPage))

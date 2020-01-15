@@ -9,6 +9,7 @@ public interface RecipeService {
 
     List<Recipe> findByType(String type);
     Recipe findById(Long id);
+    List<Recipe> findByUserId(Long user_id);
     RecipePhoto findRecipePhotoByRecipeId(Long id);
 
     Long getRandomId();

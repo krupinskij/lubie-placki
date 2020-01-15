@@ -1,7 +1,8 @@
-import { USER_LOGOUT } from '../constants/logoutConstants';
+import { 
+    LOGOUT_REQUEST 
+} from '../constants/userConstants';
 
 export const logoutUser = () => {
-    console.log("aaaab")
     localStorage.removeItem('user');
-    return { type: USER_LOGOUT };
+    return { type: LOGOUT_REQUEST };
 }

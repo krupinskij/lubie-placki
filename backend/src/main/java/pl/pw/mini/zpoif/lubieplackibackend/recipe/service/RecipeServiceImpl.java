@@ -50,6 +50,13 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public List<Recipe> findByUserId(Long user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        if(user==null) return null;
+
+        return recipeRepository.findByUser(user);
+    }
 
 
     @Override

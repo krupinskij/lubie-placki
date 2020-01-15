@@ -15,7 +15,7 @@ public class User implements Serializable {
     private Long id;
 
     @Column
-    private String login;
+    private String username;
 
     @Column
     private String password;
@@ -25,8 +25,6 @@ public class User implements Serializable {
     @JsonIgnore
     private List<Recipe> recipes;
 
-    public User() {}
-
     public Long getId() {
         return id;
     }
@@ -35,12 +33,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

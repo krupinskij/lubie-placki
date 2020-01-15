@@ -35,6 +35,11 @@ public class RecipeController {
         return recipePhoto.getPhoto();
     }
 
+    @GetMapping("/user/{user_id}")
+    public List<Recipe> getRecipesByUser(@PathVariable("user_id") Long user_id) {
+        return recipeService.findByUserId(user_id);
+    }
+
     @GetMapping(path="/random")
     public Long getRandomId() {
         return recipeService.getRandomId();

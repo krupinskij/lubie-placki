@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import cake from '../cake.svg'
 import 'font-awesome/css/font-awesome.min.css';
 
-import LoginPanel from './LoginPanel'
-import UserPanel from './UserPanel';
+import LoginPanel from './panels/LoginPanel'
+import UserPanel from './panels/UserPanel';
 
 import { connect } from 'react-redux'
 

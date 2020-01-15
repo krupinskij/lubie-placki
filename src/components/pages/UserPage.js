@@ -20,7 +20,7 @@ class UserPage extends React.Component {
                     user: resp,
                 })
 
-                fetch("http://localhost:3004/users/" + id + "/recipes")
+                fetch("http://localhost:3004/recipes/user/" + id)
                 .then(resp => resp.json())
                 .then(resp => {
                     this.setState({
