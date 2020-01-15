@@ -18,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/register/usernames")
-    public ResponseEntity getUsernames(@RequestBody String prefix) {
+    public ResponseEntity getUsernames(@RequestParam String prefix) {
         List<String> usernames = userService.findUserUsernamesByPrefix(prefix);
 
         return new ResponseEntity(usernames, HttpStatus.OK);

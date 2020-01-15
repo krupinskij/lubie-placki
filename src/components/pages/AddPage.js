@@ -222,7 +222,7 @@ class AddPage extends React.Component {
 					<h2 className="form__header">Dodaj przepis</h2>
 
 					<div className="form__section">
-						<label className="form__label" htmlFor="title">Nazwa ciasta: </label>
+						<label className="form__label for__label--required" htmlFor="title">Nazwa ciasta: </label>
 						<input className="form__input" id="title" name="title" type="text" onChange={this.changeValue} />
 					</div>
 					
@@ -232,17 +232,17 @@ class AddPage extends React.Component {
 					</div>
 
 					<div className="form__section">
-						<label className="form__label" htmlFor="type">Typ ciasta: </label>
+						<label className="form__label for__label--required" htmlFor="type">Typ ciasta: </label>
 						<input className="form__input" id="type" name="type" type="text" onChange={this.changeValue}/>
 					</div>
 
 					<div className="form__section">
-						<label className="form__label" htmlFor="photo">Zdjęcie ciasta: </label>
+						<label className="form__label for__label--required" htmlFor="photo">Zdjęcie ciasta: </label>
 						<input id="photo" name="photo" type="file" onChange={this.changePhoto}/>
 					</div>
 
 					<div className="form__section">
-						<label className="form__label">Składniki: </label>
+						<label className="form__label for__label--required">Składniki: </label>
 						<input type="button" value="Dodaj składnik" onClick={this.addIngredient}/>
 						<ul>
 							{ingredients}
@@ -250,7 +250,7 @@ class AddPage extends React.Component {
 					</div>
 
 					<div className="form__section">
-						<label className="form__label">Sposób wykonania: </label>
+						<label className="form__label for__label--required">Sposób wykonania: </label>
 						<input type="button" value="Dodaj sposób" onClick={this.addDirection}/>
 						<ol>
 							{directions}
