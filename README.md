@@ -45,7 +45,15 @@ Podczas uruchomienia serwera tabele zostaną utworzone automatycznie.
 
 Otwieramy folder *lubie-placki/backend*:
 
-Klikamy prawym przyciskiem myszy na plik *LubiePlackiBackendApplication* w drzewie projektu i wybieramy opcję *Run...*:
+W pliku *application.properties* w folderze *resources* zmieniamy nazwę użytkownika i hasło na to, które używamy korzystając z *pgAdmin 4*:
+
+![zmiana nazwy użytkownika i hasła](https://images.tinypic.pl/i/00996/pq6rrqzs7cuq.png)
+
+Przy okazji warto wspomnieć, że z każdym uruchomieniem serwera, baza danych zostania stworzona na nowo, a wprowadzone przez nas zmiany (np. dodanie przepisu) zostaną usunięte. Aby tego uniknąć, po pierwszym uruchomieniu serwera (po uruchomieniu, żeby baza dazych się zainicjowała!) warto zakomentować linię z adresem do bazy danych. Znakiem komentarza jest `#`.
+
+![zakomentowanie linii z adresem do bazy danych](https://images.tinypic.pl/i/00996/3w1zixkobutd.png)
+
+Następnie klikamy prawym przyciskiem myszy na plik *LubiePlackiBackendApplication* w drzewie projektu i wybieramy opcję *Run...*:
 
 ![uruchamianie serwera](https://pics.tinypic.pl/i/00994/6rsv2dhgmglq.png)
 
@@ -70,4 +78,4 @@ A następnie `npm start`, by włączyć stronę
 
 Ostatecznie możemy cieszyć się naszą piękną stroną :)
 
-![widok strony internetowej](https://pics.tinypic.pl/i/00995/wvf1ncrum0pm.png)
+![widok strony internetowej](https://images.tinypic.pl/i/00996/ca05k0yhskrm.png)
