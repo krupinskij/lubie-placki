@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { connect } from 'react-redux'
+
 class AddPage extends React.Component {
 
 	state = {
@@ -150,7 +152,7 @@ class AddPage extends React.Component {
 		const photoBlob = this.state.photo;
 
 
-		fetch("http://localhost:3004/recipes/70", {
+		fetch("http://localhost:3004/recipes/" + this.props.user.id, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -190,6 +192,11 @@ class AddPage extends React.Component {
 	}
 
 	render() {
+
+		const {user} = this.props;
+
+		if(user==null) return <div className="page">Musisz być zalogowany</div>
+
 		const ingredients = this.state.ingredients.map((a, i) => {
 			return (
 				<li key={i}>
@@ -272,4 +279,13 @@ class AddPage extends React.Component {
 	}
 }
 
-export default AddPage;
+const mapStateToProps = (state /*, ownProps*/) => {
+	
+	return {
+	  user: state.user,
+	}
+  }
+  
+  export default connect(
+	mapStateToProps
+  )(AddPage)
