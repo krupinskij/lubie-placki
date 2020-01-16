@@ -8,6 +8,7 @@ import java.util.List;
 public interface RecipeService {
 
     List<Recipe> findByType(String type);
+    List<Recipe> getSorted(String sort);
     Recipe findById(Long id);
     List<Recipe> findByUserId(Long user_id);
     RecipePhoto findRecipePhotoByRecipeId(Long id);

@@ -7,8 +7,10 @@ import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -43,6 +45,16 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> findByType(String type) {
         if(type!=null) return recipeRepository.findByType(type);
         else return recipeRepository.findAll();
+    }
+
+    @Override
+    public List<Recipe> getSorted(String sort) {
+        if(sort == null) return recipeRepository.findAll();
+        else if(sort.equals("alphabet")) return recipeRepository.findAll().stream()
+                .sorted((r1, r2) -> r1.getTitle().compareToIgnoreCase(r2.getTitle()))
+                .collect(Collectors.toList());
+
+        return null;
     }
 
     @Override

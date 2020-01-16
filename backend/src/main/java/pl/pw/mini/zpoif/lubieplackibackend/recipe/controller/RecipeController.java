@@ -23,6 +23,11 @@ public class RecipeController {
         return recipeService.findByType(type);
     }
 
+    @GetMapping(path = "/sort")
+    public List<Recipe> getSortedRecipe(@RequestParam(required = false) String sort) {
+        return recipeService.getSorted(sort);
+    }
+
     @GetMapping(path = "/{id}")
     public Recipe getRecipeById(@PathVariable("id") Long id) {
         return recipeService.findById(id);
