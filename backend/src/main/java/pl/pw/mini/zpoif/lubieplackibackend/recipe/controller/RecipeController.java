@@ -70,5 +70,10 @@ public class RecipeController {
         return recipeService.saveRecipePhoto(id, photo);
     }
 
+    @DeleteMapping(path="/{id}")
+    public void deleteRecipe(@PathVariable Long id) {
+        recipeService.deleteRecipe(id);
+    }
+
 
 }

@@ -19,4 +19,6 @@ public interface RecipeService {
     List<Direction> saveAllDirections(Long id, List<Direction> directions);
     List<Hint> saveAllHints(Long id, List<Hint> hints);
     RecipePhoto saveRecipePhoto(Long id, byte[] photo);
+
+    void deleteRecipe(Long id);
 }

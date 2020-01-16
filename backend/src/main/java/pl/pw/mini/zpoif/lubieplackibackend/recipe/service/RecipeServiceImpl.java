@@ -128,6 +128,26 @@ public class RecipeServiceImpl implements RecipeService {
         return recipePhotoRepository.save(recipePhoto);
     }
 
+    @Override
+    public void deleteRecipe(Long id) {
+        Recipe recipe = recipeRepository.findById(id).orElse(null);
+
+        recipePhotoRepository.delete(recipe.getRecipe_photo());
+
+        for(Direction direction : recipe.getDirections()) {
+            directionRepository.delete(direction);
+        }
+
+        for(Ingredient ingredient : recipe.getIngredients()) {
+            ingredientRepository.delete(ingredient);
+        }
+
+        for(Hint hint : recipe.getHints()) {
+            hintRepository.delete(hint);
+        }
+        recipeRepository.delete(recipe);
+    }
+
 
     /*@Autowired
     private JdbcTemplate jtm;

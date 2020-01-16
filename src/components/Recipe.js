@@ -2,7 +2,16 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
+import { connect } from 'react-redux'
+
 class Recipe extends React.Component {
+
+    handleDelete = event => {
+        fetch("http://localhost:3004/recipes/"+this.props.recipe.id,{
+            method: 'DELETE',
+          }).then(() => {window.location.reload(false);});
+    }
+
     render() {
         const recipe = this.props.recipe;
 
@@ -29,7 +38,11 @@ class Recipe extends React.Component {
                     <Link className="recipe__title" to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
                 </h2>
                 <div className="recipe__author">
-                    autor: <Link className="recipe__user" to={`/user/${recipe.user.id}`}>{recipe.user.username}</Link>
+                    autor: <Link className="recipe__user" to={`/user/${recipe.user.id}`}>{recipe.user.username} </Link>
+                    {
+                        this.props.user!==null && this.props.user.id===recipe.user.id && 
+                        <button onClick={ this.handleDelete }>Usuń przepis</button>
+                    }
                 </div>
 
                 <img className="recipe__photo" src={`http://localhost:3004/recipes/recipephotos/${recipe.id}`} alt={recipe.title} />
@@ -64,4 +77,13 @@ class Recipe extends React.Component {
     }
 }
 
-export default Recipe
+const mapStateToProps = (state /*, ownProps*/) => {
+	
+	return {
+	  user: state.user,
+	}
+  }
+  
+  export default connect(
+	mapStateToProps
+  )(Recipe)
