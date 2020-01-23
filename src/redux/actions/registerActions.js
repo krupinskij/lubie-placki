@@ -4,6 +4,8 @@ import {
     REGISTER_ERROR
 } from '../constants/userConstants';
 
+import history from '../../helpers/history';
+
 export const registerUser = (user) => {
     return dispatch => {
         dispatch(registerRequest())
@@ -18,6 +20,8 @@ export const registerUser = (user) => {
             .then(user => {
                 dispatch(registerSuccess(user));
                 localStorage.setItem('user', JSON.stringify(user));
+                history.push("/");
+                window.location.reload(false);
             })
             .catch(error => {
                 dispatch(registerError(error))

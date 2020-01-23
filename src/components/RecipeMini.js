@@ -4,12 +4,18 @@ import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
+import history from '../helpers/history';
+
 class RecipeMini extends React.Component {
 
     handleDelete = event => {
         fetch("http://localhost:3004/recipes/"+this.props.recipe.id,{
             method: 'DELETE',
-          }).then(() => {window.location.reload(false);});
+          })
+          .then(() => {
+              history.push("/");
+              window.location.reload(false);
+          });
     }
 
     render() {

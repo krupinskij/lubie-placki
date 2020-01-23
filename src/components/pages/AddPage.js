@@ -2,6 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux'
 
+import history from '../../helpers/history'
+
 class AddPage extends React.Component {
 
 	state = {
@@ -159,33 +161,39 @@ class AddPage extends React.Component {
 			},
 			body: JSON.stringify(recipeData)
 		}).then(resp => resp.json()).then(resp => {
-			fetch(`http://localhost:3004/recipes/${resp.id}/ingredients`, {
+			const promiseIngredients = fetch(`http://localhost:3004/recipes/${resp.id}/ingredients`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(ingredients)
 			});
-			fetch(`http://localhost:3004/recipes/${resp.id}/directions`, {
+			const promiseDirections = fetch(`http://localhost:3004/recipes/${resp.id}/directions`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(directions)
 			});
-			fetch(`http://localhost:3004/recipes/${resp.id}/hints`, {
+			const promiseHints = fetch(`http://localhost:3004/recipes/${resp.id}/hints`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(hints)
 			});
-			fetch(`http://localhost:3004/recipes/${resp.id}/recipephoto`, {
+			const promiseRecipePhoto = fetch(`http://localhost:3004/recipes/${resp.id}/recipephoto`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': "image/jpeg"
 				},
 				body: photoBlob
+			});
+
+			Promise.all([promiseIngredients, promiseDirections, promiseHints, promiseRecipePhoto])
+			.then(() => {
+				history.push("/");
+				window.location.reload(false);
 			});
 
 		})

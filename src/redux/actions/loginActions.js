@@ -4,6 +4,8 @@ import {
     LOGIN_ERROR
 } from '../constants/userConstants';
 
+import history from '../../helpers/history'
+
 export const loginUser = (user) => {
     return dispatch => {
         dispatch(loginRequest())
@@ -18,6 +20,8 @@ export const loginUser = (user) => {
             .then(user => {
                 dispatch(loginSuccess(user));
                 localStorage.setItem('user', JSON.stringify(user));
+                history.push("/");
+                window.location.reload(false);
             })
             .catch(error => {
                 dispatch(loginError(error))
