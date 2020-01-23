@@ -2,6 +2,7 @@ package pl.pw.mini.zpoif.lubieplackibackend.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
@@ -33,13 +34,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
         User user = userRepository.findByUsername(username).orElse(null);
-        if(user==null || !password.equals(user.getPassword())) return null;
+
+        if(user==null || !user.getPassword().equals(password)) {
+            throw new UserNotFoundException("Login or password is incorrect");
+        }
 
         return user;
     }
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Login or password is incorrect"));
     }
 }

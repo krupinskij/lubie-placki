@@ -2,6 +2,9 @@ package pl.pw.mini.zpoif.lubieplackibackend.recipe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipePhotoNotFoundException;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
@@ -15,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
-
 
     private RecipeRepository recipeRepository;
     private IngredientRepository ingredientRepository;
@@ -50,7 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getSorted(String sort) {
-        
+
         if(sort!=null && sort.equals("alpha")) return recipeRepository.findAll().stream()
                 .sorted((r1, r2) -> r1.getTitle().compareToIgnoreCase(r2.getTitle()))
                 .collect(Collectors.toList());
@@ -62,13 +64,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long id) {
-        return recipeRepository.findById(id).orElse(null);
+        return recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
     }
 
     @Override
     public List<Recipe> findByUserId(Long user_id) {
-        User user = userRepository.findById(user_id).orElse(null);
-        if(user==null) return null;
+        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika!"));
 
         return recipeRepository.findByUser(user);
     }
@@ -76,7 +77,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipePhoto findRecipePhotoByRecipeId(Long id) {
-        return recipePhotoRepository.findByRecipeId(id);
+        return recipePhotoRepository.findByRecipeId(id).orElseThrow(() -> new RecipePhotoNotFoundException("Nie znaleziono zdjęcia!"));
     }
 
     @Override
@@ -91,7 +92,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe save(Long user_id, Recipe recipe) {
-        User user = userRepository.findById(user_id).orElse(null);
+        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika!"));
         recipe.setUser(user);
         recipe.setAdd_date(LocalDateTime.now());
 
@@ -100,7 +101,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Ingredient> saveAllIngredients(Long id, List<Ingredient> ingredients) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
         for(Ingredient ingredient : ingredients) {
             ingredient.setRecipe(recipe);
@@ -112,7 +113,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Direction> saveAllDirections(Long id, List<Direction> directions) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
         for(Direction direction : directions) {
             direction.setRecipe(recipe);
@@ -124,7 +125,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Hint> saveAllHints(Long id, List<Hint> hints) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
         for(Hint hint : hints) {
             hint.setRecipe(recipe);
@@ -136,7 +137,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipePhoto saveRecipePhoto(Long id, byte[] photo) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
         RecipePhoto recipePhoto = new RecipePhoto();
         recipePhoto.setRecipe(recipe);
@@ -147,7 +148,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void deleteRecipe(Long id) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
         recipePhotoRepository.delete(recipe.getRecipe_photo());
 

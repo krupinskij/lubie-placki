@@ -1,5 +1,6 @@
 package pl.pw.mini.zpoif.lubieplackibackend.recipe.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
@@ -14,6 +15,7 @@ import java.util.List;
 public class RecipeController {
     private RecipeService recipeService;
 
+    @Autowired
     public RecipeController(RecipeService recipeService) {
             this.recipeService = recipeService;
     }
