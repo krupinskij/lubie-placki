@@ -5,7 +5,7 @@ class User extends React.Component {
         const user = this.props.user;
         
         return (
-			<div className="user">
+			<div className="component user">
                 <h1 className="user__login">
                     {user.username}
                 </h1>

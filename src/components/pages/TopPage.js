@@ -1,12 +1,15 @@
 import React from 'react';
 import queryString from 'query-string'
 
+import { withRouter } from 'react-router-dom';
+
+import SortController from '../SortController';
 import RecipesList from '../RecipesList';
 
 class TopPage extends React.Component {
 	state = {
 		recipes: [],
-		type: ""
+		sort: "date"
 	}
 
 	fetchData = (parsed = queryString.parse(this.props.history.location.search)) => {
@@ -20,7 +23,7 @@ class TopPage extends React.Component {
 			.then(resp => {
 				this.setState({
 					recipes: resp
-				})
+				}, () => { console.log(this.state.recipes)})
 			})
 	}
 
@@ -33,13 +36,18 @@ class TopPage extends React.Component {
 		this.fetchData();
 	}
 
-	
+	handleSelectChange = event => {
+		this.props.history.push("/top?sort=" + event.target.value)
+	}
 
 	render() {
 		return(
-			<RecipesList recipes={this.state.recipes}/>
+			<div className="page">
+				<SortController chooseSort={this.handleSelectChange}/>
+				<RecipesList recipes={this.state.recipes}/>
+			</div>
 		)
 	}
 }
 
-export default TopPage;
+export default withRouter(TopPage);

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Recipe from './Recipe'
+import RecipeMini from './RecipeMini'
 
 class RecipesList extends React.Component {
 	
 	render() {
-		const recipes = this.props.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
+		const recipes = this.props.recipes.map(recipe => <RecipeMini key={recipe.id} recipe={recipe}/>)
 
 		return (
-			<div className="page">
+			<div>
 				{recipes}
 			</div>
 		)

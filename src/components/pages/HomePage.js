@@ -37,7 +37,9 @@ class HomePage extends React.Component {
 
 	render() {
 		return(
-			<RecipesList recipes={this.state.recipes}/>
+			<div className="page">
+				<RecipesList recipes={this.state.recipes}/>
+			</div>
 		)
 	}
 }

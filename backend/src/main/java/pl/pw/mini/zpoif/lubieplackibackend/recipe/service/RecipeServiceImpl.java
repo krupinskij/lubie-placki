@@ -7,6 +7,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -49,12 +50,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getSorted(String sort) {
-        if(sort == null) return recipeRepository.findAll();
-        else if(sort.equals("alphabet")) return recipeRepository.findAll().stream()
+        
+        if(sort!=null && sort.equals("alpha")) return recipeRepository.findAll().stream()
                 .sorted((r1, r2) -> r1.getTitle().compareToIgnoreCase(r2.getTitle()))
                 .collect(Collectors.toList());
 
-        return null;
+        return recipeRepository.findAll().stream()
+                .sorted(Comparator.comparing(Recipe::getAdd_date))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -90,6 +93,8 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe save(Long user_id, Recipe recipe) {
         User user = userRepository.findById(user_id).orElse(null);
         recipe.setUser(user);
+        recipe.setAdd_date(LocalDateTime.now());
+
         return recipeRepository.save(recipe);
     }
 

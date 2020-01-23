@@ -1,10 +1,14 @@
 package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.utils.JsonLocalDateTimeSerializer;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,6 +26,10 @@ public class Recipe implements Serializable {
 
     @Column
     private String type;
+
+    @Column
+    @JsonSerialize(using = JsonLocalDateTimeSerializer.class)
+    private LocalDateTime add_date;
 
     @ElementCollection
     @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -75,6 +83,14 @@ public class Recipe implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public LocalDateTime getAdd_date() {
+        return add_date;
+    }
+
+    public void setAdd_date(LocalDateTime add_date) {
+        this.add_date = add_date;
     }
 
     public List<Ingredient> getIngredients() {

@@ -42,8 +42,8 @@ function checkIfExist(array, element) {
 }
 
 export function uniqueUsername(value, prefix, usernames) {
-    if(usernames==undefined) usernames = [];
-    if(prefix.length == 5) {
+    if(usernames===undefined) usernames = [];
+    if(prefix.length === 5) {
         fetch("http://localhost:3004/users/register/usernames?prefix="+prefix) 
         .then(resp => resp.json())
         .then(resp => {
