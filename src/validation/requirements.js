@@ -69,6 +69,44 @@ export function uniqueUsername(value, prefix, usernames) {
 
         return { isValid: true }
     }
+}
 
+export function isNumber(value) {
+    if(!validator.isNumeric(value)) {
+        return {
+            isValid: false,
+            message: "To powinna być liczba"
+        }
+    }
+
+    return { isValid: true }
+}
+
+export function nonBlank(array, length) {
     
+    for(const elem of array) {
+        for(const i in elem) {
+            if(i==="key") continue;
+
+            if(validator.isEmpty(elem[i].trim())) {
+                return {
+                    isValid: false,
+                    message: "Wypełnij wszystkie pola"
+                }
+            }
+        }
+    }
+
+    return { isValid: true }
+}
+
+export function isFile(file) {
+    if(file==="") {
+        return {
+            isValid: false,
+            message: "Dodaj zdjęcie"
+        }
+    }
+
+    return { isValid: true }
 }
