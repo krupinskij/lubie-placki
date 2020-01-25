@@ -45,20 +45,15 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findByType(String type) {
-        if(type!=null) return recipeRepository.findByType(type);
-        else return recipeRepository.findAll();
-    }
-
-    @Override
-    public List<Recipe> getSorted(String sort) {
-
-        if(sort!=null && sort.equals("alpha")) return recipeRepository.findAll().stream()
-                .sorted((r1, r2) -> r1.getTitle().compareToIgnoreCase(r2.getTitle()))
-                .collect(Collectors.toList());
-
+    public List<Recipe> findAll(String type, String sort, Integer page) {
         return recipeRepository.findAll().stream()
-                .sorted(Comparator.comparing(Recipe::getAdd_date))
+                .filter(recipe -> type==null || recipe.getType().equals(type))
+                .sorted((r1, r2) -> {
+                    if(sort!=null && sort.equals("alpha")) return r1.getTitle().compareToIgnoreCase(r2.getTitle());
+                    else return r2.getAdd_date().compareTo(r1.getAdd_date());
+                })
+                .skip(page==null ? 0 : (page-1)*10)
+                .limit(10)
                 .collect(Collectors.toList());
     }
 
@@ -164,6 +159,15 @@ public class RecipeServiceImpl implements RecipeService {
             hintRepository.delete(hint);
         }
         recipeRepository.delete(recipe);
+    }
+
+    @Override
+    public Long getPagesCount(String type) {
+        long count =  recipeRepository.findAll().stream()
+                .filter(recipe -> type==null || recipe.getType().equals(type))
+                .count();
+
+        return (count+9)/10;
     }
 
 

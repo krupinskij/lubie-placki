@@ -21,13 +21,17 @@ public class RecipeController {
     }
 
     @GetMapping(path = "")
-    public List<Recipe> getRecipes(@RequestParam(required = false) String type) {
-        return recipeService.findByType(type);
+    public List<Recipe> getRecipes(
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) Integer page
+    ) {
+        return recipeService.findAll(type, sort, page);
     }
 
-    @GetMapping(path = "/sort")
-    public List<Recipe> getSortedRecipe(@RequestParam(required = false) String sort) {
-        return recipeService.getSorted(sort);
+    @GetMapping(path = "/pages")
+    public Long getPagesCount(@RequestParam(required = false) String type) {
+        return recipeService.getPagesCount(type);
     }
 
     @GetMapping(path = "/{id}")

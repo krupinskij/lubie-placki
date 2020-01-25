@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface RecipeService {
 
-    List<Recipe> findByType(String type);
-    List<Recipe> getSorted(String sort);
+    List<Recipe> findAll(String type, String sort, Integer page);
     Recipe findById(Long id);
     List<Recipe> findByUserId(Long user_id);
     RecipePhoto findRecipePhotoByRecipeId(Long id);
@@ -22,4 +21,6 @@ public interface RecipeService {
     RecipePhoto saveRecipePhoto(Long id, byte[] photo);
 
     void deleteRecipe(Long id);
+
+    Long getPagesCount(String type);
 }

@@ -2,20 +2,28 @@ import React from 'react'
 import queryString from 'query-string'
 
 import RecipesList from '../RecipesList';
+import PageController from '../PageController';
+
+import {withRouter} from 'react-router-dom';
 
 class HomePage extends React.Component {
 	state = {
 		recipes: [],
-		type: ""
+
+		type: '',
+		page: ''
 	}
 
-	fetchData = (parsed = queryString.parse(this.props.history.location.search)) => {
+	fetchData = parsed => {
 
 		this.setState({
-			type: parsed.type
+			type: parsed.type ? parsed.type : '',
+			page: parsed.page ? parsed.page : 1,
 		})
-
-		fetch("http://localhost:3004/recipes" + (parsed.type ? `?type=${parsed.type}` : ''))
+		
+		fetch("http://localhost:3004/recipes?" + 
+			(parsed.type ? `type=${parsed.type}&` : '') +
+			"page=" + (parsed.page ? parsed.page : 1))
 			.then(resp => resp.json())
 			.then(resp => {
 				this.setState({
@@ -24,90 +32,28 @@ class HomePage extends React.Component {
 			})
 	}
 
-	componentDidUpdate = () => {
-		const parsed = queryString.parse(this.props.history.location.search);
-		if(this.state.type!==parsed.type) this.fetchData(parsed);
+	componentWillReceiveProps = nextProps => {
+		const parsed = queryString.parse(nextProps.location.search);
+		this.fetchData(parsed);
 	}
 
 	componentDidMount = () => {
-		this.fetchData();
+		const parsed = queryString.parse(this.props.history.location.search);
+		this.fetchData(parsed);
 	}
 
+	handleChangePage = (event, page) => {
+		this.props.history.push("/?page=" + page + (this.state.type ? '&type=' + this.state.type : ''));
+	}
 	
-
 	render() {
 		return(
 			<div className="page">
 				<RecipesList recipes={this.state.recipes}/>
+				<PageController currentPage={this.state.page} choosePage={this.handleChangePage}/>
 			</div>
 		)
 	}
 }
 
-export default HomePage;
-
-// import React from 'react'
-// import queryString from 'query-string'
-// import { connect } from 'react-redux'
-
-// import RecipesList from '../RecipesList';
-
-// import { loadRecipes } from '../../redux/actions/loadRecipes'
-
-// class HomePage extends React.Component {
-
-// 	constructor(props) {
-// 		super(props);
-// 	}
-
-// 	state = {
-// 		type: null
-// 	}
-
-// 	setType = (type) => {
-// 		this.setState({ type: type }, () => {
-// 			//this.props.loadRecipes(type);
-// 		});
-// 	}
-
-// 	componentDidMount() {
-// 		this.props.loadRecipes("");
-// 	}
-
-// 	componentDidUpdate = () => {
-// 		let type = queryString.parse(this.props.history.location.search).type;
-// 		if (!type) type = "";
-
-// 		if (this.state.type !== type) this.setState({ type: type });
-// 	}
-
-// 	render() {
-// 		const { isLoading, recipes } = this.props;
-
-// 		if (isLoading) {
-// 			return <p>Loading ...</p>
-// 		}
-
-// 		return (
-// 			<RecipesList recipes={recipes.filter(recipe => recipe.type.startsWith(this.state.type))} />
-// 		)
-
-// 	}
-// }
-
-// // const mapStateToProps = (state /*, ownProps*/) => {
-// // 	console.log(state)
-// // 	return {
-// // 		recipes: state.recipes,
-// // 		isLoading: state.loading
-// // 	}
-// // }
-
-// // const mapDispatchToProps = (dispatch) => ({
-// // 	loadRecipes: (type) => dispatch(loadRecipes(type))
-// // })
-
-// // export default connect(
-// // 	mapStateToProps,
-// // 	mapDispatchToProps
-// // )(HomePage)
+export default withRouter(HomePage);
