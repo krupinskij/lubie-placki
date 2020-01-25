@@ -1,6 +1,7 @@
 package pl.pw.mini.zpoif.lubieplackibackend.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Rating;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 
 import javax.persistence.*;
@@ -24,6 +25,11 @@ public class User implements Serializable {
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Recipe> recipes;
+
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Rating> ratings;
 
     public Long getId() {
         return id;

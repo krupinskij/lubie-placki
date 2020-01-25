@@ -1,5 +1,7 @@
 import React from 'react'
 
+import RatingController from './RatingController';
+
 import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
@@ -16,7 +18,7 @@ class RecipeMini extends React.Component {
               history.push("/");
               window.location.reload(false);
           });
-    }
+    }    
 
     render() {
         const recipe = this.props.recipe;
@@ -25,6 +27,9 @@ class RecipeMini extends React.Component {
                 <h2 className="recipe__header">
                     <Link className="recipe__title" to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
                 </h2>
+
+                <RatingController recipe={recipe} user={this.props.user}/>
+                
                 <div className="recipe__author">
                     Dodano {recipe.add_date} przez: <Link className="recipe__user" to={`/user/${recipe.user.id}`}>{recipe.user.username} </Link>
                     {

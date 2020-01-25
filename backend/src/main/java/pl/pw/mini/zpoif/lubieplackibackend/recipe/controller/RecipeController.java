@@ -2,6 +2,7 @@ package pl.pw.mini.zpoif.lubieplackibackend.recipe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.service.RecipeService;
@@ -86,5 +87,30 @@ public class RecipeController {
         recipeService.deleteRecipe(id);
     }
 
+
+    @PostMapping(path="/{recipe_id}/rating/{user_id}")
+    public Rating addRating(@PathVariable Long recipe_id, @PathVariable Long user_id, @RequestBody Integer rating) {
+        return recipeService.saveRating(recipe_id, user_id, rating);
+    }
+
+    @DeleteMapping(path = "/{recipe_id}/rating/{user_id}")
+    public void deleteRating(@PathVariable Long recipe_id, @PathVariable Long user_id) {
+        recipeService.deleteRating(recipe_id, user_id);
+    }
+
+    @GetMapping(path = "/{recipe_id}/rating")
+    public ResponseEntity getRatingsByRecipeId(@PathVariable Long recipe_id) {
+        return ResponseEntity.ok(recipeService.getRatingsByRecipeId(recipe_id));
+    }
+
+    @GetMapping(path="/{recipe_id}/rating/{user_id}")
+    public Integer getRatingByUserId(@PathVariable Long recipe_id, @PathVariable Long user_id) {
+        return recipeService.getRatingByUserId(recipe_id, user_id);
+    }
+
+    @GetMapping(path = "/ratings")
+    public List<Rating> getRatings() {
+        return recipeService.getRatings();
+    }
 
 }

@@ -37,7 +37,7 @@ class LoginPage extends React.Component {
 
 		return (
 			<div className="page">
-                <form className="form add-recipe-form" onSubmit={this.handleSubmit}>
+                <form className="component component--wide add-recipe-form" onSubmit={this.handleSubmit}>
                     <h2 className="form__header">Zaloguj się</h2>
 
                     <div className="form__section">

@@ -2,6 +2,7 @@ package pl.pw.mini.zpoif.lubieplackibackend.recipe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RatingNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipePhotoNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.UserNotFoundException;
@@ -24,13 +25,23 @@ public class RecipeServiceImpl implements RecipeService {
     private DirectionRepository directionRepository;
     private HintRepository hintRepository;
     private RecipePhotoRepository recipePhotoRepository;
+    private RatingRepository ratingRepository;
 
     ///
 
     private UserRepository userRepository;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, DirectionRepository directionRepository, HintRepository hintRepository, RecipePhotoRepository recipePhotoRepository, UserRepository userRepository){
+    public RecipeServiceImpl(
+            RecipeRepository recipeRepository,
+            IngredientRepository ingredientRepository,
+            DirectionRepository directionRepository,
+            HintRepository hintRepository,
+            RecipePhotoRepository recipePhotoRepository,
+            RatingRepository ratingRepository,
+            UserRepository userRepository
+    ){
+
         this.recipeRepository = recipeRepository;
 
         this.ingredientRepository = ingredientRepository;
@@ -38,6 +49,8 @@ public class RecipeServiceImpl implements RecipeService {
         this.hintRepository = hintRepository;
 
         this.recipePhotoRepository = recipePhotoRepository;
+
+        this.ratingRepository = ratingRepository;
 
         ///
 
@@ -50,6 +63,8 @@ public class RecipeServiceImpl implements RecipeService {
                 .filter(recipe -> type==null || recipe.getType().equals(type))
                 .sorted((r1, r2) -> {
                     if(sort!=null && sort.equals("alpha")) return r1.getTitle().compareToIgnoreCase(r2.getTitle());
+                    else if(sort!=null && sort.equals("average")) return Double.compare(r2.getAverageRating(), r1.getAverageRating());
+                    else if(sort!=null && sort.equals("count")) return Double.compare(r2.getCountRating(), r1.getCountRating());
                     else return r2.getAdd_date().compareTo(r1.getAdd_date());
                 })
                 .skip(page==null ? 0 : (page-1)*10)
@@ -170,16 +185,63 @@ public class RecipeServiceImpl implements RecipeService {
         return (count+9)/10;
     }
 
+    @Override
+    public Rating saveRating(Long recipe_id, Long user_id, Integer r) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika!"));
 
-    /*@Autowired
-    private JdbcTemplate jtm;
+        for(Rating rating: recipe.getRatings()) {
+            if(rating.getUser().equals(user)) {
+                rating.setRating(r);
+                return ratingRepository.save(rating);
+                //return rating;
+            }
+        }
+
+        Rating rating = new Rating();
+        rating.setRating(r);
+        rating.setRecipe(recipe);
+        rating.setUser(user);
+
+        return ratingRepository.save(rating);
+    }
 
     @Override
-    public List<Recipe> findAll() {
-        final String sql = "SELECT * FROM recipestest where id=6";
+    public void deleteRating(Long recipe_id, Long user_id) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        for(Rating rating:  recipe.getRatings()) {
+            if(rating.getUser().getId().equals(user_id)) {
+                ratingRepository.delete(rating);
+                return;
+            }
+        }
 
-        List<Recipe> recipes = jtm.query(sql, new BeanPropertyRowMapper(Recipe.class));
+        throw new RatingNotFoundException("Ten użytkownik nie ocenił jeszcze tego przepisu");
+    }
 
-        return recipes;
-    }*/
+    @Override
+    public Integer getRatingByUserId(Long recipe_id, Long user_id) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        List<Rating> ratings = recipe.getRatings();
+
+        for(Rating rating: ratings) {
+            if(rating.getUser().getId().equals(user_id)) return rating.getRating();
+        }
+
+        throw new RatingNotFoundException("Ten użytkownik nie ocenił jeszcze tego przepisu");
+    }
+
+    @Override
+    public Double[] getRatingsByRecipeId(Long recipe_id) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+
+        return new Double[]{ recipe.getAverageRating(), recipe.getCountRating() };
+    }
+
+    @Override
+    public List<Rating> getRatings() {
+        return ratingRepository.findAll();
+    }
+
+
 }

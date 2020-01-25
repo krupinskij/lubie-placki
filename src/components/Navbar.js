@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import cake from '../cake.svg'
+import cake from '../svg/cake.svg'
 import 'font-awesome/css/font-awesome.min.css';
 
 import LoginPanel from './panels/LoginPanel'

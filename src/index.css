@@ -503,3 +503,39 @@ body {
   background: rgb(168, 0, 0);
   color: white;
 }
+
+.recipe__stars {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+}
+
+.recipe__rating-description {
+  text-align: center;
+  font-size: 80%;
+}
+
+.recipe__star {
+  width: 25px;
+  opacity: 1;
+}
+
+.recipe__star--low {
+  opacity: 0.5;
+}
+
+.recipe__star:hover {
+  width: 35px;
+  opacity: 1;
+}
+
+.recipe__rating-button--delete {
+  border: 0;
+  background: transparent;
+  color: red;
+
+  margin-left: 5px;
+
+  cursor: pointer;
+}

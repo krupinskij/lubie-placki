@@ -8,6 +8,8 @@ class SortController extends React.Component {
                 <select name="sort" onChange={this.props.chooseSort}>
                     <option value="date">data</option>
                     <option value="alpha">alfabetycznie</option>
+                    <option value="average">średniej ocen</option>
+                    <option value="count">ilości ocen</option>
                 </select>
             </div>
         )

@@ -3,6 +3,7 @@ package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.utils.JsonLocalDateTimeSerializer;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.utils.JsonRatingsSerializer;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import javax.persistence.*;
@@ -50,6 +51,11 @@ public class Recipe implements Serializable {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @ElementCollection
+    @OneToMany(mappedBy = "recipe")
+    @JsonIgnore
+    private List<Rating> ratings;
 
     public Recipe() {}
 
@@ -131,5 +137,31 @@ public class Recipe implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public double getAverageRating() {
+        double average = 0;
+        double count = 0;
+
+        for(Rating rating: ratings) {
+            average+=rating.getRating();
+            count++;
+        }
+
+        if(count!=0) average/=count;
+
+        return average;
+    }
+
+    public double getCountRating() {
+        return ratings.size();
     }
 }

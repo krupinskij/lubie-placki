@@ -127,7 +127,7 @@ class RegisterPage extends React.Component {
 	render() {
 		return (
 			<div className="page">
-                <form className="form add-recipe-form" onSubmit={this.handleSubmit}>
+                <form className="component component--wide add-recipe-form" onSubmit={this.handleSubmit}>
                     <h2 className="form__header">Zarejestruj się</h2>
 
                     <div className="form__section">
