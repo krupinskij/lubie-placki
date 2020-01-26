@@ -5,14 +5,13 @@ import org.springframework.stereotype.Service;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RatingNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipePhotoNotFoundException;
-import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
+import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package pl.pw.mini.zpoif.lubieplackibackend.recipe.utils;
+package pl.pw.mini.zpoif.lubieplackibackend.comment.util;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

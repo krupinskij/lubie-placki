@@ -1,6 +1,44 @@
+DROP SEQUENCE IF EXISTS public.hibernate_sequence;
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+-- COMMENTS --
+
+DROP TABLE IF EXISTS public.comments;
+DROP SEQUENCE IF EXISTS public.comments_id_seq;
+
+CREATE TABLE public.comments (
+    id bigint NOT NULL,
+    text text NOT NULL,
+    recipe_id integer NOT NULL,
+    user_id integer NOT NULL,
+    add_date timestamp without time zone
+);
+
+ALTER TABLE public.comments OWNER TO postgres;
+
+CREATE SEQUENCE public.comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.comments_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+-- DIRECTIONS --
+
 DROP TABLE IF EXISTS public.directions;
 DROP SEQUENCE IF EXISTS public.directions_id_seq;
-DROP SEQUENCE IF EXISTS public.hibernate_sequence;
 
 CREATE TABLE public.directions (
     id bigint NOT NULL,
@@ -19,18 +57,10 @@ CREATE SEQUENCE public.directions_id_seq
     CACHE 1;
 
 ALTER TABLE public.directions_id_seq OWNER TO postgres;
-
 ALTER SEQUENCE public.directions_id_seq OWNED BY public.directions.id;
 
-CREATE SEQUENCE public.hibernate_sequence
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
-
-ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+-- HINTS --
 
 DROP TABLE IF EXISTS public.hints;
 DROP SEQUENCE IF EXISTS public.hints_id_seq;
@@ -51,8 +81,10 @@ CREATE SEQUENCE public.hints_id_seq
     CACHE 1;
 
 ALTER TABLE public.hints_id_seq OWNER TO postgres;
-
 ALTER SEQUENCE public.hints_id_seq OWNED BY public.hints.id;
+
+
+-- INGREDIENTS --
 
 DROP TABLE IF EXISTS public.ingredients;
 DROP SEQUENCE IF EXISTS public.ingredients_id_seq;
@@ -67,7 +99,6 @@ CREATE TABLE public.ingredients (
 
 ALTER TABLE public.ingredients OWNER TO postgres;
 
-
 CREATE SEQUENCE public.ingredients_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -75,11 +106,11 @@ CREATE SEQUENCE public.ingredients_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
 ALTER TABLE public.ingredients_id_seq OWNER TO postgres;
-
-
 ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
+
+
+-- RATINGS --
 
 DROP TABLE IF EXISTS public.ratings;
 DROP SEQUENCE IF EXISTS public.ratings_id_seq;
@@ -103,6 +134,9 @@ CREATE SEQUENCE public.ratings_id_seq
 ALTER TABLE public.ratings_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 
+
+-- RECIPE PHOTOS --
+
 DROP TABLE IF EXISTS public.recipe_photos;
 DROP SEQUENCE IF EXISTS public.recipes_photos_id_seq;
 
@@ -122,9 +156,10 @@ CREATE SEQUENCE public.recipe_photos_id_seq
     CACHE 1;
 
 ALTER TABLE public.recipe_photos_id_seq OWNER TO postgres;
-
 ALTER SEQUENCE public.recipe_photos_id_seq OWNED BY public.recipe_photos.id;
 
+
+-- RECIPES --
 
 DROP TABLE IF EXISTS public.recipes;
 DROP SEQUENCE IF EXISTS public.recipes_id_seq;
@@ -138,9 +173,7 @@ CREATE TABLE public.recipes (
     add_date timestamp(4) without time zone NOT NULL
 );
 
-
 ALTER TABLE public.recipes OWNER TO postgres;
-
 
 CREATE SEQUENCE public.recipes_id_seq
     START WITH 1
@@ -151,9 +184,10 @@ CREATE SEQUENCE public.recipes_id_seq
 
 
 ALTER TABLE public.recipes_id_seq OWNER TO postgres;
-
-
 ALTER SEQUENCE public.recipes_id_seq OWNED BY public.recipes.id;
+
+
+-- USERS --
 
 DROP TABLE IF EXISTS public.users;
 DROP SEQUENCE IF EXISTS public.user_id_seq;
@@ -177,6 +211,8 @@ ALTER TABLE public.user_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.user_id_seq OWNED BY public.users.id;
 
 
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
 ALTER TABLE ONLY public.directions ALTER COLUMN id SET DEFAULT nextval('public.directions_id_seq'::regclass);
 
 ALTER TABLE ONLY public.hints ALTER COLUMN id SET DEFAULT nextval('public.hints_id_seq'::regclass);
@@ -187,10 +223,15 @@ ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.rati
 
 ALTER TABLE ONLY public.recipe_photos ALTER COLUMN id SET DEFAULT nextval('public.recipe_photos_id_seq'::regclass);
 
+
 ALTER TABLE ONLY public.recipes ALTER COLUMN id SET DEFAULT nextval('public.recipes_id_seq'::regclass);
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
+
+-- INSERTS --
+
+INSERT INTO public.comments (id, text, recipe_id, user_id, add_date) VALUES (169, 'Fajne', 135, 70, '2020-01-26 15:00:53.742185');
 
 INSERT INTO public.directions (id, text, direction_order, recipe_id) VALUES (124, 'Zmieszaj wszystko', 0, 121);
 INSERT INTO public.directions (id, text, direction_order, recipe_id) VALUES (125, 'Zrób piernik', 1, 121);
@@ -229,9 +270,11 @@ INSERT INTO public.users (id, username, password) VALUES (70, 'admin', 'admin1')
 INSERT INTO public.users (id, username, password) VALUES (149, 'user123', 'user');
 
 
+SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
+
 SELECT pg_catalog.setval('public.directions_id_seq', 1, false);
 
-SELECT pg_catalog.setval('public.hibernate_sequence', 151, true);
+SELECT pg_catalog.setval('public.hibernate_sequence', 169, true);
 
 SELECT pg_catalog.setval('public.hints_id_seq', 1, false);
 
@@ -245,6 +288,9 @@ SELECT pg_catalog.setval('public.recipes_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.user_id_seq', 1, false);
 
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.directions
     ADD CONSTRAINT directions_pkey PRIMARY KEY (id);
@@ -267,6 +313,12 @@ ALTER TABLE ONLY public.recipes
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
 ALTER TABLE ONLY public.directions
     ADD CONSTRAINT directions_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
@@ -287,4 +339,3 @@ ALTER TABLE ONLY public.recipe_photos
 
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT recipes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-

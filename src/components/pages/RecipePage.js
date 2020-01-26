@@ -1,5 +1,8 @@
 import React from 'react';
 import Recipe from '../Recipe';
+import CommentsList from '../CommentsList';
+
+import { connect } from 'react-redux'
 
 class RecipePage extends React.Component {
 
@@ -23,14 +26,28 @@ class RecipePage extends React.Component {
 
     render() {
 
-        if(this.state.loading) return(<div>Loading...</div>)
+        if(this.state.loading) return(<div>Ładowanie...</div>)
 
         return(
             <div className="page">
                 <Recipe recipe={this.state.recipe}/>
+                <CommentsList 
+                    recipe_id={this.state.recipe.id} 
+                    user_id={this.props.user!=null ? this.props.user.id : undefined} 
+                    comments={this.state.comments}
+                />
             </div>
         )
     }
 }
 
-export default RecipePage
+const mapStateToProps = (state /*, ownProps*/) => {
+	
+	return {
+	  user: state.user,
+	}
+  }
+  
+  export default connect(
+	mapStateToProps
+  )(RecipePage)

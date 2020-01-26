@@ -14,7 +14,6 @@ class RatingController extends React.Component {
         fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating")
         .then(resp => resp.json())
         .then(resp => {
-            console.log(resp);
             this.setState({
                 average: resp[0],
                 count: resp[1]

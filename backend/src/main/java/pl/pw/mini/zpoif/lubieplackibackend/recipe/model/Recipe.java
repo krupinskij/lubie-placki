@@ -2,13 +2,12 @@ package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import pl.pw.mini.zpoif.lubieplackibackend.recipe.utils.JsonLocalDateTimeSerializer;
-import pl.pw.mini.zpoif.lubieplackibackend.recipe.utils.JsonRatingsSerializer;
+import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.util.JsonLocalDateTimeSerializer;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -56,6 +55,11 @@ public class Recipe implements Serializable {
     @OneToMany(mappedBy = "recipe")
     @JsonIgnore
     private List<Rating> ratings;
+
+    @ElementCollection
+    @OneToMany(mappedBy = "recipe")
+    @JsonIgnore
+    private List<Comment> comments;
 
     public Recipe() {}
 
@@ -163,5 +167,13 @@ public class Recipe implements Serializable {
 
     public double getCountRating() {
         return ratings.size();
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

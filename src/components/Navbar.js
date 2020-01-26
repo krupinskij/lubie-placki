@@ -29,8 +29,9 @@ class Navbar extends React.Component {
 				<li className="navbar__item"><Link className="navbar__link" to="/?type=makowiec">Makowce</Link></li>
 				<li className="navbar__item"><Link className="navbar__link" to="/?type=sernik">Serniki</Link></li>
 				<li className="navbar__item"><Link className="navbar__link" to="/?type=piernik">Pierniki</Link></li>
-				<li className="navbar__item"><Link className="navbar__link" to="/?type=jableczniki">Jabłeczniki</Link></li>
+				<li className="navbar__item"><Link className="navbar__link" to="/?type=jablecznik">Jabłeczniki</Link></li>
 				<li className="navbar__item"><Link className="navbar__link" to="/?type=swiateczne">Świąteczne</Link></li>
+				<li className="navbar__item"><Link className="navbar__link" to="/?type=inne">Inne</Link></li>
 			</ul>
 		</nav>
 	)
