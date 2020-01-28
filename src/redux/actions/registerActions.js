@@ -26,11 +26,23 @@ export const registerUser = (user, avatar) => {
                 throw new Error("Wystąpił nieznany błąd!");
             }
 
-            dispatch(registerSuccess(user));
-            localStorage.setItem('user', JSON.stringify(user));
+            fetch('http://localhost:3004/users/' + resp.id + '/photo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'image/jpeg'
+                },
+                body: JSON.stringify(avatar)
+            })
+            .then(r => {
+                console.log(r);
+                dispatch(registerSuccess(resp));
+                localStorage.setItem('user', JSON.stringify(resp));
+                
+                history.push("/");
+                window.location.reload(false);
+            })
+
             
-            history.push("/");
-            window.location.reload(false);
         })
         .catch(error => {
             dispatch(registerError(error.message))

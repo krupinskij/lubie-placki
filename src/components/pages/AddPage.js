@@ -12,6 +12,8 @@ import {
 } from '../../validation/requirements';
 import { validate, canSubmit } from '../../validation/validator';
 
+
+
 class AddPage extends React.Component {
 
 	state = {
@@ -121,6 +123,8 @@ class AddPage extends React.Component {
 	changePhoto = event => {
 		const target = event.target;
 		const value = target.files[0];
+
+		console.log(value);
 
 		const valid = validate(
 			isFile(value)

@@ -31,6 +31,9 @@ public class User implements Serializable {
     @JsonIgnore
     private List<Rating> ratings;
 
+    @JsonIgnore
+    private byte[] avatar;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Comment> comments;
@@ -76,6 +79,14 @@ public class User implements Serializable {
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     public List<Comment> getComments() {

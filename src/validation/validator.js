@@ -1,5 +1,4 @@
 export function validate(...valids) {
-    console.log(valids);
     for(const valid of valids) {
         if(!valid.isValid) return valid;
     }

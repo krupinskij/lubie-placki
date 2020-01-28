@@ -46,6 +46,7 @@ class Comment extends React.Component {
         return (
             <div className="component comment">
                 <h2 className="comment__header">
+                    <img className="comment__avatar" src={`http://localhost:3004/users/${comment.user.id}/avatar`} alt={comment.user.username + "avatar"}/>
                     <Link className="comment__user" to={`/user/${comment.user.id}`}>{comment.user.username} </Link>
                 </h2>
                 <div className="comment__date">

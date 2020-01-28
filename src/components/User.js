@@ -6,7 +6,9 @@ class User extends React.Component {
         
         return (
 			<div className="component user">
-                <h1 className="user__login">
+                <h1 className="user__header">
+                    
+                    <img className="user__photo" src={`http://localhost:3004/users/${user.id}/photo`} alt={user.username + "avatar"}/>
                     {user.username}
                 </h1>
             </div>
