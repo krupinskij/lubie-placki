@@ -1,6 +1,6 @@
 import {
-    LOGIN_REQUEST, 
-    LOGIN_SUCCESS, 
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
     LOGIN_ERROR
 } from '../constants/userConstants';
 
@@ -16,16 +16,24 @@ export const loginUser = (user) => {
             },
             body: JSON.stringify(user)
         })
-            .then(user => user.json())
-            .then(user => {
+            .then(resp => resp.json())
+            .then(resp => {
+
+                if(resp.status===401) {
+                    throw new Error(resp.message)
+                }
+                else if(resp.status && resp.status!==200) {
+                    throw new Error("Wystąpił nieznany błąd!");
+                }
+
                 dispatch(loginSuccess(user));
                 localStorage.setItem('user', JSON.stringify(user));
+                
                 history.push("/");
                 window.location.reload(false);
             })
             .catch(error => {
-                dispatch(loginError(error))
-                alert("Źle");
+                dispatch(loginError(error.message))
             })
     }
 }

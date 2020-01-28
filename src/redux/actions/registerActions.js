@@ -6,7 +6,7 @@ import {
 
 import history from '../../helpers/history';
 
-export const registerUser = (user) => {
+export const registerUser = (user, avatar) => {
     return dispatch => {
         dispatch(registerRequest())
         return fetch('http://localhost:3004/users/register', {
@@ -16,17 +16,25 @@ export const registerUser = (user) => {
             },
             body: JSON.stringify(user)
         })
-            .then(user => user.json())
-            .then(user => {
-                dispatch(registerSuccess(user));
-                localStorage.setItem('user', JSON.stringify(user));
-                history.push("/");
-                window.location.reload(false);
-            })
-            .catch(error => {
-                dispatch(registerError(error))
-                alert("Źle");
-            })
+        .then(resp => resp.json())
+        .then(resp => {
+
+            if(resp.status===401) {
+                throw new Error(resp.message)
+            }
+            else if(resp.status && resp.status!==200) {
+                throw new Error("Wystąpił nieznany błąd!");
+            }
+
+            dispatch(registerSuccess(user));
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            history.push("/");
+            window.location.reload(false);
+        })
+        .catch(error => {
+            dispatch(registerError(error.message))
+        })
     }
 }
 
