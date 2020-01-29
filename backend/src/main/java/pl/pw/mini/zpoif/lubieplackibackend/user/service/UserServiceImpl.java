@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> findUserUsernamesByPrefix(String prefix) {
+    public List<String> getUsernamesByPrefix(String prefix) {
 
         List<String> usernames = userRepository.findAll().stream()
                 .map(user -> user.getUsername())

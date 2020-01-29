@@ -247,7 +247,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Rating saveRating(Long recipe_id, Long user_id, Integer r) {
+    public Rating addRatingByRecipeIdAndUserId(Long recipe_id, Long user_id, Integer r) {
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
         User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika!"));
 

@@ -35,7 +35,7 @@ public interface RecipeService {
 
     Long getPagesCount(String type);
 
-    Rating saveRating(Long recipe_id, Long user_id, Integer rating);
+    Rating addRatingByRecipeIdAndUserId(Long recipe_id, Long user_id, Integer rating);
     void deleteRating(Long recipe_id, Long user_id);
     Integer getRatingByUserId(Long recipe_id, Long user_id);
     Double[] getRatingsByRecipeId(Long recipe_id);

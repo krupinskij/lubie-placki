@@ -22,105 +22,107 @@ public class RecipeController {
     }
 
     @GetMapping(path = "")
-    public List<Recipe> getRecipes(
+    public ResponseEntity getRecipes(
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String sort,
             @RequestParam(required = false) Integer page
     ) {
-        return recipeService.findAll(type, sort, page);
+        return ResponseEntity.ok(recipeService.findAll(type, sort, page));
     }
 
     @GetMapping(path = "/pages")
-    public Long getPagesCount(@RequestParam(required = false) String type) {
-        return recipeService.getPagesCount(type);
+    public ResponseEntity getPagesCount(@RequestParam(required = false) String type) {
+        return ResponseEntity.ok(recipeService.getPagesCount(type));
     }
 
     @GetMapping(path = "/{id}")
-    public Recipe getRecipeById(@PathVariable("id") Long id) {
-        return recipeService.findById(id);
+    public ResponseEntity getRecipeById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(recipeService.findById(id));
     }
 
     @GetMapping(path = "/{id}/photo", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getRecipePhoto(@PathVariable("id") Long id) throws IOException {
-        return recipeService.getRecipePhotoByRecipeId(id);
+    public ResponseEntity getRecipePhoto(@PathVariable("id") Long id) throws IOException {
+        return ResponseEntity.ok(recipeService.getRecipePhotoByRecipeId(id));
     }
 
     @GetMapping("/user/{user_id}")
-    public List<Recipe> getRecipesByUser(@PathVariable("user_id") Long user_id) {
-        return recipeService.findByUserId(user_id);
+    public ResponseEntity getRecipesByUser(@PathVariable("user_id") Long user_id) {
+        return ResponseEntity.ok(recipeService.findByUserId(user_id));
     }
 
     @GetMapping(path="/random")
-    public Long getRandomId() {
-        return recipeService.getRandomId();
+    public ResponseEntity getRandomId() {
+        return ResponseEntity.ok(recipeService.getRandomId());
     }
 
 
 
     @PostMapping(path = "/{user_id}")
-    public Recipe saveRecipeByUserId(@PathVariable Long user_id, @RequestBody Recipe recipe) {
-        return recipeService.saveRecipeByUserId(user_id, recipe);
+    public ResponseEntity saveRecipeByUserId(@PathVariable Long user_id, @RequestBody Recipe recipe) {
+        return ResponseEntity.ok(recipeService.saveRecipeByUserId(user_id, recipe));
     }
 
     @PostMapping(path = "/{recipe_id}/ingredients")
-    public List<Ingredient> saveAllIngredientsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
-        return recipeService.saveAllIngredientsByRecipeId(recipe_id, ingredients);
+    public ResponseEntity saveAllIngredientsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
+        return ResponseEntity.ok(recipeService.saveAllIngredientsByRecipeId(recipe_id, ingredients));
     }
 
     @PostMapping(path = "/{recipe_id}/directions")
-    public List<Direction> saveAllDirectionsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
-        return recipeService.saveAllDirectionsByRecipeId(recipe_id, directions);
+    public ResponseEntity saveAllDirectionsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
+        return ResponseEntity.ok(recipeService.saveAllDirectionsByRecipeId(recipe_id, directions));
     }
 
     @PostMapping(path = "/{recipe_id}/hints")
-    public List<Hint> saveAllHintsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
-        return recipeService.saveAllHintsByRecipeId(recipe_id, hints);
+    public ResponseEntity saveAllHintsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
+        return ResponseEntity.ok(recipeService.saveAllHintsByRecipeId(recipe_id, hints));
     }
 
     @PostMapping(path = "/{recipe_id}/photo")
-    public Recipe saveRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] photo) {
-        return recipeService.saveRecipePhotoByRecipeId(recipe_id, photo);
+    public ResponseEntity saveRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] photo) {
+        return ResponseEntity.ok(recipeService.saveRecipePhotoByRecipeId(recipe_id, photo));
     }
 
     @PutMapping(path = "/{recipe_id}")
-    public Recipe updateRecipeByRecipeId(@PathVariable Long recipe_id, @RequestBody Recipe recipe) {
-        return recipeService.updateRecipeByRecipeId(recipe_id, recipe);
+    public ResponseEntity updateRecipeByRecipeId(@PathVariable Long recipe_id, @RequestBody Recipe recipe) {
+        return ResponseEntity.ok(recipeService.updateRecipeByRecipeId(recipe_id, recipe));
     }
 
     @PutMapping(path = "/{recipe_id}/ingredients")
-    public List<Ingredient> updateAllIngredientsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
-        return recipeService.updateAllIngredientsByRecipeId(recipe_id, ingredients);
+    public ResponseEntity updateAllIngredientsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
+        return ResponseEntity.ok(recipeService.updateAllIngredientsByRecipeId(recipe_id, ingredients));
     }
 
     @PutMapping(path = "/{recipe_id}/directions")
-    public List<Direction> updateAllDirectionsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
-        return recipeService.updateAllDirectionsByRecipeId(recipe_id, directions);
+    public ResponseEntity updateAllDirectionsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
+        return ResponseEntity.ok(recipeService.updateAllDirectionsByRecipeId(recipe_id, directions));
     }
 
     @PutMapping(path = "/{recipe_id}/hints")
-    public List<Hint> updateAllHintsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
-        return recipeService.updateAllHintsByRecipeId(recipe_id, hints);
+    public ResponseEntity updateAllHintsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
+        return ResponseEntity.ok(recipeService.updateAllHintsByRecipeId(recipe_id, hints));
     }
 
     @PutMapping(path = "/{recipe_id}/photo")
-    public Recipe updateRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] photo) {
-        return recipeService.updateRecipePhotoByRecipeId(recipe_id, photo);
+    public ResponseEntity updateRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] photo) {
+        return ResponseEntity.ok(recipeService.updateRecipePhotoByRecipeId(recipe_id, photo));
     }
 
     @DeleteMapping(path="/{id}")
-    public void deleteRecipe(@PathVariable Long id) {
+    public ResponseEntity deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
+        return ResponseEntity.ok("Usunięto przepis");
     }
 
 
     @PostMapping(path="/{recipe_id}/rating/{user_id}")
-    public Rating addRating(@PathVariable Long recipe_id, @PathVariable Long user_id, @RequestBody Integer rating) {
-        return recipeService.saveRating(recipe_id, user_id, rating);
+    public ResponseEntity addRatingByRecipeIdAndUserId(@PathVariable Long recipe_id, @PathVariable Long user_id, @RequestBody Integer rating) {
+        return ResponseEntity.ok(recipeService.addRatingByRecipeIdAndUserId(recipe_id, user_id, rating));
     }
 
     @DeleteMapping(path = "/{recipe_id}/rating/{user_id}")
-    public void deleteRating(@PathVariable Long recipe_id, @PathVariable Long user_id) {
+    public ResponseEntity deleteRating(@PathVariable Long recipe_id, @PathVariable Long user_id) {
         recipeService.deleteRating(recipe_id, user_id);
+        return ResponseEntity.ok("Usunięto ocenę");
     }
 
     @GetMapping(path = "/{recipe_id}/rating")
@@ -129,13 +131,13 @@ public class RecipeController {
     }
 
     @GetMapping(path="/{recipe_id}/rating/{user_id}")
-    public Integer getRatingByUserId(@PathVariable Long recipe_id, @PathVariable Long user_id) {
-        return recipeService.getRatingByUserId(recipe_id, user_id);
+    public ResponseEntity getRatingByUserId(@PathVariable Long recipe_id, @PathVariable Long user_id) {
+        return ResponseEntity.ok(recipeService.getRatingByUserId(recipe_id, user_id));
     }
 
     @GetMapping(path = "/ratings")
-    public List<Rating> getRatings() {
-        return recipeService.getRatings();
+    public ResponseEntity getRatings() {
+        return ResponseEntity.ok(recipeService.getRatings());
     }
 
 }

@@ -20,17 +20,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/register/usernames")
-    public ResponseEntity getUsernames(@RequestParam String prefix) {
-        List<String> usernames = userService.findUserUsernamesByPrefix(prefix);
-
-        return new ResponseEntity(usernames, HttpStatus.OK);
+    public ResponseEntity getUsernamesByPrefix(@RequestParam String prefix) {
+        return ResponseEntity.ok(userService.getUsernamesByPrefix(prefix));
     }
 
     @PostMapping("/register")
     public ResponseEntity addUser(@RequestBody User user) {
-        User newUser = userService.saveUser(user);
-
-        return new ResponseEntity(newUser, HttpStatus.OK);
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
     private static class LoginData {
@@ -48,41 +44,37 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginData loginData) {
-        User user = userService.login(loginData.getUsername(), loginData.getPassword() );
-
-        if(user==null) return new ResponseEntity("incorrect username or password", HttpStatus.UNAUTHORIZED);
-
-        return new ResponseEntity(user, HttpStatus.OK);
+        return ResponseEntity.ok(userService.login(loginData.getUsername(), loginData.getPassword() ));
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.findById(id);
+    public ResponseEntity getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findById(id));
     }
 
     @GetMapping("/{user_id}/username")
-    public String getUsernameByUserId(@PathVariable Long user_id) {
-        return userService.getUsernameByUserId(user_id);
+    public ResponseEntity getUsernameByUserId(@PathVariable Long user_id) {
+        return ResponseEntity.ok(userService.getUsernameByUserId(user_id));
     }
 
     @PutMapping("/{user_id}/username")
-    public User updateUsernameByUserId(@PathVariable Long user_id, @RequestBody String username) {
-        return userService.updateUsernameByUserId(user_id, username);
+    public ResponseEntity updateUsernameByUserId(@PathVariable Long user_id, @RequestBody String username) {
+        return ResponseEntity.ok(userService.updateUsernameByUserId(user_id, username));
     }
 
     @GetMapping(path = "/default/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getDefaultAvatar() throws IOException {
-        return userService.getDefaultAvatar();
+    public ResponseEntity getDefaultAvatar() throws IOException {
+        return ResponseEntity.ok(userService.getDefaultAvatar());
     }
 
     @GetMapping(path = "/{user_id}/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getUserAvatarByUserId(@PathVariable Long user_id) throws IOException {
-        return userService.getUserAvatarByUserId(user_id);
+    public ResponseEntity getUserAvatarByUserId(@PathVariable Long user_id) throws IOException {
+        return ResponseEntity.ok(userService.getUserAvatarByUserId(user_id));
     }
 
     @PutMapping(path = "/{user_id}/avatar")
-    public User updateUserAvatarByUserId(@PathVariable Long user_id, @RequestBody byte[] photo) {
-        return userService.updateUserAvatarByUserId(user_id, photo);
+    public ResponseEntity updateUserAvatarByUserId(@PathVariable Long user_id, @RequestBody byte[] photo) {
+        return ResponseEntity.ok(userService.updateUserAvatarByUserId(user_id, photo));
     }
 
 

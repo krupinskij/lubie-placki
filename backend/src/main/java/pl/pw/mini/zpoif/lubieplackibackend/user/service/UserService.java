@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
-    List<String> findUserUsernamesByPrefix(String prefix);
+    List<String> getUsernamesByPrefix(String prefix);
     User saveUser(User user);
 
     User login(String username, String password);
