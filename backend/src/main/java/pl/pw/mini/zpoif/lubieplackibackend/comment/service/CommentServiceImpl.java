@@ -56,6 +56,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         comment.setText(text.substring(1, text.length()-1));
         comment.setAdd_date(LocalDateTime.now());
+        comment.setPoints(0);
         comment.setUser(user);
         comment.setRecipe(recipe);
 
@@ -74,6 +75,14 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
 
         comment.setText(text.substring(1, text.length()-1));
+        return commentRepository.save(comment);
+    }
+
+    @Override
+    public Comment likeComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
+
+        comment.setPoints(comment.getPoints()+1);
         return commentRepository.save(comment);
     }
 

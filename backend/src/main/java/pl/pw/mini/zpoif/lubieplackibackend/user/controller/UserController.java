@@ -77,6 +77,11 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserAvatarByUserId(user_id, photo));
     }
 
+    @GetMapping(path = "/{user_id}/points")
+    public ResponseEntity getPointsByUserId(@PathVariable Long user_id) {
+        return ResponseEntity.ok(userService.getPointsByUserId(user_id));
+    }
+
 
 }
 

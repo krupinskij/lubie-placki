@@ -32,6 +32,10 @@ class Comment extends React.Component {
         this.props.updateComment(this.props.comment.id, this.state.text);
     }
 
+    handleLikeClick = event => {
+        this.props.likeComment(this.props.comment.id);
+    }
+
     handleChangeText = event => {
         const target = event.target;
         const value = target.value;
@@ -46,7 +50,7 @@ class Comment extends React.Component {
         return (
             <div className="component comment">
                 <h2 className="comment__header">
-                    <img className="comment__avatar" src={`http://localhost:3004/users/${comment.user.id}/avatar`} alt={comment.user.username + "avatar"}/>
+                    <img className="comment__avatar" src={`http://localhost:3004/users/${comment.user.id}/avatar`} alt={comment.user.username + "avatar"} />
                     <Link className="comment__user" to={`/user/${comment.user.id}`}>{comment.user.username} </Link>
                 </h2>
                 <div className="comment__date">
@@ -60,14 +64,25 @@ class Comment extends React.Component {
                             </div>
 
                             {
-                                this.props.user_id === this.props.comment.user.id &&
+                                this.props.user_id !== undefined &&
 
-                                <div className="comment__buttons">
-                                    <button className="comment__button comment__button--delete" onClick={this.handleDeleteClick}>Usuń</button>
-                                    <button className="comment__button comment__button--edit" onClick={this.handleEditClick}>Edytuj</button>
-                                </div>
+                                (
+                                    this.props.user_id === this.props.comment.user.id ?
+
+                                        <div className="comment__buttons">
+                                            <button className="comment__button comment__button--delete" onClick={this.handleDeleteClick}>Usuń</button>
+                                            <button className="comment__button comment__button--edit" onClick={this.handleEditClick}>Edytuj</button>
+                                        </div>
+                                        :
+                                        <div className="comment__buttons">
+                                            <button className="comment__button comment__button--like" onClick={this.handleLikeClick}>Fajny komentarz:  {comment.points} </button>
+                                        </div>
+                                )
+
                             }
-                            
+
+
+
                         </>
                         :
                         <>

@@ -49,6 +49,13 @@ class CommentsList extends React.Component {
         })
         .then(this.componentDidMount);
     }
+
+    likeComment = (id) => {
+        fetch("http://localhost:3004/comments/" + id + "/like", {
+            method: 'POST'
+        })
+        .then(this.componentDidMount);
+    }
 	
 	render() {
 
@@ -59,6 +66,8 @@ class CommentsList extends React.Component {
             comment={comment}
             deleteComment={this.deleteComment}
             updateComment={this.updateComment}
+
+            likeComment={this.likeComment}
 
             user_id={this.props.user_id}
         />)

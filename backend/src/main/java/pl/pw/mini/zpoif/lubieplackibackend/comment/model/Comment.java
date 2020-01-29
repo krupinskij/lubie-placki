@@ -24,6 +24,9 @@ public class Comment implements Serializable {
     @JsonSerialize(using = JsonLocalDateTimeSerializer.class)
     private LocalDateTime add_date;
 
+    @Column
+    private Integer points;
+
     @ManyToOne
     @JoinColumn(name="recipe_id")
     @JsonIgnore
@@ -50,6 +53,14 @@ public class Comment implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 
     public LocalDateTime getAdd_date() {

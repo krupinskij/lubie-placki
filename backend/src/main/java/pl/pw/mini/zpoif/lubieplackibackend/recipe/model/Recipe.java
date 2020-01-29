@@ -176,6 +176,16 @@ public class Recipe implements Serializable {
         return average;
     }
 
+    public int getSumRating() {
+        int sum = 0;
+
+        for(Rating rating: ratings) {
+            sum+=rating.getRating();
+        }
+
+        return sum;
+    }
+
     public double getCountRating() {
         return ratings.size();
     }

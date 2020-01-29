@@ -75,6 +75,8 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
+
+  z-index: 600;
 }
 
 .navbar__account .navbar__login-text {
@@ -100,6 +102,8 @@ body {
 
   display: flex;
   flex-direction: column;
+
+  z-index: 600;
 }
 
 .account-panel__list-item {
@@ -628,7 +632,8 @@ body {
 }
 
 .comment__button--edit,
-.comment__button--save {
+.comment__button--save,
+.comment__button--like {
   color: #3131b5;
 }
 

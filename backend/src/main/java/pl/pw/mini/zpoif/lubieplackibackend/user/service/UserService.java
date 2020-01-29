@@ -21,4 +21,6 @@ public interface UserService {
     byte[] getUserAvatarByUserId(Long user_id) throws IOException;
     User updateUserAvatarByUserId(Long user_id, byte[] avatar);
 
+    Integer getPointsByUserId(Long user_id);
+
 }

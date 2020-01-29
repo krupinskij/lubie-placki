@@ -13,4 +13,6 @@ public interface CommentService {
     void deleteComment(Long id);
 
     Comment updateComment(Long id, String text);
+
+    Comment likeComment(Long id);
 }

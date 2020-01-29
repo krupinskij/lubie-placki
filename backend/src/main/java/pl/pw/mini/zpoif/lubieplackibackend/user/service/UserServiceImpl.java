@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
+import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UnauthorizedException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
@@ -95,5 +97,20 @@ public class UserServiceImpl implements UserService {
         user.setAvatar(avatar);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Integer getPointsByUserId(Long user_id) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
+
+        Integer recipePoints = user.getRecipes().stream()
+                .mapToInt(Recipe::getSumRating)
+                .reduce(Integer::sum).orElse(0);
+
+        Integer commentPoints = user.getComments().stream()
+                .mapToInt(Comment::getPoints)
+                .reduce(Integer::sum).orElse(0);
+
+        return recipePoints + commentPoints;
     }
 }
