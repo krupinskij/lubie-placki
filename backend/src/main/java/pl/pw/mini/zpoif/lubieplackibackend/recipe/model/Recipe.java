@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.util.JsonLocalDateTimeSerializer;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.util.JsonRecipePhotosSerializer;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import javax.persistence.*;
@@ -49,6 +50,11 @@ public class Recipe implements Serializable {
     @ElementCollection
     @OneToMany(mappedBy="recipe")
     private List<Tag> tags;
+
+    @ElementCollection
+    @OneToMany(mappedBy="recipe")
+    @JsonSerialize(using = JsonRecipePhotosSerializer.class)
+    private List<RecipePhoto> recipePhotos;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -144,6 +150,14 @@ public class Recipe implements Serializable {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<RecipePhoto> getRecipePhotos() {
+        return recipePhotos;
+    }
+
+    public void setRecipePhotos(List<RecipePhoto> recipePhotos) {
+        this.recipePhotos = recipePhotos;
     }
 
     public User getUser() {

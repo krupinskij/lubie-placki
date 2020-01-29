@@ -1,5 +1,6 @@
 import React from 'react';
 import Recipe from '../Recipe';
+import RecipePhotosController from '../RecipePhotosController';
 import CommentsList from '../CommentsList';
 
 import { connect } from 'react-redux'
@@ -31,6 +32,13 @@ class RecipePage extends React.Component {
         return(
             <div className="page">
                 <Recipe recipe={this.state.recipe}/>
+
+                <RecipePhotosController 
+                    recipe_id={this.state.recipe.id} 
+                    photos_count={this.state.recipe.recipePhotos}
+                    user_id={this.props.user!=null ? this.props.user.id : undefined}
+                />
+
                 <CommentsList 
                     recipe_id={this.state.recipe.id} 
                     user_id={this.props.user!=null ? this.props.user.id : undefined} 

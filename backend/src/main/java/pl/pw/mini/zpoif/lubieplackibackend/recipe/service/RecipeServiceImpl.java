@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RatingNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipePhotoNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
 import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UserNotFoundException;
@@ -26,6 +27,7 @@ public class RecipeServiceImpl implements RecipeService {
     private HintRepository hintRepository;
     private RatingRepository ratingRepository;
     private TagRepository tagRepository;
+    private RecipePhotoRepository recipePhotoRepository;
 
     ///
 
@@ -39,6 +41,7 @@ public class RecipeServiceImpl implements RecipeService {
             HintRepository hintRepository,
             RatingRepository ratingRepository,
             TagRepository tagRepository,
+            RecipePhotoRepository recipePhotoRepository,
             UserRepository userRepository
     ){
 
@@ -52,7 +55,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         this.tagRepository = tagRepository;
 
-        ///
+        this.recipePhotoRepository = recipePhotoRepository;
 
         this.userRepository = userRepository;
     }
@@ -333,6 +336,26 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(Tag::getRecipe)
                 .sorted(Comparator.comparing(Recipe::getAdd_date).reversed())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public byte[] getUserRecipePhotoByRecipeIdAndOrder(Long recipe_id, Integer order) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        if(order>=recipe.getRecipePhotos().size()) throw new RecipePhotoNotFoundException("Nie ma takiego zdjęcia");
+
+        return recipe.getRecipePhotos().get(order).getPhoto();
+    }
+
+    @Override
+    public void saveUserRecipePhotoByRecipeId(Long recipe_id, byte[] recipe_photo) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+
+        RecipePhoto recipePhoto = new RecipePhoto();
+        recipePhoto.setPhoto(recipe_photo);
+        recipePhoto.setRecipe(recipe);
+
+        recipePhotoRepository.save(recipePhoto);
+
     }
 
 

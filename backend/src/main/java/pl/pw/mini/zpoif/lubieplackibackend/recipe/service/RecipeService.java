@@ -43,4 +43,7 @@ public interface RecipeService {
     List<Rating> getRatings();
 
     List<Recipe> getRecipesByTag(String s);
+
+    byte[] getUserRecipePhotoByRecipeIdAndOrder(Long recipe_id, Integer order);
+    void saveUserRecipePhotoByRecipeId(Long recipe_id, byte[] recipe_photo);
 }

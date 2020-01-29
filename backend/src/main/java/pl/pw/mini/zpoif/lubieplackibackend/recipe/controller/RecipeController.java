@@ -150,4 +150,15 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getRecipesByTag(s));
     }
 
+    @GetMapping(path = "/{recipe_id}/user_photo/{order}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity getUserRecipePhotoByRecipeIdAndOrder(@PathVariable Long recipe_id, @PathVariable Integer order) throws IOException {
+        return ResponseEntity.ok(recipeService.getUserRecipePhotoByRecipeIdAndOrder(recipe_id, order));
+    }
+
+    @PostMapping(path = "/{recipe_id}/user_photo")
+    public ResponseEntity saveUserRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] recipe_photo) {
+        recipeService.saveUserRecipePhotoByRecipeId(recipe_id, recipe_photo);
+        return ResponseEntity.ok("Dodano zdjęcie");
+    }
+
 }
