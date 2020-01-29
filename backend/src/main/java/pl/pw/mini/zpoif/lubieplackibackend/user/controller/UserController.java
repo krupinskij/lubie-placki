@@ -9,15 +9,18 @@ import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.service.UserService;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
 @CrossOrigin
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/register/usernames")
     public ResponseEntity getUsernamesByPrefix(@RequestParam String prefix) {

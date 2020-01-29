@@ -42,6 +42,9 @@ class UserPanel extends React.Component {
           <Link className="account-panel__list-item" style={{display: this.state.display}} to={`/user/edit/${user.id}`}>
             Edytuj profil
           </Link>
+          <Link className="account-panel__list-item" style={{display: this.state.display}} to={`/post/${user.id}`}>
+            Poczta
+          </Link>
           <button className="account-panel__list-item" style={{display: this.state.display}} onClick={this.handleLogout}>
             Wyloguj
           </button>

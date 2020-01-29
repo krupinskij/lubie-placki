@@ -110,6 +110,33 @@ ALTER TABLE public.ingredients_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
 
 
+-- MESSAGES --
+
+DROP TABLE IF EXISTS public.messages;
+DROP SEQUENCE IF EXISTS public.messages_id_seq;
+
+CREATE TABLE public.messages (
+    id bigint NOT NULL,
+    title text NOT NULL,
+    content text NOT NULL,
+    date timestamp without time zone NOT NULL,
+    sender_id integer NOT NULL,
+    receiver_id integer NOT NULL
+);
+
+ALTER TABLE public.messages OWNER TO postgres;
+
+CREATE SEQUENCE public.messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.messages_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
+
+
 -- RATINGS --
 
 DROP TABLE IF EXISTS public.ratings;
@@ -245,6 +272,8 @@ ALTER TABLE ONLY public.hints ALTER COLUMN id SET DEFAULT nextval('public.hints_
 
 ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.ingredients_id_seq'::regclass);
 
+ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
 ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.ratings_id_seq'::regclass);
 
 ALTER TABLE ONLY public.recipe_photos ALTER COLUMN id SET DEFAULT nextval('public.recipe_photos_id_seq'::regclass);
@@ -309,11 +338,13 @@ SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.directions_id_seq', 1, false);
 
-SELECT pg_catalog.setval('public.hibernate_sequence', 284, true);
+SELECT pg_catalog.setval('public.hibernate_sequence', 286, true);
 
 SELECT pg_catalog.setval('public.hints_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.ingredients_id_seq', 1, false);
+
+SELECT pg_catalog.setval('public.messages_id_seq', 5, true);
 
 SELECT pg_catalog.setval('public.ratings_id_seq', 13, true);
 
@@ -338,6 +369,9 @@ ALTER TABLE ONLY public.hints
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
@@ -356,6 +390,7 @@ ALTER TABLE ONLY public.users
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
+
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
@@ -371,6 +406,12 @@ ALTER TABLE ONLY public.hints
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_receiver_id_fkey FOREIGN KEY (receiver_id) REFERENCES public.users(id);
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES public.users(id);
+
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
@@ -382,7 +423,6 @@ ALTER TABLE ONLY public.recipe_photos
 
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT recipes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
 
 ALTER TABLE ONLY public.tags
     ADD CONSTRAINT tags_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);

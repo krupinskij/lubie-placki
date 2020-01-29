@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {withRouter} from 'react-router-dom'
+
 class User extends React.Component {
     
     state = {
@@ -16,6 +18,10 @@ class User extends React.Component {
         })
     }
 
+    writeMessage = () => {
+        this.props.history.push("/write/" + this.props.user.id)
+    }
+
 	render() {
         const user = this.props.user;
         
@@ -29,9 +35,12 @@ class User extends React.Component {
                 <div>
                     Punkty: {this.state.points}
                 </div>
+                <div>
+                    <button className="user__button" onClick={this.writeMessage}>Napisz wiadomość</button>
+                </div>
             </div>
 		)
 	}
 }
 
-export default User;
+export default withRouter(User);

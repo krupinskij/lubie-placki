@@ -722,3 +722,45 @@ body {
 .form__photo {
   width: 100%;
 }
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mini-message {
+  width: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid black;
+  margin: 3px;
+  padding: 10px;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.message__title {
+  font-size: 150%;
+}
+
+.message__date {
+  font-size: 75%;
+  font-weight: lighter;
+}
+
+.message__user {
+  font-size: 70%;
+  color: gray;
+}
+
+.message__content {
+  margin: 20px 10px;
+  padding: 10px;
+  font-size: 100%;
+  background-color: rgb(240, 240, 240);
+  border-radius: 10px;
+}

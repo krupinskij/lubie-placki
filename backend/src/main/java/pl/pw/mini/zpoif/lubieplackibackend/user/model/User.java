@@ -2,6 +2,7 @@ package pl.pw.mini.zpoif.lubieplackibackend.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
+import pl.pw.mini.zpoif.lubieplackibackend.message.model.Message;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Rating;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 
@@ -37,6 +38,14 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "sender")
+    @JsonIgnore
+    private List<Message> sended_messages;
+
+    @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
+    private List<Message> received_messages;
 
     public User() {
     }
@@ -95,5 +104,21 @@ public class User implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<Message> getSended_messages() {
+        return sended_messages;
+    }
+
+    public void setSended_messages(List<Message> sended_messages) {
+        this.sended_messages = sended_messages;
+    }
+
+    public List<Message> getReceived_messages() {
+        return received_messages;
+    }
+
+    public void setReceived_messages(List<Message> received_messages) {
+        this.received_messages = received_messages;
     }
 }
