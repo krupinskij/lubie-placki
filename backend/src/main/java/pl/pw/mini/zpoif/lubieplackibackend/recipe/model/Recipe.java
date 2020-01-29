@@ -32,20 +32,19 @@ public class Recipe implements Serializable {
     private LocalDateTime add_date;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="recipe")
     private List<Ingredient> ingredients;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="recipe")
     private List<Direction> directions;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="recipe")
     private List<Hint> hints;
 
-    @OneToOne(mappedBy = "recipe")
     @JsonIgnore
-    private RecipePhoto recipe_photo;
+    private byte[] photo;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -127,12 +126,12 @@ public class Recipe implements Serializable {
         this.hints = hints;
     }
 
-    public RecipePhoto getRecipe_photo() {
-        return recipe_photo;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-    public void setRecipe_photo(RecipePhoto recipe_photo) {
-        this.recipe_photo = recipe_photo;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     public User getUser() {

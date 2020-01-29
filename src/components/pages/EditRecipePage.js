@@ -3,71 +3,98 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { addRecipe } from '../../redux/actions/recipeActions/addRecipeActions';
-import { addIngredients } from '../../redux/actions/recipeActions/addIngredientsActions';
-import { addDirections } from '../../redux/actions/recipeActions/addDirectionsActions';
-import { addHints } from '../../redux/actions/recipeActions/addHintsActions';
-import { addPhoto } from '../../redux/actions/recipeActions/addPhotoActions';
+import { updateRecipe } from '../../redux/actions/recipeActions/updateRecipeActions';
+import { updateIngredients } from '../../redux/actions/recipeActions/updateIngredientsActions';
+import { updateDirections } from '../../redux/actions/recipeActions/updateDirectionsActions';
+import { updateHints } from '../../redux/actions/recipeActions/updateHintsActions';
+import { updatePhoto } from '../../redux/actions/recipeActions/updatePhotoActions';
 
-import { 
+import {
 	required,
 	nonBlank,
-	isNumber,
-	isFile
+	isNumber
 } from '../../validation/requirements';
 import { validate, canSubmit } from '../../validation/validator';
 
 
 
-class AddPage extends React.Component {
+class EditRecipePage extends React.Component {
 
 	state = {
 		title: "",
-		titleValid: { 
-            isValid: false,
-            message: "To pole nie może być puste"
+		titleValid: {
+			isValid: true
 		},
-		
+
 		description: "",
 
 		type: "",
 
-		ingredients: [
-			{
-				key: Math.random(),
-				name: "",
-				quantity: "",
-				unit: ""
-			}
-		],
-		ingredientsValid: { 
-            isValid: false,
-            message: "Wypełnij wszystkie pola"
-        },
+		ingredients: [],
 
-		directions: [
-			{
-				key: Math.random(),
-				text: ""
-			}
-		],
-		directionsValid: { 
-            isValid: false,
-            message: "Wypełnij wszystkie pola"
+		ingredientsValid: {
+			isValid: true
 		},
-		
+
+		directions: [],
+		directionsValid: {
+			isValid: true
+		},
+
 		hints: [],
-		hintsValid: { 
-            isValid: true
-        },
+		hintsValid: {
+			isValid: true
+		},
 
 		photo: "",
-		photoValid: { 
-            isValid: false,
-            message: "Dodaj zdjęcie"
-		},
-		
-		toSubmit: false
+
+		toSubmit: true
+	}
+
+	componentDidMount = () => {
+		const id = this.props.match.params.id;
+
+		fetch("http://localhost:3004/recipes/" + id)
+			.then(resp => resp.json())
+			.then(resp => {
+
+				const title = resp.title;
+				const description = resp.description;
+				const type = resp.type;
+
+				const ingredients = resp.ingredients.map(i => {
+					return {
+						key: i.id,
+						name: i.name,
+						quantity: i.quantity,
+						unit: i.unit
+					}
+				})
+
+				const directions = resp.directions.map(d => {
+					return {
+						key: d.id,
+						text: d.text
+					}
+				})
+
+				const hints = resp.hints.map(h => {
+					return {
+						key: h.id,
+						text: h.text
+					}
+				})
+
+				this.setState({
+					id,
+					title,
+					description,
+					type,
+					ingredients,
+					directions,
+					hints
+				})
+			})
 	}
 
 	//#region Title
@@ -82,7 +109,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			valid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -129,42 +155,15 @@ class AddPage extends React.Component {
 		const target = event.target;
 		const value = target.files[0];
 
-		const valid = validate(
-			isFile(value)
-		)
-
-		const toSubmit = canSubmit(
-			this.state.titleValid,
-			valid,
-			this.state.ingredientsValid,
-			this.state.directionsValid,
-			this.state.hintsValid
-		)
-
 		this.setState({
 			photo: value,
-			photoValid: valid,
-			toSubmit
 		})
 	}
 
 	deleteImage = event => {
-		const valid = validate(
-			required("")
-		)
-
-		const toSubmit = canSubmit(
-			this.state.titleValid,
-			valid,
-			this.state.ingredientsValid,
-			this.state.directionsValid,
-			this.state.hintsValid
-		)
 
 		this.setState({
-			photo: "",
-			photoValid: valid,
-			toSubmit
+			photo: ""
 		})
 	}
 
@@ -176,7 +175,7 @@ class AddPage extends React.Component {
 		event.preventDefault();
 
 		const ingredients = [...this.state.ingredients, { key: Math.random(), name: "", quantity: "", unit: "" }];
-		
+
 		const valid = validate(
 			nonBlank(ingredients, 3)
 		)
@@ -208,7 +207,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -235,7 +233,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -263,7 +260,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -290,7 +286,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -311,14 +306,13 @@ class AddPage extends React.Component {
 		event.preventDefault();
 
 		const directions = [...this.state.directions, { key: Math.random(), text: "" }];
-		
+
 		const valid = validate(
 			nonBlank(directions, 1)
 		)
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			valid,
 			this.state.hintsValid
@@ -333,17 +327,16 @@ class AddPage extends React.Component {
 
 	deleteDirection = (event, index) => {
 		event.preventDefault();
-		
+
 		const directions = this.state.directions;
 		directions.splice(index, 1);
-		
+
 		const valid = validate(
 			nonBlank(directions, 1)
 		)
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			valid,
 			this.state.hintsValid
@@ -370,7 +363,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			valid,
 			this.state.hintsValid
@@ -391,14 +383,13 @@ class AddPage extends React.Component {
 		event.preventDefault();
 
 		const hints = [...this.state.hints, { key: Math.random(), text: "" }];
-		
+
 		const valid = validate(
 			nonBlank(hints, 1)
 		)
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			valid
@@ -413,17 +404,16 @@ class AddPage extends React.Component {
 
 	deleteHint = (event, index) => {
 		event.preventDefault();
-		
+
 		const hints = this.state.hints;
 		hints.splice(index, 1);
-		
+
 		const valid = validate(
 			nonBlank(hints, 1)
 		)
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			valid
@@ -450,7 +440,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			valid
@@ -473,11 +462,10 @@ class AddPage extends React.Component {
 		const recipe = {
 			title: this.state.title,
 			description: this.state.description,
-			type: this.state.type,
-			photo: null
+			type: this.state.type
 		}
 
-		const ingredients = this.state.ingredients.map(i => { 
+		const ingredients = this.state.ingredients.map(i => {
 			return {
 				name: i.name,
 				quantity: i.quantity,
@@ -485,11 +473,11 @@ class AddPage extends React.Component {
 			}
 		});
 
-		const directions = this.state.directions.map((d, i) => { 
-			return { 
+		const directions = this.state.directions.map((d, i) => {
+			return {
 				text: d.text,
-				direction_order: i 
-			} 
+				direction_order: i
+			}
 		});
 
 		const hints = this.state.hints.map(h => {
@@ -500,18 +488,30 @@ class AddPage extends React.Component {
 
 		const photo = this.state.photo;
 
-		this.props.addRecipe(this.props.user.id, recipe)
-		.then(resp => {
-			return Promise.all([
-				this.props.addIngredients(resp.id, ingredients), 
-				this.props.addDirections(resp.id, directions), 
-				this.props.addHints(resp.id, hints), 
-				this.props.addPhoto(resp.id, photo)
+		if(photo!=="") {
+			Promise.all([
+				this.props.updateRecipe(this.state.id, recipe),
+				this.props.updateIngredients(this.state.id, ingredients),
+				this.props.updateDirections(this.state.id, directions),
+				this.props.updateHints(this.state.id, hints),
+				this.props.updatePhoto(this.state.id, photo)
 			])
-		})
-		.then(() => {
-			this.props.history.push("/");
-		})
+				.then(() => {
+					this.props.history.push("/");
+					window.location.reload(false);
+				})
+		} else {
+			Promise.all([
+				this.props.updateRecipe(this.state.id, recipe),
+				this.props.updateIngredients(this.state.id, ingredients),
+				this.props.updateDirections(this.state.id, directions),
+				this.props.updateHints(this.state.id, hints)
+			])
+				.then(() => {
+					this.props.history.push("/");
+					window.location.reload(false);
+				})
+		}
 	}
 
 	//#endregion
@@ -525,9 +525,9 @@ class AddPage extends React.Component {
 		const ingredients = this.state.ingredients.map((a, i) => {
 			return (
 				<li className="form-ingredient" key={a.key}>
-					<input className="form-ingredient__name" type="text" onChange={(event) => { this.changeIngredientName(event, i) }} />
-					<input className="form-ingredient__quantity" type="text" onChange={(event) => { this.changeIngredientQuantity(event, i) }} />
-					<input className="form-ingredient__unit" type="text" onChange={(event) => { this.changeIngredientUnit(event, i) }} />
+					<input className="form-ingredient__name" value={a.name} type="text" onChange={(event) => { this.changeIngredientName(event, i) }} />
+					<input className="form-ingredient__quantity" value={a.quantity} type="text" onChange={(event) => { this.changeIngredientQuantity(event, i) }} />
+					<input className="form-ingredient__unit" value={a.unit} type="text" onChange={(event) => { this.changeIngredientUnit(event, i) }} />
 					<button className="form__button--delete" onClick={(event) => { this.deleteIngredient(event, i) }}>Usuń</button>
 				</li>
 			)
@@ -536,7 +536,7 @@ class AddPage extends React.Component {
 		const directions = this.state.directions.map((a, i) => {
 			return (
 				<li className="form-direction" key={a.key}>
-					<textarea className="form-direction__text" onChange={(event) => { this.changeDirectionText(event, i) }} />
+					<textarea className="form-direction__text" value={a.text} onChange={(event) => { this.changeDirectionText(event, i) }} />
 					<button className="form__button--delete" onClick={(event) => { this.deleteDirection(event, i) }}>Usuń</button>
 				</li>
 			)
@@ -545,7 +545,7 @@ class AddPage extends React.Component {
 		const hints = this.state.hints.map((a, i) => {
 			return (
 				<li className="form-hint" key={a.key}>
-					<textarea className="form-hint__text" onChange={(event) => { this.changeHintText(event, i) }} />
+					<textarea className="form-hint__text" value={a.text} onChange={(event) => { this.changeHintText(event, i) }} />
 					<button className="form__button--delete" onClick={(event) => { this.deleteHint(event, i) }}>Usuń</button>
 				</li>
 			)
@@ -558,23 +558,23 @@ class AddPage extends React.Component {
 
 					<div className="form__section">
 						<label className="form__label for__label--required" htmlFor="title">Nazwa ciasta: </label>
-						<input className="form__input" id="title" name="title" type="text" onChange={this.changeTitle} />
-						{ 
-                            !this.state.titleValid.isValid && 
-                            <span className="form__error">
-                                { this.state.titleValid.message }
-                            </span> 
-                        }
+						<input className="form__input" value={this.state.title} id="title" name="title" type="text" onChange={this.changeTitle} />
+						{
+							!this.state.titleValid.isValid &&
+							<span className="form__error">
+								{this.state.titleValid.message}
+							</span>
+						}
 					</div>
 
 					<div className="form__section">
 						<label className="form__label" htmlFor="desc">Opis: </label>
-						<textarea className="form__textarea" id="desc" name="description" onChange={this.changeDescription}></textarea>
+						<textarea className="form__textarea" value={this.state.description} id="desc" name="description" onChange={this.changeDescription}></textarea>
 					</div>
 
 					<div className="form__section form__section--inline">
 						<label className="form__label" htmlFor="type">Typ ciasta: </label>
-						<select className="form__select" name="type" onChange={this.changeValue}>
+						<select className="form__select" value={this.state.type} name="type" onChange={this.changeValue}>
 							<option className="form__option" value="makowiec">makowiec</option>
 							<option className="form__option" value="sernik">sernik</option>
 							<option className="form__option" value="piernik">piernik</option>
@@ -584,29 +584,23 @@ class AddPage extends React.Component {
 						</select>
 					</div>
 
-					<hr className="form__separator"/>
+					<hr className="form__separator" />
 
 					<div className="form__section">
 						<label className="form__label for__label--required" htmlFor="photo">Zdjęcie ciasta: </label>
 						{
 							this.state.photo === "" ?
-							<label className="form__button" htmlFor="photo">Dodaj zdjęcie
+								<label className="form__button" htmlFor="photo">Dodaj zdjęcie
 								<input className="form__file" id="photo" name="photo" type="file" onChange={this.changePhoto} />
-							</label> :
-							<div className="form__image">
-								<img className="form__image-sample" src={URL.createObjectURL(this.state.photo)} alt="sample" />
-								<button className="form__image-delete" onClick={this.deleteImage}>X</button>
-							</div>
+								</label> :
+								<div className="form__image">
+									<img className="form__image-sample" src={URL.createObjectURL(this.state.photo)} alt="sample" />
+									<button className="form__image-delete" onClick={this.deleteImage}>X</button>
+								</div>
 						}
-						{ 
-                            !this.state.photoValid.isValid && 
-                            <span className="form__error">
-                                { this.state.photoValid.message }
-                            </span> 
-                        }
 					</div>
 
-					<hr className="form__separator"/>
+					<hr className="form__separator" />
 
 					<div className="form__section">
 						<label className="form__label for__label--required">
@@ -615,15 +609,15 @@ class AddPage extends React.Component {
 						<ul>
 							{ingredients}
 						</ul>
-						{ 
-                            !this.state.ingredientsValid.isValid && 
-                            <span className="form__error">
-                                { this.state.ingredientsValid.message }
-                            </span> 
-                        }
+						{
+							!this.state.ingredientsValid.isValid &&
+							<span className="form__error">
+								{this.state.ingredientsValid.message}
+							</span>
+						}
 					</div>
 
-					<hr className="form__separator"/>
+					<hr className="form__separator" />
 
 					<div className="form__section">
 						<label className="form__label for__label--required">
@@ -632,15 +626,15 @@ class AddPage extends React.Component {
 						<ol>
 							{directions}
 						</ol>
-						{ 
-                            !this.state.directionsValid.isValid && 
-                            <span className="form__error">
-                                { this.state.directionsValid.message }
-                            </span> 
-                        }
+						{
+							!this.state.directionsValid.isValid &&
+							<span className="form__error">
+								{this.state.directionsValid.message}
+							</span>
+						}
 					</div>
 
-					<hr className="form__separator"/>
+					<hr className="form__separator" />
 
 					<div className="form__section">
 						<label className="form__label">
@@ -649,16 +643,16 @@ class AddPage extends React.Component {
 						<ul>
 							{hints}
 						</ul>
-						{ 
-                            !this.state.hintsValid.isValid && 
-                            <span className="form__error">
-                                { this.state.hintsValid.message }
-                            </span> 
-                        }
+						{
+							!this.state.hintsValid.isValid &&
+							<span className="form__error">
+								{this.state.hintsValid.message}
+							</span>
+						}
 					</div>
 
-					<input 
-						className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error" }
+					<input
+						className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error"}
 						type="submit" value="Dodaj" />
 				</form>
 			</div>
@@ -674,14 +668,14 @@ const mapStateToProps = (state /*, ownProps*/) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	addRecipe: (user_id, recipe) => dispatch(addRecipe(user_id, recipe)),
-	addIngredients: (recipe_id, ingredients) => dispatch(addIngredients(recipe_id, ingredients)),
-	addDirections: (recipe_id, directions) => dispatch(addDirections(recipe_id, directions)),
-	addHints: (recipe_id, hints) => dispatch(addHints(recipe_id, hints)),
-	addPhoto: (recipe_id, photos) => dispatch(addPhoto(recipe_id, photos))
+	updateRecipe: (recipe_id, recipe) => dispatch(updateRecipe(recipe_id, recipe)),
+	updateIngredients: (recipe_id, ingredients) => dispatch(updateIngredients(recipe_id, ingredients)),
+	updateDirections: (recipe_id, directions) => dispatch(updateDirections(recipe_id, directions)),
+	updateHints: (recipe_id, hints) => dispatch(updateHints(recipe_id, hints)),
+	updatePhoto: (recipe_id, photos) => dispatch(updatePhoto(recipe_id, photos))
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(AddPage))
+)(withRouter(EditRecipePage))

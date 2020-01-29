@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { logoutUser } from '../../redux/actions/logoutActions';
+import { logoutUser } from '../../redux/actions/userActions/logoutActions';
 
 class UserPanel extends React.Component {
 
@@ -39,7 +39,7 @@ class UserPanel extends React.Component {
           <Link className="account-panel__list-item" style={{display: this.state.display}} to={`/user/${user.id}`}>
             Twój profil
           </Link>
-          <Link className="account-panel__list-item" style={{display: this.state.display}} to={`/edit/${user.id}`}>
+          <Link className="account-panel__list-item" style={{display: this.state.display}} to={`/user/edit/${user.id}`}>
             Edytuj profil
           </Link>
           <button className="account-panel__list-item" style={{display: this.state.display}} onClick={this.handleLogout}>

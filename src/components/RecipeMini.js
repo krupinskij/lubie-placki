@@ -36,12 +36,12 @@ class RecipeMini extends React.Component {
                         this.props.user!==null && this.props.user.id===recipe.user.id &&
                         <>
                             <button className="recipe__delete" onClick={ this.handleDelete }>Usuń</button>
-                            <button className="recipe__edit">Edytuj</button>
+                            <Link className="recipe__edit" to={"/edit/" + recipe.id}>Edytuj</Link>
                         </>
                     }
                 </div>
 
-                <img className="recipe__photo" src={`http://localhost:3004/recipes/recipephotos/${recipe.id}`} alt={recipe.title} />
+                <img className="recipe__photo" src={`http://localhost:3004/recipes/${recipe.id}/photo`} alt={recipe.title} />
                 
                 <div className="recipe__section">
                     {recipe.description}

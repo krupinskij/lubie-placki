@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom'
 
 import history from '../../helpers/history'
 
-import { editUser } from '../../redux/actions/editUserActions'
-import { editAvatar } from '../../redux/actions/editAvatarActions'
+import { editUser } from '../../redux/actions/userActions/editUserActions'
+import { editAvatar } from '../../redux/actions/userActions/editAvatarActions'
 
 import {
     required
@@ -31,6 +31,8 @@ class EditUserPage extends React.Component {
         if(this.props.user===null) this.props.history.push("/");
         
         const id = this.props.match.params.id;
+
+        if(this.props.user.id != id) this.props.history.push("/");
 
         fetch("http://localhost:3004/users/" + id)
             .then(resp => resp.json())
@@ -136,7 +138,7 @@ class EditUserPage extends React.Component {
 								<input className="form__file" id="photo" name="photo" type="file" onChange={this.handlePhotoChange} />
                                 </label> :
                                 <div className="form__image">
-                                    <img className="form__image-sample" src={URL.createObjectURL(this.state.photo)} />
+                                    <img className="form__image-sample" src={URL.createObjectURL(this.state.photo)} alt="sample" />
                                     <button className="form__image-delete" onClick={this.handlePhotoDelete}>X</button>
                                 </div>
                         }

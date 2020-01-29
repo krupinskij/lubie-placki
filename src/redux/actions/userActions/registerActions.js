@@ -2,11 +2,11 @@ import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     REGISTER_ERROR
-} from '../constants/userConstants';
+} from '../../constants/userConstants';
 
-import history from '../../helpers/history';
+import history from '../../../helpers/history';
 
-export const registerUser = (user, avatar) => {
+export const registerUser = (user) => {
     return dispatch => {
         dispatch(registerRequest())
         return fetch('http://localhost:3004/users/register', {
@@ -16,37 +16,27 @@ export const registerUser = (user, avatar) => {
             },
             body: JSON.stringify(user)
         })
-        .then(resp => resp.json())
-        .then(resp => {
+            .then(resp => resp.json())
+            .then(resp => {
 
-            if(resp.status===401) {
-                throw new Error(resp.message)
-            }
-            else if(resp.status && resp.status!==200) {
-                throw new Error("Wystąpił nieznany błąd!");
-            }
+                if (resp.status === 401) {
+                    throw new Error(resp.message)
+                }
+                else if (resp.status && resp.status !== 200) {
+                    throw new Error("Wystąpił nieznany błąd!");
+                }
 
-            fetch('http://localhost:3004/users/' + resp.id + '/photo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'image/jpeg'
-                },
-                body: JSON.stringify(avatar)
-            })
-            .then(r => {
-                console.log(r);
                 dispatch(registerSuccess(resp));
                 localStorage.setItem('user', JSON.stringify(resp));
-                
+
                 history.push("/");
                 window.location.reload(false);
-            })
 
-            
-        })
-        .catch(error => {
-            dispatch(registerError(error.message))
-        })
+
+            })
+            .catch(error => {
+                dispatch(registerError(error.message))
+            })
     }
 }
 

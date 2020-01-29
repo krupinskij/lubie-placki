@@ -223,6 +223,7 @@ body {
   border: 0;
   margin: auto 5px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .recipe__edit {
@@ -231,6 +232,7 @@ body {
   border: 0;
   margin: auto 5px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .recipe__photo {

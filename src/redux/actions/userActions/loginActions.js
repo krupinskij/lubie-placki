@@ -1,18 +1,20 @@
 import {
-    EDIT_REQUEST,
-    EDIT_SUCCESS,
-    EDIT_ERROR
-} from '../constants/userConstants';
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR
+} from '../../constants/userConstants';
 
-export const editUser = (id, username) => {
+import history from '../../../helpers/history'
+
+export const loginUser = (user) => {
     return dispatch => {
-        dispatch(editRequest())
-        return fetch("http://localhost:3004/users/" + id + "/username", {
-            method: 'PUT',
+        dispatch(loginRequest())
+        return fetch('http://localhost:3004/users/login', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: username
+            body: JSON.stringify(user)
         })
             .then(resp => resp.json())
             .then(resp => {
@@ -24,33 +26,36 @@ export const editUser = (id, username) => {
                     throw new Error("Wystąpił nieznany błąd!");
                 }
 
-                dispatch(editSuccess(resp));
+                dispatch(loginSuccess(resp));
                 localStorage.setItem('user', JSON.stringify(resp));
+
+                history.push("/");
+                window.location.reload(false);
             })
             .catch(error => {
-                dispatch(editError(error.message))
+                dispatch(loginError(error.message))
             })
     }
 }
 
-const editRequest = () => {
+const loginRequest = () => {
     return {
-        type: EDIT_REQUEST
+        type: LOGIN_REQUEST
     }
 }
 
-const editSuccess = user => {
+const loginSuccess = user => {
     return {
-        type: EDIT_SUCCESS,
+        type: LOGIN_SUCCESS,
         payload: {
             user
         }
     };
 }
 
-const editError = error => {
+const loginError = error => {
     return {
-        type: EDIT_ERROR,
+        type: LOGIN_ERROR,
         payload: {
             error
         }

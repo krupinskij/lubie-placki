@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { registerUser } from '../../redux/actions/registerActions'
+import { registerUser } from '../../redux/actions/userActions/registerActions'
 
 import { 
     required, 
     minLength, 
-    confirmPassword,
-    uniqueUsername
+    confirmPassword//,
+    //uniqueUsername
 } from '../../validation/requirements';
 import { validate, canSubmit } from '../../validation/validator';
 

@@ -1,8 +1,8 @@
 import { 
     LOGOUT_REQUEST 
-} from '../constants/userConstants';
+} from '../../constants/userConstants';
 
-import history from '../../helpers/history';
+import history from '../../../helpers/history';
 
 export const logoutUser = () => {
     localStorage.removeItem('user');

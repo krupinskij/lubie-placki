@@ -2,10 +2,10 @@ import validator from 'validator';
 
 export function required(value) {
     if(validator.isEmpty(value.trim())) {
-        return {
-            isValid: false,
-            message: "To pole jest wymagane!"
-        }
+       return {
+           isValid: false,
+           message: "To pole jest wymagane!"
+       }
     }
 
     return { isValid: true }
@@ -58,7 +58,6 @@ export function uniqueUsername(value, prefix, usernames) {
             return { isValid: true }
         });
     } else {
-        console.log(usernames + " to na dole")
         if(checkIfExist(usernames, value)) {
             return {
                 isValid: false,
@@ -87,8 +86,7 @@ export function nonBlank(array, length) {
     for(const elem of array) {
         for(const i in elem) {
             if(i==="key") continue;
-
-            if(validator.isEmpty(elem[i].trim())) {
+            if(validator.isEmpty(String(elem[i]).trim())) {
                 return {
                     isValid: false,
                     message: "Wypełnij wszystkie pola"

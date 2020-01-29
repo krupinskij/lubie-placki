@@ -19,6 +19,7 @@ import RegisterPage from './components/pages/RegisterPage';
 
 import UserPage from './components/pages/UserPage';
 import EditUserPage from './components/pages/EditUserPage';
+import EditRecipePage from './components/pages/EditRecipePage';
 
 const store = createStore(rootReducer, applyMiddleware(reduxLogger, reduxThunk))
 
@@ -38,8 +39,10 @@ class App extends React.Component {
 						<Route path="/login" component={LoginPage} />
 						<Route path="/register" component={RegisterPage} />
 
-						<Route path="/user/:id" component={UserPage} />
-						<Route path="/edit/:id" component={EditUserPage} />
+						<Route exact path="/user/:id" component={UserPage} />
+						<Route path="/user/edit/:id" component={EditUserPage} />
+
+						<Route path="/edit/:id" component={EditRecipePage} />
 					</div>
 				</BrowserRouter>
 			</Provider>
