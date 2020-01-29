@@ -18,6 +18,10 @@ export const ADD_HINTS_REQUEST = 'Recipe/ADD_HINTS_REQUEST';
 export const ADD_HINTS_SUCCESS = 'Recipe/ADD_HINTS_SUCCESS';
 export const ADD_HINTS_ERROR = 'Recipe/ADD_HINTS_ERROR';
 
+export const ADD_TAGS_REQUEST = 'Recipe/ADD_TAGS_REQUEST';
+export const ADD_TAGS_SUCCESS = 'Recipe/ADD_TAGS_SUCCESS';
+export const ADD_TAGS_ERROR = 'Recipe/ADD_TAGS_ERROR';
+
 
 export const UPDATE_RECIPE_REQUEST = 'Recipe/UPDATE_RECIPE_REQUEST';
 export const UPDATE_RECIPE_SUCCESS = 'Recipe/UPDATE_RECIPE_SUCCESS';

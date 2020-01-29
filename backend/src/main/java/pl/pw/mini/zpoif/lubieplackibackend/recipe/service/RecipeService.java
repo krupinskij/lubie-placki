@@ -22,6 +22,7 @@ public interface RecipeService {
     List<Direction> saveAllDirectionsByRecipeId(Long recipe_id, List<Direction> directions);
     List<Hint> saveAllHintsByRecipeId(Long recipe_id, List<Hint> hints);
     Recipe saveRecipePhotoByRecipeId(Long recipe_id, byte[] photo);
+    List<Tag> saveTagsByRecipeId(Long recipe_id, String tags);
 
     // -- update recipe -- //
 
@@ -40,4 +41,6 @@ public interface RecipeService {
     Integer getRatingByUserId(Long recipe_id, Long user_id);
     Double[] getRatingsByRecipeId(Long recipe_id);
     List<Rating> getRatings();
+
+    List<Recipe> getRecipesByTag(String s);
 }

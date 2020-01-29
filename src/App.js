@@ -21,6 +21,8 @@ import UserPage from './components/pages/UserPage';
 import EditUserPage from './components/pages/EditUserPage';
 import EditRecipePage from './components/pages/EditRecipePage';
 
+import SearchPage from './components/pages/SearchPage';
+
 const store = createStore(rootReducer, applyMiddleware(reduxLogger, reduxThunk))
 
 class App extends React.Component {
@@ -43,6 +45,8 @@ class App extends React.Component {
 						<Route path="/user/edit/:id" component={EditUserPage} />
 
 						<Route path="/edit/:id" component={EditRecipePage} />
+
+						<Route path="/search" component={SearchPage} />
 					</div>
 				</BrowserRouter>
 			</Provider>

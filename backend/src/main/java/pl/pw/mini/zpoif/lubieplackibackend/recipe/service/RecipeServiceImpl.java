@@ -25,6 +25,7 @@ public class RecipeServiceImpl implements RecipeService {
     private DirectionRepository directionRepository;
     private HintRepository hintRepository;
     private RatingRepository ratingRepository;
+    private TagRepository tagRepository;
 
     ///
 
@@ -37,6 +38,7 @@ public class RecipeServiceImpl implements RecipeService {
             DirectionRepository directionRepository,
             HintRepository hintRepository,
             RatingRepository ratingRepository,
+            TagRepository tagRepository,
             UserRepository userRepository
     ){
 
@@ -46,8 +48,9 @@ public class RecipeServiceImpl implements RecipeService {
         this.directionRepository = directionRepository;
         this.hintRepository = hintRepository;
 
-
         this.ratingRepository = ratingRepository;
+
+        this.tagRepository = tagRepository;
 
         ///
 
@@ -220,6 +223,22 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public List<Tag> saveTagsByRecipeId(Long recipe_id, String tags) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+
+        String[] array = tags.substring(1).split("#");
+        for(String text : array) {
+
+            Tag tag = new Tag();
+            tag.setText(text.trim());
+            tag.setRecipe(recipe);
+            tagRepository.save(tag);
+        }
+
+        return recipe.getTags();
+    }
+
+    @Override
     public void deleteRecipe(Long id) {
         Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
@@ -302,6 +321,18 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Rating> getRatings() {
         return ratingRepository.findAll();
+    }
+
+    @Override
+    public List<Recipe> getRecipesByTag(String s) {
+        if(s==null || s.equals("")) return recipeRepository.findAll().stream()
+                .sorted(Comparator.comparing(Recipe::getAdd_date).reversed())
+                .collect(Collectors.toList());
+
+        return tagRepository.findByText(s).stream()
+                .map(Tag::getRecipe)
+                .sorted(Comparator.comparing(Recipe::getAdd_date).reversed())
+                .collect(Collectors.toList());
     }
 
 

@@ -8,6 +8,7 @@ import { addIngredients } from '../../redux/actions/recipeActions/addIngredients
 import { addDirections } from '../../redux/actions/recipeActions/addDirectionsActions';
 import { addHints } from '../../redux/actions/recipeActions/addHintsActions';
 import { addPhoto } from '../../redux/actions/recipeActions/addPhotoActions';
+import { addTags } from '../../redux/actions/recipeActions/addTagsActions';
 
 import { 
 	required,
@@ -66,6 +67,8 @@ class AddPage extends React.Component {
             isValid: false,
             message: "Dodaj zdjęcie"
 		},
+
+		tags: "",
 		
 		toSubmit: false
 	}
@@ -500,17 +503,33 @@ class AddPage extends React.Component {
 
 		const photo = this.state.photo;
 
+		const tags = this.state.tags;
+
 		this.props.addRecipe(this.props.user.id, recipe)
 		.then(resp => {
 			return Promise.all([
 				this.props.addIngredients(resp.id, ingredients), 
 				this.props.addDirections(resp.id, directions), 
 				this.props.addHints(resp.id, hints), 
-				this.props.addPhoto(resp.id, photo)
+				this.props.addPhoto(resp.id, photo),
+				this.props.addTags(resp.id, tags)
 			])
 		})
 		.then(() => {
 			this.props.history.push("/");
+		})
+	}
+
+	//#endregion
+
+	//#region Tags
+
+	changeTags = event => {
+		const target = event.target;
+		const value = target.value;
+
+		this.setState({
+			tags: value
 		})
 	}
 
@@ -657,6 +676,13 @@ class AddPage extends React.Component {
                         }
 					</div>
 
+					<hr className="form__separator"/>
+
+					<div className="form__section">
+						<label className="form__label" htmlFor="tags">Słowa kluczowe: </label>
+						<input className="form__input" id="tags" name="tags" type="text" onChange={this.changeTags} />
+					</div>
+
 					<input 
 						className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error" }
 						type="submit" value="Dodaj" />
@@ -678,7 +704,8 @@ const mapDispatchToProps = (dispatch) => ({
 	addIngredients: (recipe_id, ingredients) => dispatch(addIngredients(recipe_id, ingredients)),
 	addDirections: (recipe_id, directions) => dispatch(addDirections(recipe_id, directions)),
 	addHints: (recipe_id, hints) => dispatch(addHints(recipe_id, hints)),
-	addPhoto: (recipe_id, photos) => dispatch(addPhoto(recipe_id, photos))
+	addPhoto: (recipe_id, photos) => dispatch(addPhoto(recipe_id, photos)),
+	addTags: (recipe_id, tags) => dispatch(addTags(recipe_id, tags))
 })
 
 export default connect(

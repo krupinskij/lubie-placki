@@ -82,6 +82,11 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.saveRecipePhotoByRecipeId(recipe_id, photo));
     }
 
+    @PostMapping(path = "/{recipe_id}/tags")
+    public ResponseEntity saveTagsByRecipeId(@PathVariable Long recipe_id, @RequestBody String tags) {
+        return ResponseEntity.ok(recipeService.saveTagsByRecipeId(recipe_id, tags));
+    }
+
     @PutMapping(path = "/{recipe_id}")
     public ResponseEntity updateRecipeByRecipeId(@PathVariable Long recipe_id, @RequestBody Recipe recipe) {
         return ResponseEntity.ok(recipeService.updateRecipeByRecipeId(recipe_id, recipe));
@@ -138,6 +143,11 @@ public class RecipeController {
     @GetMapping(path = "/ratings")
     public ResponseEntity getRatings() {
         return ResponseEntity.ok(recipeService.getRatings());
+    }
+
+    @GetMapping(path = "/search")
+    public ResponseEntity getRecipesByTag(@RequestParam(required = false) String s) {
+        return ResponseEntity.ok(recipeService.getRecipesByTag(s));
     }
 
 }

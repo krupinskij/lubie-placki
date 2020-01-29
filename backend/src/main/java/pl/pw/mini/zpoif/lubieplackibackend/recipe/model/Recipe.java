@@ -46,6 +46,10 @@ public class Recipe implements Serializable {
     @JsonIgnore
     private byte[] photo;
 
+    @ElementCollection
+    @OneToMany(mappedBy="recipe")
+    private List<Tag> tags;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -132,6 +136,14 @@ public class Recipe implements Serializable {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public User getUser() {
