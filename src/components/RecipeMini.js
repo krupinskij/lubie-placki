@@ -11,7 +11,7 @@ import history from '../helpers/history';
 class RecipeMini extends React.Component {
 
     handleDelete = event => {
-        fetch("http://localhost:3004/recipes/"+this.props.recipe.id,{
+        fetch("http://localhost:3004/recipes/" + this.props.recipe.id,{
             method: 'DELETE',
           })
           .then(() => {

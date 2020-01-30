@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import pl.pw.mini.zpoif.lubieplackibackend.comment.repository.CommentRepository;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Ingredient;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Rating;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
@@ -35,6 +36,7 @@ class RecipeControllerTest {
     private TagRepository tagRepository;
     private RecipePhotoRepository recipePhotoRepository;
     private UserRepository userRepository;
+    private CommentRepository commentRepository;
 
 
     @Test
@@ -49,6 +51,7 @@ class RecipeControllerTest {
         tagRepository = Mockito.mock(TagRepository.class);
         recipePhotoRepository = Mockito.mock(RecipePhotoRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
+        commentRepository = Mockito.mock(CommentRepository.class);
         recipeService = new RecipeServiceImpl(
                 recipeRepository,
                 ingredientRepository,
@@ -57,7 +60,8 @@ class RecipeControllerTest {
                 ratingRepository,
                 tagRepository,
                 recipePhotoRepository,
-                userRepository);
+                userRepository,
+                commentRepository);
 
         Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
 
@@ -83,6 +87,7 @@ class RecipeControllerTest {
         tagRepository = Mockito.mock(TagRepository.class);
         recipePhotoRepository = Mockito.mock(RecipePhotoRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
+        commentRepository = Mockito.mock(CommentRepository.class);
         recipeService = new RecipeServiceImpl(
                 recipeRepository,
                 ingredientRepository,
@@ -91,7 +96,8 @@ class RecipeControllerTest {
                 ratingRepository,
                 tagRepository,
                 recipePhotoRepository,
-                userRepository);
+                userRepository,
+                commentRepository);
 
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
         Mockito.when(recipeRepository.findByUser(Mockito.any())).thenReturn(recipes);
@@ -115,6 +121,7 @@ class RecipeControllerTest {
         tagRepository = Mockito.mock(TagRepository.class);
         recipePhotoRepository = Mockito.mock(RecipePhotoRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
+        commentRepository = Mockito.mock(CommentRepository.class);
         recipeService = new RecipeServiceImpl(
                 recipeRepository,
                 ingredientRepository,
@@ -123,7 +130,8 @@ class RecipeControllerTest {
                 ratingRepository,
                 tagRepository,
                 recipePhotoRepository,
-                userRepository);
+                userRepository,
+                commentRepository);
 
         Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
         Mockito.when(ingredientRepository.save(Mockito.any())).thenReturn(Mockito.any());
@@ -150,6 +158,7 @@ class RecipeControllerTest {
         tagRepository = Mockito.mock(TagRepository.class);
         recipePhotoRepository = Mockito.mock(RecipePhotoRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
+        commentRepository = Mockito.mock(CommentRepository.class);
         recipeService = new RecipeServiceImpl(
                 recipeRepository,
                 ingredientRepository,
@@ -158,7 +167,8 @@ class RecipeControllerTest {
                 ratingRepository,
                 tagRepository,
                 recipePhotoRepository,
-                userRepository);
+                userRepository,
+                commentRepository);
 
         Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe1));
         Mockito.when(recipeRepository.save(Mockito.any())).thenReturn(recipe1);
@@ -184,6 +194,7 @@ class RecipeControllerTest {
         tagRepository = Mockito.mock(TagRepository.class);
         recipePhotoRepository = Mockito.mock(RecipePhotoRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
+        commentRepository = Mockito.mock(CommentRepository.class);
         recipeService = new RecipeServiceImpl(
                 recipeRepository,
                 ingredientRepository,
@@ -192,7 +203,8 @@ class RecipeControllerTest {
                 ratingRepository,
                 tagRepository,
                 recipePhotoRepository,
-                userRepository);
+                userRepository,
+                commentRepository);
 
         Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
 

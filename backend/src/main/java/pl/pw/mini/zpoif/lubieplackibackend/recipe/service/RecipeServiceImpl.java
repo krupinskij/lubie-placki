@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
+import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
+import pl.pw.mini.zpoif.lubieplackibackend.comment.repository.CommentRepository;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RatingNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipePhotoNotFoundException;
@@ -29,6 +31,7 @@ public class RecipeServiceImpl implements RecipeService {
     private TagRepository tagRepository;
     private RecipePhotoRepository recipePhotoRepository;
     private UserRepository userRepository;
+    private CommentRepository commentRepository;
 
     public RecipeServiceImpl(
             RecipeRepository recipeRepository,
@@ -38,7 +41,8 @@ public class RecipeServiceImpl implements RecipeService {
             RatingRepository ratingRepository,
             TagRepository tagRepository,
             RecipePhotoRepository recipePhotoRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            CommentRepository commentRepository
     ){
 
         this.recipeRepository = recipeRepository;
@@ -54,6 +58,8 @@ public class RecipeServiceImpl implements RecipeService {
         this.recipePhotoRepository = recipePhotoRepository;
 
         this.userRepository = userRepository;
+
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -239,6 +245,22 @@ public class RecipeServiceImpl implements RecipeService {
     public void deleteRecipe(Long id) {
         Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
 
+        for(Rating rating : recipe.getRatings()) {
+            ratingRepository.delete(rating);
+        }
+
+        for(Comment comment: recipe.getComments()) {
+            commentRepository.delete(comment);
+        }
+
+        for(RecipePhoto recipePhoto : recipe.getRecipePhotos()) {
+            recipePhotoRepository.delete(recipePhoto);
+        }
+
+        for(Tag tag: recipe.getTags()) {
+            tagRepository.delete(tag);
+        }
+
         for(Direction direction : recipe.getDirections()) {
             directionRepository.delete(direction);
         }
@@ -250,6 +272,7 @@ public class RecipeServiceImpl implements RecipeService {
         for(Hint hint : recipe.getHints()) {
             hintRepository.delete(hint);
         }
+
         recipeRepository.delete(recipe);
     }
 
