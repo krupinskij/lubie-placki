@@ -23,7 +23,6 @@ public class CommentServiceImpl implements CommentService {
     private UserRepository userRepository;
     private RecipeRepository recipeRepository;
 
-    @Autowired
     public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository, RecipeRepository recipeRepository) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
@@ -54,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
 
         Comment comment = new Comment();
-        comment.setText(text.substring(1, text.length()-1));
+        comment.setText(text);
         comment.setAdd_date(LocalDateTime.now());
         comment.setPoints(0);
         comment.setUser(user);
@@ -74,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment updateComment(Long id, String text) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
 
-        comment.setText(text.substring(1, text.length()-1));
+        comment.setText(text);
         return commentRepository.save(comment);
     }
 

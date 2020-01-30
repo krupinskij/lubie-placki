@@ -27,7 +27,7 @@ class CommentsList extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(text)
+            body: text
         })
         .then(this.componentDidMount);
     }
@@ -45,7 +45,7 @@ class CommentsList extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(text)
+            body: text
         })
         .then(this.componentDidMount);
     }

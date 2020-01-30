@@ -3,10 +3,7 @@ package pl.pw.mini.zpoif.lubieplackibackend.comment.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
 import pl.pw.mini.zpoif.lubieplackibackend.comment.service.CommentService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/comments")

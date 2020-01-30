@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -28,12 +27,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getUsernamesByPrefix(String prefix) {
 
-        List<String> usernames = userRepository.findAll().stream()
-                .map(user -> user.getUsername())
+        return userRepository.findAll().stream()
+                .map(User::getUsername)
                 .filter(username -> username.startsWith(prefix))
                 .collect(Collectors.toList());
-
-        return usernames;
     }
 
     @Override

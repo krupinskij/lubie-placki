@@ -28,12 +28,8 @@ public class RecipeServiceImpl implements RecipeService {
     private RatingRepository ratingRepository;
     private TagRepository tagRepository;
     private RecipePhotoRepository recipePhotoRepository;
-
-    ///
-
     private UserRepository userRepository;
 
-    @Autowired
     public RecipeServiceImpl(
             RecipeRepository recipeRepository,
             IngredientRepository ingredientRepository,
@@ -103,9 +99,7 @@ public class RecipeServiceImpl implements RecipeService {
         List<Recipe> recipes = recipeRepository.findAll();
         Random random = new Random();
 
-        Long id = recipes.get(random.nextInt(recipes.size())).getId();
-
-        return id;
+        return recipes.get(random.nextInt(recipes.size())).getId();
     }
 
     @Override
