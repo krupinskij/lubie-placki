@@ -245,8 +245,6 @@ ALTER TABLE ONLY public.hints ALTER COLUMN id SET DEFAULT nextval('public.hints_
 
 ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.ingredients_id_seq'::regclass);
 
-ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
-
 ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.ratings_id_seq'::regclass);
 
 ALTER TABLE ONLY public.recipe_photos ALTER COLUMN id SET DEFAULT nextval('public.recipe_photos_id_seq'::regclass);
@@ -317,8 +315,6 @@ SELECT pg_catalog.setval('public.hints_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.ingredients_id_seq', 1, false);
 
-SELECT pg_catalog.setval('public.messages_id_seq', 5, true);
-
 SELECT pg_catalog.setval('public.ratings_id_seq', 13, true);
 
 SELECT pg_catalog.setval('public.recipe_photos_id_seq', 1, false);
@@ -341,9 +337,6 @@ ALTER TABLE ONLY public.hints
 
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
-
-ALTER TABLE ONLY public.messages
-    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
@@ -378,12 +371,6 @@ ALTER TABLE ONLY public.hints
 
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
-
-ALTER TABLE ONLY public.messages
-    ADD CONSTRAINT messages_receiver_id_fkey FOREIGN KEY (receiver_id) REFERENCES public.users(id);
-
-ALTER TABLE ONLY public.messages
-    ADD CONSTRAINT messages_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES public.users(id);
 
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);

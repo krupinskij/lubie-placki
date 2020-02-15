@@ -139,7 +139,7 @@ class RegisterPage extends React.Component {
 						<input className="form__input" id="username" name="username" type="text" onChange={this.handleUsernameChange} />
                         { 
                             !this.state.usernameValid.isValid && 
-                            <span className="form__error">
+                            <span className="form__warning">
                                 { this.state.usernameValid.message }
                             </span> 
                         }
@@ -150,7 +150,7 @@ class RegisterPage extends React.Component {
 						<input className="form__input" id="password" name="password" type="password" onChange={this.handlePasswordChange}/>
                         { 
                             !this.state.passwordValid.isValid && 
-                            <span className="form__error">
+                            <span className="form__warning">
                                 { this.state.passwordValid.message }
                             </span> 
                         }
@@ -161,7 +161,7 @@ class RegisterPage extends React.Component {
 						<input className="form__input" id="repeat" name="confirm" type="password" onChange={this.handleConfirmChange} />
                         { 
                             !this.state.confirmValid.isValid && 
-                            <span className="form__error">
+                            <span className="form__warning">
                                 { this.state.confirmValid.message }
                             </span> 
                         }

@@ -561,7 +561,7 @@ class EditRecipePage extends React.Component {
 						<input className="form__input" value={this.state.title} id="title" name="title" type="text" onChange={this.changeTitle} />
 						{
 							!this.state.titleValid.isValid &&
-							<span className="form__error">
+							<span className="form__warning">
 								{this.state.titleValid.message}
 							</span>
 						}
@@ -611,7 +611,7 @@ class EditRecipePage extends React.Component {
 						</ul>
 						{
 							!this.state.ingredientsValid.isValid &&
-							<span className="form__error">
+							<span className="form__warning">
 								{this.state.ingredientsValid.message}
 							</span>
 						}
@@ -628,7 +628,7 @@ class EditRecipePage extends React.Component {
 						</ol>
 						{
 							!this.state.directionsValid.isValid &&
-							<span className="form__error">
+							<span className="form__warning">
 								{this.state.directionsValid.message}
 							</span>
 						}
@@ -645,7 +645,7 @@ class EditRecipePage extends React.Component {
 						</ul>
 						{
 							!this.state.hintsValid.isValid &&
-							<span className="form__error">
+							<span className="form__warning">
 								{this.state.hintsValid.message}
 							</span>
 						}

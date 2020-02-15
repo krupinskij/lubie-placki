@@ -126,7 +126,7 @@ const appReducer = (state = initialState, action) => {
       }
     }
 
-    case LOGIN_REQUEST: {
+    case REGISTER_REQUEST: {
       return {
         ...state, 
         user: null, 
@@ -173,6 +173,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_RECIPE_REQUEST:  { 
       return {
         ...state,
+        loading: {
+          active: true,
+          message: "Trwa dodawanie przepisu..."
+        },
         error: {
           active: false,
           message: ""
@@ -183,6 +187,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_RECIPE_SUCCESS:  { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: false,
           message: ""
@@ -193,6 +201,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_RECIPE_ERROR:    {
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: true,
           message: action.payload.error
@@ -203,6 +215,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_INGREDIENTS_REQUEST:  { 
       return {
         ...state,
+        loading: {
+          active: true,
+          message: "Trwa dodawanie składników..."
+        },
         error: {
           active: false,
           message: ""
@@ -213,6 +229,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_INGREDIENTS_SUCCESS:  { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: false,
           message: ""
@@ -223,6 +243,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_INGREDIENTS_ERROR:    { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: true,
           message: action.payload.error
@@ -233,6 +257,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_DIRECTIONS_REQUEST:  { 
       return {
         ...state,
+        loading: {
+          active: true,
+          message: "Trwa dodawanie sposobu wykonania..."
+        },
         error: {
           active: false,
           message: ""
@@ -243,6 +271,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_DIRECTIONS_SUCCESS:  { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: false,
           message: ""
@@ -253,6 +285,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_DIRECTIONS_ERROR:    { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: true,
           message: action.payload.error
@@ -263,6 +299,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_HINTS_REQUEST:  { 
       return {
         ...state,
+        loading: {
+          active: true,
+          message: "Trwa dodawanie wskazówek..."
+        },
         error: {
           active: false,
           message: ""
@@ -273,6 +313,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_HINTS_SUCCESS:  { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: false,
           message: ""
@@ -283,6 +327,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_HINTS_ERROR:    { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: true,
           message: action.payload.error
@@ -293,6 +341,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_PHOTO_REQUEST:  { 
       return {
         ...state,
+        loading: {
+          active: true,
+          message: "Trwa dodawanie zdjęcia..."
+        },
         error: {
           active: false,
           message: ""
@@ -303,6 +355,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_PHOTO_SUCCESS:  { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: false,
           message: ""
@@ -313,6 +369,10 @@ const appReducer = (state = initialState, action) => {
     case ADD_PHOTO_ERROR:    { 
       return {
         ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
         error: {
           active: true,
           message: action.payload.error

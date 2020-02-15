@@ -22,10 +22,11 @@ export const addRecipe = (user_id, recipe) => {
                 }
 
                 dispatch(addSuccess(resp));
-                return resp;
+                return resp.id;
             })
             .catch(error => {
-                dispatch(addError(error.message))
+                dispatch(addError(error.message));
+                return -1;
             })
     }
 }

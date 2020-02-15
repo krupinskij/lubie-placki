@@ -173,6 +173,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe saveRecipeByUserId(Long user_id, Recipe recipe) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika!"));
+
         recipe.setUser(user);
         recipe.setAdd_date(LocalDateTime.now());
         recipe.setRatings(new ArrayList<Rating>());
