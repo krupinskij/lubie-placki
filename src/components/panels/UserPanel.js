@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { logoutUser } from '../../redux/actions/userActions/logoutActions';
+import { logoutUser } from '../../redux/userRedux/actions/logout';
 
 class UserPanel extends React.Component {
 

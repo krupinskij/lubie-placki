@@ -2,7 +2,7 @@ import {
     EDIT_AVATAR_REQUEST,
     EDIT_AVATAR_SUCCESS,
     EDIT_AVATAR_ERROR
-} from '../../constants/userConstants';
+} from '../constants/editAvatarConstants';
 
 export const editAvatar = (id, avatar) => {
     return dispatch => {

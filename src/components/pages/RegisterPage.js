@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { registerUser } from '../../redux/actions/userActions/registerActions'
+import { registerUser } from '../../redux/userRedux/actions/register'
 
 import Loading from '../Loading';
 

@@ -1,13 +1,13 @@
 import {
-    ADD_HINTS_REQUEST,
-    ADD_HINTS_SUCCESS,
-    ADD_HINTS_ERROR
-} from '../../constants/recipeConstants';
+    ADD_INGREDIENTS_REQUEST,
+    ADD_INGREDIENTS_SUCCESS,
+    ADD_INGREDIENTS_ERROR
+} from '../constants/addIngredientsConstants';
 
-export const addHints = (recipe_id, hints) => {
+export const addIngredients = (recipe_id, hints) => {
     return dispatch => {
         dispatch(addRequest())
-        return fetch('http://localhost:3004/recipes/' + recipe_id + '/hints', {
+        return fetch('http://localhost:3004/recipes/' + recipe_id + '/ingredients', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,19 +31,19 @@ export const addHints = (recipe_id, hints) => {
 
 const addRequest = () => {
     return {
-        type: ADD_HINTS_REQUEST
+        type: ADD_INGREDIENTS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        type: ADD_HINTS_SUCCESS
+        type: ADD_INGREDIENTS_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        type: ADD_HINTS_ERROR,
+        type: ADD_INGREDIENTS_ERROR,
         payload: {
             error
         }

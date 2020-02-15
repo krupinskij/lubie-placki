@@ -1,18 +1,18 @@
 import {
-    ADD_DIRECTIONS_REQUEST,
-    ADD_DIRECTIONS_SUCCESS,
-    ADD_DIRECTIONS_ERROR
-} from '../../constants/recipeConstants';
+    ADD_PHOTO_REQUEST,
+    ADD_PHOTO_SUCCESS,
+    ADD_PHOTO_ERROR
+} from '../constants/addPhotoConstants';
 
-export const addDirections = (recipe_id, directions) => {
+export const addPhoto = (recipe_id, photo) => {
     return dispatch => {
         dispatch(addRequest())
-        return fetch('http://localhost:3004/recipes/' + recipe_id + '/directions', {
+        return fetch('http://localhost:3004/recipes/' + recipe_id + '/photo', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'image/jpeg'
             },
-            body: JSON.stringify(directions)
+            body: photo
         })
             .then(resp => resp.json())
             .then(resp => {
@@ -31,19 +31,19 @@ export const addDirections = (recipe_id, directions) => {
 
 const addRequest = () => {
     return {
-        type: ADD_DIRECTIONS_REQUEST
+        type: ADD_PHOTO_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        type: ADD_DIRECTIONS_SUCCESS
+        type: ADD_PHOTO_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        type: ADD_DIRECTIONS_ERROR,
+        type: ADD_PHOTO_ERROR,
         payload: {
             error
         }

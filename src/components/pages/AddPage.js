@@ -3,12 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { addRecipe } from '../../redux/actions/recipeActions/addRecipeActions';
-import { addIngredients } from '../../redux/actions/recipeActions/addIngredientsActions';
-import { addDirections } from '../../redux/actions/recipeActions/addDirectionsActions';
-import { addHints } from '../../redux/actions/recipeActions/addHintsActions';
-import { addPhoto } from '../../redux/actions/recipeActions/addPhotoActions';
-import { addTags } from '../../redux/actions/recipeActions/addTagsActions';
+import { addRecipe } from '../../redux/addRecipeRedux/actions/addRecipe';
+import { addIngredients } from '../../redux/addRecipeRedux/actions/addIngredients';
+import { addDirections } from '../../redux/addRecipeRedux/actions/addDirections';
+import { addHints } from '../../redux/addRecipeRedux/actions/addHints';
+import { addPhoto } from '../../redux/addRecipeRedux/actions/addPhoto';
+import { addTags } from '../../redux/addRecipeRedux/actions/addTags';
 
 import Loading from '../Loading';
 

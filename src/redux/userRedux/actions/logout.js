@@ -1,6 +1,6 @@
 import { 
     LOGOUT_REQUEST 
-} from '../../constants/userConstants';
+} from '../constants/logoutConstants';
 
 import history from '../../../helpers/history';
 

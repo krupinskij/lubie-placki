@@ -1,18 +1,18 @@
 import {
-    ADD_TAGS_REQUEST,
-    ADD_TAGS_SUCCESS,
-    ADD_TAGS_ERROR
-} from '../../constants/recipeConstants';
+    ADD_HINTS_REQUEST,
+    ADD_HINTS_SUCCESS,
+    ADD_HINTS_ERROR
+} from '../constants/addHintsConstants';
 
-export const addTags = (recipe_id, tags) => {
+export const addHints = (recipe_id, hints) => {
     return dispatch => {
         dispatch(addRequest())
-        return fetch('http://localhost:3004/recipes/' + recipe_id + '/tags', {
+        return fetch('http://localhost:3004/recipes/' + recipe_id + '/hints', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: tags
+            body: JSON.stringify(hints)
         })
             .then(resp => resp.json())
             .then(resp => {
@@ -31,19 +31,19 @@ export const addTags = (recipe_id, tags) => {
 
 const addRequest = () => {
     return {
-        type: ADD_TAGS_REQUEST
+        type: ADD_HINTS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        type: ADD_TAGS_SUCCESS
+        type: ADD_HINTS_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        type: ADD_TAGS_ERROR,
+        type: ADD_HINTS_ERROR,
         payload: {
             error
         }

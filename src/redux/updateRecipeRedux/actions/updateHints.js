@@ -1,18 +1,18 @@
 import {
-    UPDATE_RECIPE_REQUEST,
-    UPDATE_RECIPE_SUCCESS,
-    UPDATE_RECIPE_ERROR
-} from '../../constants/recipeConstants';
+    UPDATE_HINTS_REQUEST,
+    UPDATE_HINTS_SUCCESS,
+    UPDATE_HINTS_ERROR
+} from '../constants/updateHintsConstants';
 
-export const updateRecipe = (recipe_id, recipe) => {
+export const updateHints = (recipe_id, hints) => {
     return dispatch => {
         dispatch(updateRequest())
-        return fetch('http://localhost:3004/recipes/' + recipe_id, {
+        return fetch('http://localhost:3004/recipes/' + recipe_id + '/hints', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(recipe)
+            body: JSON.stringify(hints)
         })
             .then(resp => resp.json())
             .then(resp => {
@@ -31,19 +31,19 @@ export const updateRecipe = (recipe_id, recipe) => {
 
 const updateRequest = () => {
     return {
-        type: UPDATE_RECIPE_REQUEST
+        type: UPDATE_HINTS_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
-        type: UPDATE_RECIPE_SUCCESS
+        type: UPDATE_HINTS_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
-        type: UPDATE_RECIPE_ERROR,
+        type: UPDATE_HINTS_ERROR,
         payload: {
             error
         }

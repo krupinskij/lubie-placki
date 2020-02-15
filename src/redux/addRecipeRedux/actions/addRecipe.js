@@ -2,7 +2,7 @@ import {
     ADD_RECIPE_REQUEST,
     ADD_RECIPE_SUCCESS,
     ADD_RECIPE_ERROR
-} from '../../constants/recipeConstants';
+} from '../constants/addRecipeConstants';
 
 export const addRecipe = (user_id, recipe) => {
     return dispatch => {

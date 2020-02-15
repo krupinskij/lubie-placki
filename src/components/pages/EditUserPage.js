@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom'
 
 import history from '../../helpers/history'
 
-import { editUser } from '../../redux/actions/userActions/editUserActions'
-import { editAvatar } from '../../redux/actions/userActions/editAvatarActions'
+import { editUser } from '../../redux/userRedux/actions/edit'
+import { editAvatar } from '../../redux/userRedux/actions/editAvatar'
 
 import {
     required

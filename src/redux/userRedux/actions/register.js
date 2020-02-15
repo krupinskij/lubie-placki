@@ -2,7 +2,7 @@ import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     REGISTER_ERROR
-} from '../../constants/userConstants';
+} from '../constants/registerConstants';
 
 import history from '../../../helpers/history';
 

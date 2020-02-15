@@ -1,18 +1,18 @@
 import {
-    ADD_INGREDIENTS_REQUEST,
-    ADD_INGREDIENTS_SUCCESS,
-    ADD_INGREDIENTS_ERROR
-} from '../../constants/recipeConstants';
+    ADD_DIRECTIONS_REQUEST,
+    ADD_DIRECTIONS_SUCCESS,
+    ADD_DIRECTIONS_ERROR
+} from '../constants/addDirectionsConstants';
 
-export const addIngredients = (recipe_id, ingredients) => {
+export const addDirections = (recipe_id, directions) => {
     return dispatch => {
         dispatch(addRequest())
-        return fetch('http://localhost:3004/recipes/' + recipe_id + '/ingredients', {
+        return fetch('http://localhost:3004/recipes/' + recipe_id + '/directions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(ingredients)
+            body: JSON.stringify(directions)
         })
             .then(resp => resp.json())
             .then(resp => {
@@ -31,19 +31,19 @@ export const addIngredients = (recipe_id, ingredients) => {
 
 const addRequest = () => {
     return {
-        type: ADD_INGREDIENTS_REQUEST
+        type: ADD_DIRECTIONS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        type: ADD_INGREDIENTS_SUCCESS
+        type: ADD_DIRECTIONS_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        type: ADD_INGREDIENTS_ERROR,
+        type: ADD_DIRECTIONS_ERROR,
         payload: {
             error
         }

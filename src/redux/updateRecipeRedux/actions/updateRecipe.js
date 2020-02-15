@@ -1,22 +1,22 @@
 import {
-    UPDATE_PHOTO_REQUEST,
-    UPDATE_PHOTO_SUCCESS,
-    UPDATE_PHOTO_ERROR
-} from '../../constants/recipeConstants';
+    UPDATE_RECIPE_REQUEST,
+    UPDATE_RECIPE_SUCCESS,
+    UPDATE_RECIPE_ERROR
+} from '../constants/updateRecipeConstants';
 
-export const updatePhoto = (recipe_id, photo) => {
+export const updateRecipe = (recipe_id, recipe) => {
     return dispatch => {
         dispatch(updateRequest())
-        return fetch('http://localhost:3004/recipes/' + recipe_id + '/photo', {
+        return fetch('http://localhost:3004/recipes/' + recipe_id, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'image/jpeg'
+                'Content-Type': 'application/json'
             },
-            body: photo
+            body: JSON.stringify(recipe)
         })
             .then(resp => resp.json())
             .then(resp => {
-                
+
                 if(resp.status && resp.status!==200) {
                     throw new Error("Wystąpił nieznany błąd!");
                 }
@@ -31,19 +31,19 @@ export const updatePhoto = (recipe_id, photo) => {
 
 const updateRequest = () => {
     return {
-        type: UPDATE_PHOTO_REQUEST
+        type: UPDATE_RECIPE_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
-        type: UPDATE_PHOTO_SUCCESS
+        type: UPDATE_RECIPE_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
-        type: UPDATE_PHOTO_ERROR,
+        type: UPDATE_RECIPE_ERROR,
         payload: {
             error
         }

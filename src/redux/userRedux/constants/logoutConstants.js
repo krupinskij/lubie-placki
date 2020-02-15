@@ -1,0 +1,1 @@
+export const LOGOUT_REQUEST = 'Users/LOGOUT_REQUEST';

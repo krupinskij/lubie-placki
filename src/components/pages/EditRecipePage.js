@@ -3,11 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { updateRecipe } from '../../redux/actions/recipeActions/updateRecipeActions';
-import { updateIngredients } from '../../redux/actions/recipeActions/updateIngredientsActions';
-import { updateDirections } from '../../redux/actions/recipeActions/updateDirectionsActions';
-import { updateHints } from '../../redux/actions/recipeActions/updateHintsActions';
-import { updatePhoto } from '../../redux/actions/recipeActions/updatePhotoActions';
+import { updateRecipe } from '../../redux/updateRecipeRedux/actions/updateRecipe';
+import { updateIngredients } from '../../redux/updateRecipeRedux/actions/updateIngredients';
+import { updateDirections } from '../../redux/updateRecipeRedux/actions/updateDirections';
+import { updateHints } from '../../redux/updateRecipeRedux/actions/updateHints';
+import { updatePhoto } from '../../redux/updateRecipeRedux/actions/updatePhoto';
 
 import {
 	required,

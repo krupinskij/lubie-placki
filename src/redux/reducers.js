@@ -1,56 +1,23 @@
-import { 
-  LOGIN_REQUEST, 
-  LOGIN_SUCCESS, 
-  LOGIN_ERROR,
-  
-  LOGOUT_REQUEST,
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './userRedux/constants/loginConstants';
+import { LOGOUT_REQUEST } from './userRedux/constants/logoutConstants';
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } from './userRedux/constants/registerConstants';
 
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  REGISTER_ERROR
-} from './constants/userConstants';
+import { ADD_RECIPE_REQUEST, ADD_RECIPE_SUCCESS, ADD_RECIPE_ERROR } from './addRecipeRedux/constants/addRecipeConstants';
+import { ADD_INGREDIENTS_REQUEST, ADD_INGREDIENTS_SUCCESS, ADD_INGREDIENTS_ERROR } from './addRecipeRedux/constants/addIngredientsConstants';
+import { ADD_DIRECTIONS_REQUEST, ADD_DIRECTIONS_SUCCESS, ADD_DIRECTIONS_ERROR } from './addRecipeRedux/constants/addDirectionsConstants';
+import { ADD_HINTS_REQUEST, ADD_HINTS_SUCCESS, ADD_HINTS_ERROR } from './addRecipeRedux/constants/addHintsConstants';
+import { ADD_PHOTO_REQUEST, ADD_PHOTO_SUCCESS, ADD_PHOTO_ERROR } from './addRecipeRedux/constants/addPhotoConstants';
+import { ADD_TAGS_REQUEST, ADD_TAGS_SUCCESS, ADD_TAGS_ERROR } from './addRecipeRedux/constants/addTagsConstants';
 
-import {
-  ADD_RECIPE_REQUEST,
-  ADD_RECIPE_SUCCESS,
-  ADD_RECIPE_ERROR,
+import { UPDATE_RECIPE_REQUEST, UPDATE_RECIPE_SUCCESS, UPDATE_RECIPE_ERROR } from './updateRecipeRedux/constants/updateRecipeConstants';
+import { UPDATE_INGREDIENTS_REQUEST, UPDATE_INGREDIENTS_SUCCESS, UPDATE_INGREDIENTS_ERROR } from './updateRecipeRedux/constants/updateIngredientsConstants';
+import { UPDATE_DIRECTIONS_REQUEST, UPDATE_DIRECTIONS_SUCCESS, UPDATE_DIRECTIONS_ERROR } from './updateRecipeRedux/constants/updateDirectionsConstants';
+import { UPDATE_HINTS_REQUEST, UPDATE_HINTS_SUCCESS, UPDATE_HINTS_ERROR } from './updateRecipeRedux/constants/updateHintsConstants';
+import { UPDATE_PHOTO_REQUEST, UPDATE_PHOTO_SUCCESS, UPDATE_PHOTO_ERROR } from './updateRecipeRedux/constants/updatePhotoConstants';
 
-  ADD_INGREDIENTS_REQUEST,
-  ADD_INGREDIENTS_SUCCESS,
-  ADD_INGREDIENTS_ERROR,
-
-  ADD_DIRECTIONS_REQUEST,
-  ADD_DIRECTIONS_SUCCESS,
-  ADD_DIRECTIONS_ERROR,
-
-  ADD_HINTS_REQUEST,
-  ADD_HINTS_SUCCESS,
-  ADD_HINTS_ERROR,
-
-  ADD_PHOTO_REQUEST,
-  ADD_PHOTO_SUCCESS,
-  ADD_PHOTO_ERROR,
-
-  UPDATE_RECIPE_REQUEST,
-  UPDATE_RECIPE_SUCCESS,
-  UPDATE_RECIPE_ERROR,
-
-  UPDATE_INGREDIENTS_REQUEST,
-  UPDATE_INGREDIENTS_SUCCESS,
-  UPDATE_INGREDIENTS_ERROR,
-
-  UPDATE_DIRECTIONS_REQUEST,
-  UPDATE_DIRECTIONS_SUCCESS,
-  UPDATE_DIRECTIONS_ERROR,
-
-  UPDATE_HINTS_REQUEST,
-  UPDATE_HINTS_SUCCESS,
-  UPDATE_HINTS_ERROR,
-
-  UPDATE_PHOTO_REQUEST,
-  UPDATE_PHOTO_SUCCESS,
-  UPDATE_PHOTO_ERROR
-} from './constants/recipeConstants';
+import { userReducer } from './userRedux/userReducer';
+import { addRecipeReducer } from './addRecipeRedux/addRecipeReducer';
+import { updateRecipeReducer } from './updateRecipeRedux/updateRecipeReducer';
 
 export const initialState = {
   user: JSON.parse(localStorage.getItem('user')),
@@ -65,473 +32,71 @@ export const initialState = {
 };
 
 const appReducer = (state = initialState, action) => {
+  
   switch (action.type) {
 
-    case LOGIN_REQUEST: {
-      return {
-        ...state, 
-        user: null, 
-        loading: {
-          active: true,
-          message: "Trwa logowanie..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
+    case LOGIN_REQUEST:
+    case LOGIN_SUCCESS:
+    case LOGIN_ERROR:
 
-    case LOGIN_SUCCESS: {
-      return {
-        ...state,
-        user: action.payload.user,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
+    case LOGOUT_REQUEST:
 
-    case LOGIN_ERROR: {
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case LOGOUT_REQUEST: {
-      return {
-        ...state,
-        user: null,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case REGISTER_REQUEST: {
-      return {
-        ...state, 
-        user: null, 
-        loading: {
-          active: true,
-          message: "Trwa rejestracja..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case REGISTER_SUCCESS: {
-      return {
-        ...state,
-        user: action.payload.user,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-    
+    case REGISTER_REQUEST:
+    case REGISTER_SUCCESS:
     case REGISTER_ERROR: {
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
+      return { ...state, ...userReducer(action) }
     }
 
-    case ADD_RECIPE_REQUEST:  { 
-      return {
-        ...state,
-        loading: {
-          active: true,
-          message: "Trwa dodawanie przepisu..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
+    case ADD_RECIPE_REQUEST:
+    case ADD_RECIPE_SUCCESS:
+    case ADD_RECIPE_ERROR:
+
+    case ADD_INGREDIENTS_REQUEST:
+    case ADD_INGREDIENTS_SUCCESS:
+    case ADD_INGREDIENTS_ERROR:
+
+    case ADD_DIRECTIONS_REQUEST:
+    case ADD_DIRECTIONS_SUCCESS:
+    case ADD_DIRECTIONS_ERROR:
+
+    case ADD_HINTS_REQUEST:
+    case ADD_HINTS_SUCCESS:
+    case ADD_HINTS_ERROR:
+
+    case ADD_PHOTO_REQUEST:
+    case ADD_PHOTO_SUCCESS:
+    case ADD_PHOTO_ERROR:
+
+    case ADD_TAGS_REQUEST:
+    case ADD_TAGS_SUCCESS:
+    case ADD_TAGS_ERROR: {
+      return { ...state, ...addRecipeReducer(action) }
     }
 
-    case ADD_RECIPE_SUCCESS:  { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
+    case UPDATE_RECIPE_REQUEST:
+    case UPDATE_RECIPE_SUCCESS:
+    case UPDATE_RECIPE_ERROR:
 
-    case ADD_RECIPE_ERROR:    {
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
+    case UPDATE_INGREDIENTS_REQUEST:
+    case UPDATE_INGREDIENTS_SUCCESS:
+    case UPDATE_INGREDIENTS_ERROR:
 
-    case ADD_INGREDIENTS_REQUEST:  { 
-      return {
-        ...state,
-        loading: {
-          active: true,
-          message: "Trwa dodawanie składników..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
+    case UPDATE_DIRECTIONS_REQUEST:
+    case UPDATE_DIRECTIONS_SUCCESS:
+    case UPDATE_DIRECTIONS_ERROR:
 
-    case ADD_INGREDIENTS_SUCCESS:  { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
+    case UPDATE_HINTS_REQUEST:
+    case UPDATE_HINTS_SUCCESS:
+    case UPDATE_HINTS_ERROR:
 
-    case ADD_INGREDIENTS_ERROR:    { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case ADD_DIRECTIONS_REQUEST:  { 
-      return {
-        ...state,
-        loading: {
-          active: true,
-          message: "Trwa dodawanie sposobu wykonania..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case ADD_DIRECTIONS_SUCCESS:  { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case ADD_DIRECTIONS_ERROR:    { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case ADD_HINTS_REQUEST:  { 
-      return {
-        ...state,
-        loading: {
-          active: true,
-          message: "Trwa dodawanie wskazówek..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case ADD_HINTS_SUCCESS:  { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      } 
-    }
-
-    case ADD_HINTS_ERROR:    { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case ADD_PHOTO_REQUEST:  { 
-      return {
-        ...state,
-        loading: {
-          active: true,
-          message: "Trwa dodawanie zdjęcia..."
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case ADD_PHOTO_SUCCESS:  { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: false,
-          message: ""
-        }
-      } 
-    }
-
-    case ADD_PHOTO_ERROR:    { 
-      return {
-        ...state,
-        loading: {
-          active: false,
-          message: ""
-        },
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      } 
-    }
-
-    case UPDATE_RECIPE_REQUEST:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_RECIPE_SUCCESS:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      } 
-    }
-
-    case UPDATE_RECIPE_ERROR:    { 
-      return {
-        ...state,
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case UPDATE_INGREDIENTS_REQUEST:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_INGREDIENTS_SUCCESS:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      } 
-    }
-
-    case UPDATE_INGREDIENTS_ERROR:    { 
-      return {
-        ...state,
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case UPDATE_DIRECTIONS_REQUEST:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_DIRECTIONS_SUCCESS:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_DIRECTIONS_ERROR:    { 
-      return {
-        ...state,
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case UPDATE_HINTS_REQUEST:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_HINTS_SUCCESS:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_HINTS_ERROR:    { 
-      return {
-        ...state,
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      }
-    }
-
-    case UPDATE_PHOTO_REQUEST:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_PHOTO_SUCCESS:  { 
-      return {
-        ...state,
-        error: {
-          active: false,
-          message: ""
-        }
-      }
-    }
-
-    case UPDATE_PHOTO_ERROR:    { 
-      return {
-        ...state,
-        error: {
-          active: true,
-          message: action.payload.error
-        }
-      } 
+    case UPDATE_PHOTO_REQUEST:
+    case UPDATE_PHOTO_SUCCESS:
+    case UPDATE_PHOTO_ERROR: {
+      return { ...state, ...updateRecipeReducer(action) }
     }
 
     default:
-        return state
+      return state
   }
 }
 
