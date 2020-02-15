@@ -4,13 +4,14 @@ import {
     UPDATE_DIRECTIONS_ERROR
 } from '../constants/updateDirectionsConstants';
 
-export const updateDirections = (recipe_id, directions) => {
+export const updateDirections = (token, recipe_id, directions) => {
     return dispatch => {
         dispatch(updateRequest())
         return fetch('http://localhost:3004/recipes/' + recipe_id + '/directions', {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': token
             },
             body: JSON.stringify(directions)
         })

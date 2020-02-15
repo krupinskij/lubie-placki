@@ -4,13 +4,14 @@ import {
     EDIT_AVATAR_ERROR
 } from '../constants/editAvatarConstants';
 
-export const editAvatar = (id, avatar) => {
+export const editAvatar = (token, id, avatar) => {
     return dispatch => {
         dispatch(editRequest())
         return fetch("http://localhost:3004/users/" + id + "/avatar", {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': token
             },
             body: avatar
         })

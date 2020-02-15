@@ -28,19 +28,19 @@ class EditUserPage extends React.Component {
     }
 
     componentDidMount = () => {
-        if(this.props.user===null) this.props.history.push("/");
+        if(this.props.token === null) this.props.history.push("/");
         
         const id = this.props.match.params.id;
 
-        if(this.props.user.id != id) this.props.history.push("/");
+        fetch("http://localhost:3004/users")
+        .then(resp => resp.json())
+        .then(user => {
+            if(user.id !== id) this.props.history.push("/");
 
-        fetch("http://localhost:3004/users/" + id)
-            .then(resp => resp.json())
-            .then(resp => {
-                this.setState({
-                    username: resp.username
-                })
+            this.setState({
+                username: user.username
             })
+        })
     }
 
     handleUsernameChange = event => {
@@ -94,9 +94,11 @@ class EditUserPage extends React.Component {
         const username = this.state.username;
         const avatar = this.state.photo;
 
+        const token = this.props.token;
+
         if(avatar==="") {
             Promise.all([
-                this.props.editUser(this.props.user.id, username)
+                this.props.editUser(token, username)
             ])
                 .then(() => {
                     history.push("/");
@@ -104,8 +106,8 @@ class EditUserPage extends React.Component {
                 });
         } else {
             Promise.all([
-                this.props.editUser(this.props.user.id, username), 
-                this.props.editAvatar(this.props.user.id, avatar)
+                this.props.editUser(token, username), 
+                this.props.editAvatar(token, avatar)
             ])
                 .then(() => {
                     history.push("/");
@@ -153,16 +155,16 @@ class EditUserPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
 	return {
-	  user: state.user,
+	  token: state.token,
 	  error: state.error
 	}
   }
   
-  const mapDispatchToProps = (dispatch) => ({
-    editUser: (id, user) => dispatch(editUser(id, user)),
-    editAvatar: (id, avatar) => dispatch(editAvatar(id, avatar))
+  const mapDispatchToProps = dispatch => ({
+    editUser: (token, user) => dispatch(editUser(token, user)),
+    editAvatar: (token, avatar) => dispatch(editAvatar(token, avatar))
   })
 
 export default connect(

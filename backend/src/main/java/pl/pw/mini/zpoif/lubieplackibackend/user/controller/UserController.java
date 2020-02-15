@@ -1,7 +1,6 @@
 package pl.pw.mini.zpoif.lubieplackibackend.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +8,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.service.UserService;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -50,9 +50,22 @@ public class UserController {
         return ResponseEntity.ok(userService.login(loginData.getUsername(), loginData.getPassword() ));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity logout(@RequestHeader String securityTokenValue) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        userService.logout(securityToken);
+        return ResponseEntity.ok("Wylogowano pomyślnie");
+    }
+
+    @GetMapping("")
+    public ResponseEntity getUser(@RequestHeader String securityTokenValue) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(userService.getUser(securityToken));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findById(id));
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @GetMapping("/{user_id}/username")
@@ -60,9 +73,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsernameByUserId(user_id));
     }
 
-    @PutMapping("/{user_id}/username")
-    public ResponseEntity updateUsernameByUserId(@PathVariable Long user_id, @RequestBody String username) {
-        return ResponseEntity.ok(userService.updateUsernameByUserId(user_id, username));
+    @PutMapping("/username")
+    public ResponseEntity updateUsername(@RequestHeader String securityTokenValue, @RequestBody String username) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(userService.updateUsername(securityToken, username));
     }
 
     @GetMapping(path = "/default/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -75,9 +89,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserAvatarByUserId(user_id));
     }
 
-    @PutMapping(path = "/{user_id}/avatar")
-    public ResponseEntity updateUserAvatarByUserId(@PathVariable Long user_id, @RequestBody byte[] photo) {
-        return ResponseEntity.ok(userService.updateUserAvatarByUserId(user_id, photo));
+    @PutMapping(path = "/avatar")
+    public ResponseEntity updateUserAvatar(@RequestHeader String securityTokenValue, @RequestBody byte[] photo) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(userService.updateUserAvatar(securityToken, photo));
     }
 
     @GetMapping(path = "/{user_id}/points")

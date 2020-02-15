@@ -9,6 +9,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.recipe.service.RecipeService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/recipes")
@@ -57,87 +58,102 @@ public class RecipeController {
 
 
 
-    @PostMapping(path = "/{user_id}")
-    public ResponseEntity saveRecipeByUserId(@PathVariable Long user_id, @RequestBody Recipe recipe) {
-        return ResponseEntity.ok(recipeService.saveRecipeByUserId(user_id, recipe));
+    @PostMapping(path = "")
+    public ResponseEntity saveRecipe(@RequestHeader String securityTokenValue, @RequestBody Recipe recipe) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.saveRecipe(securityToken, recipe));
     }
 
     @PostMapping(path = "/{recipe_id}/ingredients")
-    public ResponseEntity saveAllIngredientsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
-        return ResponseEntity.ok(recipeService.saveAllIngredientsByRecipeId(recipe_id, ingredients));
+    public ResponseEntity saveAllIngredientsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.saveAllIngredientsByRecipeId(securityToken, recipe_id, ingredients));
     }
 
     @PostMapping(path = "/{recipe_id}/directions")
-    public ResponseEntity saveAllDirectionsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
-        return ResponseEntity.ok(recipeService.saveAllDirectionsByRecipeId(recipe_id, directions));
+    public ResponseEntity saveAllDirectionsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.saveAllDirectionsByRecipeId(securityToken, recipe_id, directions));
     }
 
     @PostMapping(path = "/{recipe_id}/hints")
-    public ResponseEntity saveAllHintsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
-        return ResponseEntity.ok(recipeService.saveAllHintsByRecipeId(recipe_id, hints));
+    public ResponseEntity saveAllHintsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.saveAllHintsByRecipeId(securityToken, recipe_id, hints));
     }
 
     @PostMapping(path = "/{recipe_id}/photo")
-    public ResponseEntity saveRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] photo) {
-        return ResponseEntity.ok(recipeService.saveRecipePhotoByRecipeId(recipe_id, photo));
+    public ResponseEntity saveRecipePhotoByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id, @RequestBody byte[] photo) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.saveRecipePhotoByRecipeId(securityToken, recipe_id, photo));
     }
 
     @PostMapping(path = "/{recipe_id}/tags")
-    public ResponseEntity saveTagsByRecipeId(@PathVariable Long recipe_id, @RequestBody String tags) {
-        return ResponseEntity.ok(recipeService.saveTagsByRecipeId(recipe_id, tags));
+    public ResponseEntity saveTagsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id, @RequestBody String tags) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.saveTagsByRecipeId(securityToken, recipe_id, tags));
     }
 
     @PutMapping(path = "/{recipe_id}")
-    public ResponseEntity updateRecipeByRecipeId(@PathVariable Long recipe_id, @RequestBody Recipe recipe) {
-        return ResponseEntity.ok(recipeService.updateRecipeByRecipeId(recipe_id, recipe));
+    public ResponseEntity updateRecipeByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id, @RequestBody Recipe recipe) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.updateRecipeByRecipeId(securityToken, recipe_id, recipe));
     }
 
     @PutMapping(path = "/{recipe_id}/ingredients")
-    public ResponseEntity updateAllIngredientsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
-        return ResponseEntity.ok(recipeService.updateAllIngredientsByRecipeId(recipe_id, ingredients));
+    public ResponseEntity updateAllIngredientsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id,  @RequestBody List<Ingredient> ingredients) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.updateAllIngredientsByRecipeId(securityToken, recipe_id, ingredients));
     }
 
     @PutMapping(path = "/{recipe_id}/directions")
-    public ResponseEntity updateAllDirectionsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
-        return ResponseEntity.ok(recipeService.updateAllDirectionsByRecipeId(recipe_id, directions));
+    public ResponseEntity updateAllDirectionsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id,  @RequestBody List<Direction> directions) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.updateAllDirectionsByRecipeId(securityToken, recipe_id, directions));
     }
 
     @PutMapping(path = "/{recipe_id}/hints")
-    public ResponseEntity updateAllHintsByRecipeId(@PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
-        return ResponseEntity.ok(recipeService.updateAllHintsByRecipeId(recipe_id, hints));
+    public ResponseEntity updateAllHintsByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id,  @RequestBody List<Hint> hints) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.updateAllHintsByRecipeId(securityToken, recipe_id, hints));
     }
 
     @PutMapping(path = "/{recipe_id}/photo")
-    public ResponseEntity updateRecipePhotoByRecipeId(@PathVariable Long recipe_id, @RequestBody byte[] photo) {
-        return ResponseEntity.ok(recipeService.updateRecipePhotoByRecipeId(recipe_id, photo));
+    public ResponseEntity updateRecipePhotoByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id, @RequestBody byte[] photo) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.updateRecipePhotoByRecipeId(securityToken, recipe_id, photo));
     }
 
     @DeleteMapping(path="/{id}")
-    public ResponseEntity deleteRecipe(@PathVariable Long id) {
-        recipeService.deleteRecipe(id);
+    public ResponseEntity deleteRecipe(@RequestHeader String securityTokenValue, @PathVariable Long id) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        recipeService.deleteRecipe(securityToken, id);
         return ResponseEntity.ok("Usunięto przepis");
     }
 
 
-    @PostMapping(path="/{recipe_id}/rating/{user_id}")
-    public ResponseEntity addRatingByRecipeIdAndUserId(@PathVariable Long recipe_id, @PathVariable Long user_id, @RequestBody Integer rating) {
-        return ResponseEntity.ok(recipeService.addRatingByRecipeIdAndUserId(recipe_id, user_id, rating));
+    @PostMapping(path="/{recipe_id}/rating")
+    public ResponseEntity addRatingByRecipeId(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id, @RequestBody Integer rating) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.addRatingByRecipeId(securityToken, recipe_id, rating));
     }
 
-    @DeleteMapping(path = "/{recipe_id}/rating/{user_id}")
-    public ResponseEntity deleteRating(@PathVariable Long recipe_id, @PathVariable Long user_id) {
-        recipeService.deleteRating(recipe_id, user_id);
+    @DeleteMapping(path = "/{recipe_id}/rating")
+    public ResponseEntity deleteRating(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        recipeService.deleteRating(securityToken, recipe_id);
         return ResponseEntity.ok("Usunięto ocenę");
     }
 
-    @GetMapping(path = "/{recipe_id}/rating")
+    @GetMapping(path = "/{recipe_id}/ratings")
     public ResponseEntity getRatingsByRecipeId(@PathVariable Long recipe_id) {
         return ResponseEntity.ok(recipeService.getRatingsByRecipeId(recipe_id));
     }
 
-    @GetMapping(path="/{recipe_id}/rating/{user_id}")
-    public ResponseEntity getRatingByUserId(@PathVariable Long recipe_id, @PathVariable Long user_id) {
-        return ResponseEntity.ok(recipeService.getRatingByUserId(recipe_id, user_id));
+    @GetMapping(path="/{recipe_id}/rating")
+    public ResponseEntity getRating(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(recipeService.getRating(securityToken, recipe_id));
     }
 
     @GetMapping(path = "/ratings")

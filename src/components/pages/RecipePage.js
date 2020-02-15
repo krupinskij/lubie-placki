@@ -9,7 +9,8 @@ class RecipePage extends React.Component {
 
     state = {
         recipe: {},
-        loading: true
+        loading: true,
+        user: null
     }
 
     componentDidMount = () => {
@@ -23,6 +24,12 @@ class RecipePage extends React.Component {
                     loading: false
                 })
             })
+
+        fetch("http://localhost:3004/users")
+        .then(resp => resp.json())
+        .then(user => {
+            this.setState({ user })
+        })
     }
 
     render() {
@@ -36,12 +43,12 @@ class RecipePage extends React.Component {
                 <RecipePhotosController 
                     recipe_id={this.state.recipe.id} 
                     photos_count={this.state.recipe.recipePhotos}
-                    user_id={this.props.user!=null ? this.props.user.id : undefined}
+                    user_id={this.state.user!=null ? this.state.user.id : undefined}
                 />
 
                 <CommentsList 
                     recipe_id={this.state.recipe.id} 
-                    user_id={this.props.user!=null ? this.props.user.id : undefined} 
+                    user_id={this.state.user!=null ? this.state.user.id : undefined} 
                     comments={this.state.comments}
                 />
             </div>
@@ -49,10 +56,10 @@ class RecipePage extends React.Component {
     }
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
 	
 	return {
-	  user: state.user,
+	  token: state.token,
 	}
   }
   

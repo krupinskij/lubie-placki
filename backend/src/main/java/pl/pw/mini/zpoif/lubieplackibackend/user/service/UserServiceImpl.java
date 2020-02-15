@@ -13,6 +13,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,18 +40,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String username, String password) {
+    public UUID login(String username, String password) {
         User user = userRepository.findByUsername(username).orElse(null);
 
         if(user==null || !user.getPassword().equals(password)) {
             throw new UnauthorizedException("Nazwa użytkownika lub hasło nie jest poprawne");
         }
 
-        return user;
+        UUID randomUUID = UUID.randomUUID();
+        user.setSecurityToken(randomUUID);
+        userRepository.save(user);
+
+        return user.getSecurityToken();
     }
 
     @Override
-    public User findById(Long id) {
+    public void logout(UUID securityToken) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Żeby się wylogować najpierw się zaloguj na swoje konto"));
+        user.setSecurityToken(null);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User getUser(UUID securityToken) {
+        return userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
+    }
+
+    @Override
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
     }
 
@@ -62,8 +79,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUsernameByUserId(Long user_id, String username) {
-        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
+    public User updateUsername(UUID securityToken, String username) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
 
         user.setUsername(username);
         return userRepository.save(user);
@@ -88,8 +105,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserAvatarByUserId(Long user_id, byte[] avatar) {
-        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
+    public User updateUserAvatar(UUID securityToken, byte[] avatar) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
 
         user.setAvatar(avatar);
 

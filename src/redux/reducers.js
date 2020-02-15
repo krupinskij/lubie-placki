@@ -1,5 +1,5 @@
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './userRedux/constants/loginConstants';
-import { LOGOUT_REQUEST } from './userRedux/constants/logoutConstants';
+import { LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR } from './userRedux/constants/logoutConstants';
 import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } from './userRedux/constants/registerConstants';
 
 import { ADD_RECIPE_REQUEST, ADD_RECIPE_SUCCESS, ADD_RECIPE_ERROR } from './addRecipeRedux/constants/addRecipeConstants';
@@ -20,7 +20,7 @@ import { addRecipeReducer } from './addRecipeRedux/addRecipeReducer';
 import { updateRecipeReducer } from './updateRecipeRedux/updateRecipeReducer';
 
 export const initialState = {
-  user: JSON.parse(localStorage.getItem('user')),
+  token: JSON.parse(localStorage.getItem('lubie-placki-token')),
   loading: {
     active: false,
     message: ""
@@ -40,6 +40,8 @@ const appReducer = (state = initialState, action) => {
     case LOGIN_ERROR:
 
     case LOGOUT_REQUEST:
+    case LOGOUT_SUCCESS:
+    case LOGOUT_ERROR:
 
     case REGISTER_REQUEST:
     case REGISTER_SUCCESS:

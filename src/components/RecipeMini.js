@@ -10,9 +10,28 @@ import history from '../helpers/history';
 
 class RecipeMini extends React.Component {
 
+    state = {
+        user: null
+    }
+
+    componentDidMount = () => {
+        fetch("http://localhost:3004/users", {
+            headers: {
+                'securityTokenValue': this.props.token 
+            }
+        })
+        .then(resp => resp.json())
+        .then(user => {
+            this.setState({ user })
+        })
+    }
+
     handleDelete = event => {
         fetch("http://localhost:3004/recipes/" + this.props.recipe.id,{
             method: 'DELETE',
+            headers: {
+                'securityTokenValue': this.props.token 
+            }
           })
           .then(() => {
               history.push("/");
@@ -28,12 +47,12 @@ class RecipeMini extends React.Component {
                     <Link className="recipe__title" to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
                 </h2>
 
-                <RatingController recipe={recipe} user={this.props.user}/>
+                <RatingController recipe={recipe} token={this.props.token}/>
                 
                 <div className="recipe__author">
                     Dodano {recipe.add_date} przez: <Link className="recipe__user" to={`/user/${recipe.user.id}`}>{recipe.user.username} </Link>
                     {
-                        this.props.user!==null && this.props.user.id===recipe.user.id &&
+                        this.state.user!==null && this.state.user.id===recipe.user.id &&
                         <>
                             <button className="recipe__delete" onClick={ this.handleDelete }>Usuń</button>
                             <Link className="recipe__edit" to={"/edit/" + recipe.id}>Edytuj</Link>
@@ -51,10 +70,10 @@ class RecipeMini extends React.Component {
     }
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
 	
 	return {
-	  user: state.user,
+	  token: state.token,
 	}
   }
   

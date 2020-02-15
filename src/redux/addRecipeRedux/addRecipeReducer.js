@@ -242,5 +242,8 @@ export function addRecipeReducer(action) {
         }
       }
     }
+
+    default:
+      return {}
   }
 }

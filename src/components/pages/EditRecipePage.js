@@ -488,13 +488,16 @@ class EditRecipePage extends React.Component {
 
 		const photo = this.state.photo;
 
+		const token = this.props.token;
+		const recipe_id = this.state.id;
+
 		if(photo!=="") {
 			Promise.all([
-				this.props.updateRecipe(this.state.id, recipe),
-				this.props.updateIngredients(this.state.id, ingredients),
-				this.props.updateDirections(this.state.id, directions),
-				this.props.updateHints(this.state.id, hints),
-				this.props.updatePhoto(this.state.id, photo)
+				this.props.updateRecipe(token, recipe_id, recipe),
+				this.props.updateIngredients(token, recipe_id, ingredients),
+				this.props.updateDirections(token, recipe_id, directions),
+				this.props.updateHints(token, recipe_id, hints),
+				this.props.updatePhoto(token, recipe_id, photo)
 			])
 				.then(() => {
 					this.props.history.push("/");
@@ -502,10 +505,10 @@ class EditRecipePage extends React.Component {
 				})
 		} else {
 			Promise.all([
-				this.props.updateRecipe(this.state.id, recipe),
-				this.props.updateIngredients(this.state.id, ingredients),
-				this.props.updateDirections(this.state.id, directions),
-				this.props.updateHints(this.state.id, hints)
+				this.props.updateRecipe(token, recipe_id, recipe),
+				this.props.updateIngredients(token, recipe_id, ingredients),
+				this.props.updateDirections(token, recipe_id, directions),
+				this.props.updateHints(token, recipe_id, hints)
 			])
 				.then(() => {
 					this.props.history.push("/");
@@ -517,10 +520,8 @@ class EditRecipePage extends React.Component {
 	//#endregion
 
 	render() {
-
-		const { user } = this.props;
-
-		if (user == null) return <div className="page">Musisz być zalogowany</div>
+		
+		if (this.props.token == null) return <div className="page">Musisz być zalogowany</div>
 
 		const ingredients = this.state.ingredients.map((a, i) => {
 			return (
@@ -660,19 +661,19 @@ class EditRecipePage extends React.Component {
 	}
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
     return {
-        user: state.user,
+        token: state.token,
         error: state.error
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-	updateRecipe: (recipe_id, recipe) => dispatch(updateRecipe(recipe_id, recipe)),
-	updateIngredients: (recipe_id, ingredients) => dispatch(updateIngredients(recipe_id, ingredients)),
-	updateDirections: (recipe_id, directions) => dispatch(updateDirections(recipe_id, directions)),
-	updateHints: (recipe_id, hints) => dispatch(updateHints(recipe_id, hints)),
-	updatePhoto: (recipe_id, photos) => dispatch(updatePhoto(recipe_id, photos))
+const mapDispatchToProps = dispatch => ({
+	updateRecipe: (token, recipe_id, recipe) => dispatch(updateRecipe(token, recipe_id, recipe)),
+	updateIngredients: (token, recipe_id, ingredients) => dispatch(updateIngredients(token, recipe_id, ingredients)),
+	updateDirections: (token, recipe_id, directions) => dispatch(updateDirections(token, recipe_id, directions)),
+	updateHints: (token, recipe_id, hints) => dispatch(updateHints(token, recipe_id, hints)),
+	updatePhoto: (token, recipe_id, photos) => dispatch(updatePhoto(token, recipe_id, photos))
 })
 
 export default connect(

@@ -8,6 +8,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.comment.repository.CommentRepository;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.RecipeRepository;
+import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UnauthorizedException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
@@ -15,6 +16,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -48,8 +50,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment postComment(Long recipe_id, Long user_id, String text) {
-        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
+    public Comment postComment(UUID securityToken, Long recipe_id, String text) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
 
         Comment comment = new Comment();
@@ -63,14 +65,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long id) {
+    public void deleteComment(UUID securityToken, Long id) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś właścicielem tego komentarza"));
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
 
         commentRepository.delete(comment);
     }
 
     @Override
-    public Comment updateComment(Long id, String text) {
+    public Comment updateComment(UUID securityToken, Long id, String text) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś właścicielem tego komentarza"));
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
 
         comment.setText(text);
@@ -78,7 +82,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment likeComment(Long id) {
+    public Comment likeComment(UUID securityToken, Long id) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
 
         comment.setPoints(comment.getPoints()+1);

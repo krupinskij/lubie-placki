@@ -4,13 +4,14 @@ import {
     ADD_PHOTO_ERROR
 } from '../constants/addPhotoConstants';
 
-export const addPhoto = (recipe_id, photo) => {
+export const addPhoto = (token, recipe_id, photo) => {
     return dispatch => {
         dispatch(addRequest())
         return fetch('http://localhost:3004/recipes/' + recipe_id + '/photo', {
             method: 'POST',
             headers: {
-                'Content-Type': 'image/jpeg'
+                'Content-Type': 'image/jpeg',
+                'securityTokenValue': token
             },
             body: photo
         })

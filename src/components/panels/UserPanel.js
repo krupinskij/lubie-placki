@@ -9,8 +9,28 @@ import { logoutUser } from '../../redux/userRedux/actions/logout';
 class UserPanel extends React.Component {
 
   state = {
-    display: 'none'
-  }
+		display: 'none',
+		user: {
+      username: ""
+    }
+	}
+
+	componentDidMount = () => {
+		fetch('http://localhost:3004/users', {
+			headers: {
+                'securityTokenValue': this.props.token,
+			}
+		})
+			.then(resp => resp.json())
+			.then(resp => {
+				if (resp.status && resp.status !== 200) return;
+
+				console.log(resp);
+				this.setState({
+					user: resp
+				})
+			})
+	}
 
   handleClick = () => {
     const display = this.state.display==='none' ? 'block' : 'none';
@@ -20,13 +40,13 @@ class UserPanel extends React.Component {
   }
 
   handleLogout = () => {
-
-    this.props.logoutUser();
+    console.log(this.props.token);
+    this.props.logoutUser(this.props.token);
     this.props.history.push('/');
   }
 
   render() {
-    const { user } = this.props;
+    const { user } = this.state;
     return (
 
       <div className="navbar__account-container" onClick={this.handleClick}>
@@ -51,14 +71,14 @@ class UserPanel extends React.Component {
   }
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
   return {
-    user: state.user,
+    token: state.token,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  logoutUser: () => dispatch(logoutUser())
+const mapDispatchToProps = dispatch => ({
+  logoutUser: token => dispatch(logoutUser(token))
 })
 
 export default connect(

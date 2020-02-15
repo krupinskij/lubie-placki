@@ -27,7 +27,7 @@ export const loginUser = (user) => {
                 }
 
                 dispatch(loginSuccess(resp));
-                localStorage.setItem('user', JSON.stringify(resp));
+                localStorage.setItem('lubie-placki-token', JSON.stringify(resp));
 
                 history.push("/");
                 window.location.reload(false);
@@ -44,11 +44,11 @@ const loginRequest = () => {
     }
 }
 
-const loginSuccess = user => {
+const loginSuccess = token => {
     return {
         type: LOGIN_SUCCESS,
         payload: {
-            user
+            token
         }
     };
 }

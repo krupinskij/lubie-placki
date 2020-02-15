@@ -8,6 +8,7 @@ import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name="users")
@@ -33,6 +34,9 @@ public class User implements Serializable {
 
     @JsonIgnore
     private byte[] avatar;
+
+    @Column(name = "security_token")
+    private UUID securityToken;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -87,6 +91,14 @@ public class User implements Serializable {
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public UUID getSecurityToken() {
+        return securityToken;
+    }
+
+    public void setSecurityToken(UUID securityToken) {
+        this.securityToken = securityToken;
     }
 
     public List<Comment> getComments() {

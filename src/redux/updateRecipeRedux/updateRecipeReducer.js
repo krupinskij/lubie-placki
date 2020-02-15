@@ -143,5 +143,8 @@ export function updateRecipeReducer(action) {
       }
     }
 
+    default:
+      return {}
+
   }
 }

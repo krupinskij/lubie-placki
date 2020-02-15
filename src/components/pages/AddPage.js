@@ -33,7 +33,7 @@ class AddPage extends React.Component {
 		
 		description: "",
 
-		type: "",
+		type: "makowiec",
 
 		ingredients: [
 			{
@@ -507,16 +507,18 @@ class AddPage extends React.Component {
 
 		const tags = this.state.tags;
 
-		this.props.addRecipe(this.props.user.id, recipe)
+		const token = this.props.token;
+
+		this.props.addRecipe(token, recipe)
 		.then(id => {
 			if(id === -1) return;
 
 			Promise.all([
-				this.props.addIngredients(id, ingredients), 
-				this.props.addDirections(id, directions), 
-				this.props.addHints(id, hints), 
-				this.props.addPhoto(id, photo),
-				this.props.addTags(id, tags)
+				this.props.addIngredients(token, id, ingredients), 
+				this.props.addDirections(token, id, directions), 
+				this.props.addHints(token, id, hints), 
+				this.props.addPhoto(token, id, photo),
+				this.props.addTags(token, id, tags)
 			]).then(() => { this.props.history.push("/"); })
 		})
 	}
@@ -538,9 +540,7 @@ class AddPage extends React.Component {
 
 	render() {
 
-		const { user } = this.props;
-
-		if (user == null) return <div className="page">Musisz być zalogowany</div>
+		if (this.props.token == null) return <div className="page">Musisz być zalogowany</div>
 
 		const ingredients = this.state.ingredients.map((a, i) => {
 			return (
@@ -698,21 +698,21 @@ class AddPage extends React.Component {
 	}
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
     return {
-		user: state.user,
+		token: state.token,
 		loading: state.loading,
         error: state.error
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-	addRecipe: (user_id, recipe) => dispatch(addRecipe(user_id, recipe)),
-	addIngredients: (recipe_id, ingredients) => dispatch(addIngredients(recipe_id, ingredients)),
-	addDirections: (recipe_id, directions) => dispatch(addDirections(recipe_id, directions)),
-	addHints: (recipe_id, hints) => dispatch(addHints(recipe_id, hints)),
-	addPhoto: (recipe_id, photos) => dispatch(addPhoto(recipe_id, photos)),
-	addTags: (recipe_id, tags) => dispatch(addTags(recipe_id, tags))
+const mapDispatchToProps = dispatch => ({
+	addRecipe: (token, recipe) => dispatch(addRecipe(token, recipe)),
+	addIngredients: (token, id, ingredients) => dispatch(addIngredients(token, id, ingredients)),
+	addDirections: (token, id, directions) => dispatch(addDirections(token, id, directions)),
+	addHints: (token, id, hints) => dispatch(addHints(token, id, hints)),
+	addPhoto: (token, id, photos) => dispatch(addPhoto(token, id, photos)),
+	addTags: (token, id, tags) => dispatch(addTags(token, id, tags))
 })
 
 export default connect(

@@ -7,11 +7,11 @@ class RatingController extends React.Component {
         average: 0,
         count: 0,
 
-        userRating: -1
+        userRating: [-1, -1]
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating")
+        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/ratings")
         .then(resp => resp.json())
         .then(resp => {
             this.setState({
@@ -20,8 +20,12 @@ class RatingController extends React.Component {
             })
         })
 
-        if(this.props.user!=null) {
-            fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating/" + this.props.user.id)
+        if(this.props.token !== null) {
+            fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating", {
+                headers: {
+                    'securityTokenValue': this.props.token
+                }
+            })
             .then(resp => resp.json())
             .then(resp => {
                 this.setState({
@@ -32,12 +36,13 @@ class RatingController extends React.Component {
     }
 
     handlePostRating = (event, rating) => {
-        if(this.props.user==null) return;
+        if(this.props.token === null) return;
 
-        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating/" + this.props.user.id, {
+        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating", {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': this.props.token
             },
             body: JSON.stringify(rating)
         })
@@ -45,11 +50,14 @@ class RatingController extends React.Component {
     }
 
     handleDeleteRating = event => {
-        if(this.props.user==null) return;
-        if(this.state.userRating<0) return;
+        if(this.props.token === null) return;
+        if(this.state.userRating < 0) return;
 
-        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating/" + this.props.user.id, {
+        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating", {
             method: 'DELETE',
+            headers: {
+                'securityTokenValue': this.props.token
+            }
         })
 
         .then(() => {

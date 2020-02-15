@@ -4,13 +4,14 @@ import {
     EDIT_ERROR
 } from '../constants/editContants';
 
-export const editUser = (id, username) => {
+export const editUser = (token, id, username) => {
     return dispatch => {
         dispatch(editRequest())
         return fetch("http://localhost:3004/users/" + id + "/username", {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': token
             },
             body: username
         })

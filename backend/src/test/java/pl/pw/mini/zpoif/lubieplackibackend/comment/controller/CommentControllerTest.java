@@ -1,3 +1,4 @@
+/*
 package pl.pw.mini.zpoif.lubieplackibackend.comment.controller;
 
 import org.hamcrest.Matchers;
@@ -196,4 +197,4 @@ class CommentControllerTest {
         Assert.assertEquals(returnedComment.getText(), "Text2");
 
     }
-}
+}*/

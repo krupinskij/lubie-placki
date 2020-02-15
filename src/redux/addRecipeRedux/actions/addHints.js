@@ -4,13 +4,14 @@ import {
     ADD_HINTS_ERROR
 } from '../constants/addHintsConstants';
 
-export const addHints = (recipe_id, hints) => {
+export const addHints = (token, recipe_id, hints) => {
     return dispatch => {
         dispatch(addRequest())
         return fetch('http://localhost:3004/recipes/' + recipe_id + '/hints', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': token
             },
             body: JSON.stringify(hints)
         })

@@ -4,13 +4,14 @@ import {
     UPDATE_RECIPE_ERROR
 } from '../constants/updateRecipeConstants';
 
-export const updateRecipe = (recipe_id, recipe) => {
+export const updateRecipe = (token, recipe_id, recipe) => {
     return dispatch => {
         dispatch(updateRequest())
         return fetch('http://localhost:3004/recipes/' + recipe_id, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': token
             },
             body: JSON.stringify(recipe)
         })

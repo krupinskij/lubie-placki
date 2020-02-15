@@ -182,7 +182,7 @@ class RegisterPage extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-	  user: state.user,
+	  token: state.token,
       loading: state.loading,
       error: state.error
 	}

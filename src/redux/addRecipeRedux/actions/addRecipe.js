@@ -4,13 +4,14 @@ import {
     ADD_RECIPE_ERROR
 } from '../constants/addRecipeConstants';
 
-export const addRecipe = (user_id, recipe) => {
+export const addRecipe = (token, recipe) => {
     return dispatch => {
         dispatch(addRequest())
-        return fetch('http://localhost:3004/recipes/' + user_id, {
+        return fetch('http://localhost:3004/recipes', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'securityTokenValue': token
             },
             body: JSON.stringify(recipe)
         })

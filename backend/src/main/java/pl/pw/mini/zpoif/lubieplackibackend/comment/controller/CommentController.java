@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pw.mini.zpoif.lubieplackibackend.comment.service.CommentService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "/comments")
 @CrossOrigin
@@ -26,24 +28,28 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getCommentsByRecipeId(recipe_id));
     }
 
-    @PostMapping(path = "/recipe/{recipe_id}/user/{user_id}")
-    public ResponseEntity postComment(@PathVariable Long recipe_id, @PathVariable Long user_id, @RequestBody String text) {
-        return ResponseEntity.ok(commentService.postComment(recipe_id, user_id, text));
+    @PostMapping(path = "/recipe/{recipe_id}")
+    public ResponseEntity postComment(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id, @RequestBody String text) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(commentService.postComment(securityToken, recipe_id, text));
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
+    public ResponseEntity deleteComment(@RequestHeader String securityTokenValue, @PathVariable Long id) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        commentService.deleteComment(securityToken, id);
         return ResponseEntity.ok("Usunięto komentarz");
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity updateComment(@PathVariable Long id, @RequestBody String text) {
-        return ResponseEntity.ok(commentService.updateComment(id, text));
+    public ResponseEntity updateComment(@RequestHeader String securityTokenValue, @PathVariable Long id, @RequestBody String text) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(commentService.updateComment(securityToken, id, text));
     }
 
     @PostMapping(path = "/{id}/like")
-    public ResponseEntity likeComment(@PathVariable Long id) {
-        return ResponseEntity.ok(commentService.likeComment(id));
+    public ResponseEntity likeComment(@RequestHeader String securityTokenValue, @PathVariable Long id) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(commentService.likeComment(securityToken, id));
     }
 }

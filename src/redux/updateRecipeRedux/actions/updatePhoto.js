@@ -4,13 +4,14 @@ import {
     UPDATE_PHOTO_ERROR
 } from '../constants/updatePhotoConstants';
 
-export const updatePhoto = (recipe_id, photo) => {
+export const updatePhoto = (token, recipe_id, photo) => {
     return dispatch => {
         dispatch(updateRequest())
         return fetch('http://localhost:3004/recipes/' + recipe_id + '/photo', {
             method: 'PUT',
             headers: {
-                'Content-Type': 'image/jpeg'
+                'Content-Type': 'image/jpeg',
+                'securityTokenValue': token
             },
             body: photo
         })
