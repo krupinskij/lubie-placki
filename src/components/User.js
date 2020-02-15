@@ -18,10 +18,6 @@ class User extends React.Component {
         })
     }
 
-    writeMessage = () => {
-        this.props.history.push("/write/" + this.props.user.id)
-    }
-
 	render() {
         const user = this.props.user;
         
@@ -34,9 +30,6 @@ class User extends React.Component {
                 </h1>
                 <div>
                     Punkty: {this.state.points}
-                </div>
-                <div>
-                    <button className="user__button" onClick={this.writeMessage}>Napisz wiadomość</button>
                 </div>
             </div>
 		)

@@ -22,9 +22,6 @@ import EditUserPage from './components/pages/EditUserPage';
 import EditRecipePage from './components/pages/EditRecipePage';
 
 import SearchPage from './components/pages/SearchPage';
-import PostPage from './components/pages/PostPage';
-import MessagePage from './components/pages/MessagePage';
-import MessageWritePage from './components/pages/MessageWritePage';
 
 const store = createStore(rootReducer, applyMiddleware(reduxLogger, reduxThunk))
 
@@ -50,10 +47,6 @@ class App extends React.Component {
 						<Route path="/edit/:id" component={EditRecipePage} />
 
 						<Route path="/search" component={SearchPage} />
-
-						<Route path="/post/:id" component={PostPage}/>
-						<Route path="/message/:id" component={MessagePage}/>
-						<Route path="/write/:id" component={MessageWritePage}/>
 					</div>
 				</BrowserRouter>
 			</Provider>

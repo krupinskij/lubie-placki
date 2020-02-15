@@ -110,33 +110,6 @@ ALTER TABLE public.ingredients_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
 
 
--- MESSAGES --
-
-DROP TABLE IF EXISTS public.messages;
-DROP SEQUENCE IF EXISTS public.messages_id_seq;
-
-CREATE TABLE public.messages (
-    id bigint NOT NULL,
-    title text NOT NULL,
-    content text NOT NULL,
-    date timestamp without time zone NOT NULL,
-    sender_id integer NOT NULL,
-    receiver_id integer NOT NULL
-);
-
-ALTER TABLE public.messages OWNER TO postgres;
-
-CREATE SEQUENCE public.messages_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-ALTER TABLE public.messages_id_seq OWNER TO postgres;
-ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
-
-
 -- RATINGS --
 
 DROP TABLE IF EXISTS public.ratings;
