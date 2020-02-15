@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom'
 
 import { registerUser } from '../../redux/actions/userActions/registerActions'
 
+import Loading from '../Loading';
+
 import { 
     required, 
     minLength, 
@@ -126,6 +128,9 @@ class RegisterPage extends React.Component {
 	render() {
 		return (
 			<div className="page">
+
+                {this.props.loading.active && <Loading message={this.props.loading.message}/>}
+
                 <form className="component component--wide add-recipe-form" onSubmit={this.handleSubmit}>
                     <h2 className="form__header">Zarejestruj się</h2>
 
@@ -166,6 +171,8 @@ class RegisterPage extends React.Component {
                         className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error" }
                         type="submit" value="Zarejestruj się" />
 
+                    {this.props.error.active && <span className="form__error">{this.props.error.message}</span>}
+
                     <span className="form__direction">Masz już konto? <Link className="form__link" to="/login">Zaloguj się!</Link></span>
                 </form>
             </div>
@@ -173,16 +180,17 @@ class RegisterPage extends React.Component {
 	}
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
 	return {
 	  user: state.user,
-	  isLogging: state.logging
+      loading: state.loading,
+      error: state.error
 	}
-  }
+}
   
-  const mapDispatchToProps = (dispatch) => ({
-	registerUser: (user) => dispatch(registerUser(user))
-  })
+const mapDispatchToProps = dispatch => ({
+	registerUser: user => dispatch(registerUser(user))
+})
 
 export default connect(
 	mapStateToProps,

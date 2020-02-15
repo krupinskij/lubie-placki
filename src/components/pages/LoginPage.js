@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom'
 
 import { loginUser } from '../../redux/actions/userActions/loginActions'
 
+import Loading from '../Loading';
+
 class LoginPage extends React.Component {
     state = {
         username: "",
@@ -35,7 +37,11 @@ class LoginPage extends React.Component {
     render() {
 
         return (
+
             <div className="page">
+                
+                {this.props.loading.active && <Loading message={this.props.loading.message}/>}
+
                 <form className="component component--wide add-recipe-form" onSubmit={this.handleSubmit}>
                     <h2 className="form__header">Zaloguj się</h2>
 
@@ -50,11 +56,8 @@ class LoginPage extends React.Component {
                     </div>
 
                     <input className="form__submit" type="submit" value="Zaloguj się" />
-                    {
-                        <span className="form__error">
-                            {this.props.error}
-                        </span>
-                    }
+                    
+                    {this.props.error.active && <span className="form__error">{this.props.error.message}</span>}
 
                     <span className="form__direction">Nie masz jeszcze konta? <Link className="form__link" to="/register">Zarejestruj się!</Link></span>
                 </form>
@@ -63,15 +66,16 @@ class LoginPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state /*, ownProps*/) => {
+const mapStateToProps = state => {
     return {
         user: state.user,
+        loading: state.loading,
         error: state.error
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    loginUser: (user) => dispatch(loginUser(user))
+const mapDispatchToProps = dispatch => ({
+    loginUser: user => dispatch(loginUser(user))
 })
 
 export default connect(

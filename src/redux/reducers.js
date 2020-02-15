@@ -54,168 +54,420 @@ import {
 
 export const initialState = {
   user: JSON.parse(localStorage.getItem('user')),
-  logging: false
+  loading: {
+    active: false,
+    message: ""
+  },
+  error: {
+    active: false,
+    message: ""
+  }
 };
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case LOGIN_REQUEST: {
-      return Object.assign({}, state, { user: null, logging: true, error: null })
+      return {
+        ...state, 
+        user: null, 
+        loading: {
+          active: true,
+          message: "Trwa logowanie..."
+        },
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
+
     case LOGIN_SUCCESS: {
-      const { user } = action.payload;
-      return Object.assign({}, state, { user, logging: false, error: false });
+      return {
+        ...state,
+        user: action.payload.user,
+        loading: {
+          active: false,
+          message: ""
+        },
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
+
     case LOGIN_ERROR: {
-      const { error } = action.payload;
-      return Object.assign({}, state, { logging: false, error })
+      return {
+        ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case LOGOUT_REQUEST: {
-      return Object.assign({}, state, { user: null, logging: false, error: null })
+      return {
+        ...state,
+        user: null,
+        loading: {
+          active: false,
+          message: ""
+        },
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
-    case REGISTER_REQUEST: {
-      return Object.assign({}, state, { user: null, logging: true, error: null })
+    case LOGIN_REQUEST: {
+      return {
+        ...state, 
+        user: null, 
+        loading: {
+          active: true,
+          message: "Trwa rejestracja..."
+        },
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
+
     case REGISTER_SUCCESS: {
-      const { user } = action.payload;
-      return Object.assign({}, state, { user, logging: false, error: false });
+      return {
+        ...state,
+        user: action.payload.user,
+        loading: {
+          active: false,
+          message: ""
+        },
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
+    
     case REGISTER_ERROR: {
-      const { error } = action.payload;
-      return Object.assign({}, state, { logging: false, error })
+      return {
+        ...state,
+        loading: {
+          active: false,
+          message: ""
+        },
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case ADD_RECIPE_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_RECIPE_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
-    case ADD_RECIPE_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+    case ADD_RECIPE_ERROR:    {
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case ADD_INGREDIENTS_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_INGREDIENTS_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_INGREDIENTS_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case ADD_DIRECTIONS_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_DIRECTIONS_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_DIRECTIONS_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case ADD_HINTS_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_HINTS_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      } 
     }
 
     case ADD_HINTS_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case ADD_PHOTO_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case ADD_PHOTO_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      } 
     }
 
     case ADD_PHOTO_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      } 
     }
 
     case UPDATE_RECIPE_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_RECIPE_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      } 
     }
 
     case UPDATE_RECIPE_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case UPDATE_INGREDIENTS_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_INGREDIENTS_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      } 
     }
 
     case UPDATE_INGREDIENTS_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case UPDATE_DIRECTIONS_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_DIRECTIONS_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_DIRECTIONS_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case UPDATE_HINTS_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_HINTS_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_HINTS_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      }
     }
 
     case UPDATE_PHOTO_REQUEST:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_PHOTO_SUCCESS:  { 
-      return { ...state, error: null} 
+      return {
+        ...state,
+        error: {
+          active: false,
+          message: ""
+        }
+      }
     }
 
     case UPDATE_PHOTO_ERROR:    { 
-      const { error } = action.payload;
-      return { ...state, error} 
+      return {
+        ...state,
+        error: {
+          active: true,
+          message: action.payload.error
+        }
+      } 
     }
 
     default:
