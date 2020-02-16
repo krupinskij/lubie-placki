@@ -3,6 +3,7 @@ import {
     EDIT_SUCCESS,
     EDIT_ERROR
 } from '../constants/editContants';
+import { USER } from '../constants/userGroup';
 
 export const editUser = (token, id, username) => {
     return dispatch => {
@@ -36,12 +37,14 @@ export const editUser = (token, id, username) => {
 
 const editRequest = () => {
     return {
+        class: USER,
         type: EDIT_REQUEST
     }
 }
 
 const editSuccess = user => {
     return {
+        class: USER,
         type: EDIT_SUCCESS,
         payload: {
             user
@@ -51,6 +54,7 @@ const editSuccess = user => {
 
 const editError = error => {
     return {
+        class: USER,
         type: EDIT_ERROR,
         payload: {
             error

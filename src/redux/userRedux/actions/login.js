@@ -3,6 +3,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_ERROR
 } from '../constants/loginConstants';
+import { USER } from '../constants/userGroup';
 
 import history from '../../../helpers/history'
 
@@ -40,12 +41,14 @@ export const loginUser = (user) => {
 
 const loginRequest = () => {
     return {
+        class: USER,
         type: LOGIN_REQUEST
     }
 }
 
 const loginSuccess = token => {
     return {
+        class: USER,
         type: LOGIN_SUCCESS,
         payload: {
             token
@@ -55,6 +58,7 @@ const loginSuccess = token => {
 
 const loginError = error => {
     return {
+        class: USER,
         type: LOGIN_ERROR,
         payload: {
             error

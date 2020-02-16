@@ -3,6 +3,7 @@ import {
     UPDATE_DIRECTIONS_SUCCESS,
     UPDATE_DIRECTIONS_ERROR
 } from '../constants/updateDirectionsConstants';
+import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
 
 export const updateDirections = (token, recipe_id, directions) => {
     return dispatch => {
@@ -32,18 +33,21 @@ export const updateDirections = (token, recipe_id, directions) => {
 
 const updateRequest = () => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_DIRECTIONS_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_DIRECTIONS_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_DIRECTIONS_ERROR,
         payload: {
             error

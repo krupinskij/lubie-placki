@@ -3,6 +3,7 @@ import {
     LOGOUT_SUCCESS,
     LOGOUT_ERROR
 } from '../constants/logoutConstants';
+import { USER } from '../constants/userGroup';
 
 import history from '../../../helpers/history'
 
@@ -40,18 +41,21 @@ export const logoutUser = token => {
 
 const logoutRequest = () => {
     return {
+        class: USER,
         type: LOGOUT_REQUEST
     }
 }
 
 const logoutSuccess = () => {
     return {
+        class: USER,
         type: LOGOUT_SUCCESS
     };
 }
 
 const logoutError = error => {
     return {
+        class: USER,
         type: LOGOUT_ERROR,
         payload: {
             error

@@ -3,6 +3,7 @@ import {
     ADD_TAGS_SUCCESS,
     ADD_TAGS_ERROR
 } from '../constants/addTagsConstants';
+import { ADD_RECIPE } from '../constants/addRecipeGroup';
 
 export const addTags = (token, recipe_id, tags) => {
     return dispatch => {
@@ -32,18 +33,21 @@ export const addTags = (token, recipe_id, tags) => {
 
 const addRequest = () => {
     return {
+        class: ADD_RECIPE,
         type: ADD_TAGS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
+        class: ADD_RECIPE,
         type: ADD_TAGS_SUCCESS
     };
 }
 
 const addError = error => {
     return {
+        class: ADD_RECIPE,
         type: ADD_TAGS_ERROR,
         payload: {
             error

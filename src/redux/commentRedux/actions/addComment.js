@@ -3,6 +3,7 @@ import {
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_ERROR,
 } from '../constants/addCommentConstants'
+import { COMMENT } from '../constants/commentGroup';
 
 export const addComment = (token, recipe_id, text) => {
     return dispatch => {
@@ -36,18 +37,21 @@ export const addComment = (token, recipe_id, text) => {
 
 const addRequest = () => {
     return {
+        class: COMMENT,
         type: ADD_COMMENT_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
+        class: COMMENT,
         type: ADD_COMMENT_SUCCESS
     };
 }
 
 const addError = error => {
     return {
+        class: COMMENT,
         type: ADD_COMMENT_ERROR,
         payload: {
             error

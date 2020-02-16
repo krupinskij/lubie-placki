@@ -3,6 +3,7 @@ import {
     EDIT_AVATAR_SUCCESS,
     EDIT_AVATAR_ERROR
 } from '../constants/editAvatarConstants';
+import { USER } from '../constants/userGroup';
 
 export const editAvatar = (token, id, avatar) => {
     return dispatch => {
@@ -35,18 +36,21 @@ export const editAvatar = (token, id, avatar) => {
 
 const editRequest = () => {
     return {
+        class: USER,
         type: EDIT_AVATAR_REQUEST
     }
 }
 
 const editSuccess = () => {
     return {
+        class: USER,
         type: EDIT_AVATAR_SUCCESS
     };
 }
 
 const editError = error => {
     return {
+        class: USER,
         type: EDIT_AVATAR_ERROR,
         payload: {
             error

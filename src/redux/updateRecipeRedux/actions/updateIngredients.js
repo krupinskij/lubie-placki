@@ -3,6 +3,7 @@ import {
     UPDATE_INGREDIENTS_SUCCESS,
     UPDATE_INGREDIENTS_ERROR
 } from '../constants/updateIngredientsConstants';
+import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
 
 export const updateIngredients = (token, recipe_id, ingredients) => {
     return dispatch => {
@@ -32,18 +33,21 @@ export const updateIngredients = (token, recipe_id, ingredients) => {
 
 const updateRequest = () => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_INGREDIENTS_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_INGREDIENTS_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_INGREDIENTS_ERROR,
         payload: {
             error

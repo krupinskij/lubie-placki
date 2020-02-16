@@ -3,6 +3,7 @@ import {
     ADD_RECIPE_SUCCESS,
     ADD_RECIPE_ERROR
 } from '../constants/addRecipeConstants';
+import { ADD_RECIPE } from '../constants/addRecipeGroup';
 
 export const addRecipe = (token, recipe) => {
     return dispatch => {
@@ -34,18 +35,21 @@ export const addRecipe = (token, recipe) => {
 
 const addRequest = () => {
     return {
+        class: ADD_RECIPE,
         type: ADD_RECIPE_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
+        class: ADD_RECIPE,
         type: ADD_RECIPE_SUCCESS
     };
 }
 
 const addError = error => {
     return {
+        class: ADD_RECIPE,
         type: ADD_RECIPE_ERROR,
         payload: {
             error

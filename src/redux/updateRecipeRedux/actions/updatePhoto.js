@@ -3,6 +3,7 @@ import {
     UPDATE_PHOTO_SUCCESS,
     UPDATE_PHOTO_ERROR
 } from '../constants/updatePhotoConstants';
+import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
 
 export const updatePhoto = (token, recipe_id, photo) => {
     return dispatch => {
@@ -32,18 +33,21 @@ export const updatePhoto = (token, recipe_id, photo) => {
 
 const updateRequest = () => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_PHOTO_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_PHOTO_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
+        class: UPDATE_RECIPE,
         type: UPDATE_PHOTO_ERROR,
         payload: {
             error

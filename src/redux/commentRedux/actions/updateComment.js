@@ -3,6 +3,7 @@ import {
     UPDATE_COMMENT_SUCCESS,
     UPDATE_COMMENT_ERROR,
 } from '../constants/updateCommentConstants'
+import { COMMENT } from '../constants/commentGroup';
 
 export const updateComment = (token, comment_id, text) => {
     return dispatch => {
@@ -36,18 +37,21 @@ export const updateComment = (token, comment_id, text) => {
 
 const updateRequest = () => {
     return {
+        class: COMMENT,
         type: UPDATE_COMMENT_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
+        class: COMMENT,
         type: UPDATE_COMMENT_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
+        class: COMMENT,
         type: UPDATE_COMMENT_ERROR,
         payload: {
             error
