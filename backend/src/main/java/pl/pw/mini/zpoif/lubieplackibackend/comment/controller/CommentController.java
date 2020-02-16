@@ -46,10 +46,4 @@ public class CommentController {
         UUID securityToken = UUID.fromString(securityTokenValue);
         return ResponseEntity.ok(commentService.updateComment(securityToken, id, text));
     }
-
-    @PostMapping(path = "/{id}/like")
-    public ResponseEntity likeComment(@RequestHeader String securityTokenValue, @PathVariable Long id) {
-        UUID securityToken = UUID.fromString(securityTokenValue);
-        return ResponseEntity.ok(commentService.likeComment(securityToken, id));
-    }
 }

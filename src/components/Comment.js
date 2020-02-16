@@ -67,15 +67,11 @@ class Comment extends React.Component {
                 this.props.user_id !== undefined &&
 
                 (
-                  this.props.user_id === this.props.comment.user.id ?
+                  this.props.user_id === this.props.comment.user.id &&
 
                     <div className="comment__buttons">
                       <button className="comment__button comment__button--delete" onClick={this.handleDeleteClick}>Usuń</button>
                       <button className="comment__button comment__button--edit" onClick={this.handleEditClick}>Edytuj</button>
-                    </div>
-                    :
-                    <div className="comment__buttons">
-                      <button className="comment__button comment__button--like" onClick={this.handleLikeClick}>Fajny komentarz:  {comment.points} </button>
                     </div>
                 )
 

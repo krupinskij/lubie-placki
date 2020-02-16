@@ -15,9 +15,14 @@ import { UPDATE_DIRECTIONS_REQUEST, UPDATE_DIRECTIONS_SUCCESS, UPDATE_DIRECTIONS
 import { UPDATE_HINTS_REQUEST, UPDATE_HINTS_SUCCESS, UPDATE_HINTS_ERROR } from './updateRecipeRedux/constants/updateHintsConstants';
 import { UPDATE_PHOTO_REQUEST, UPDATE_PHOTO_SUCCESS, UPDATE_PHOTO_ERROR } from './updateRecipeRedux/constants/updatePhotoConstants';
 
+import { ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_ERROR } from './commentRedux/constants/addCommentConstants';
+import { DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_ERROR } from './commentRedux/constants/deleteCommentConstants';
+import { UPDATE_COMMENT_REQUEST, UPDATE_COMMENT_SUCCESS, UPDATE_COMMENT_ERROR } from './commentRedux/constants/updateCommentConstants';
+
 import { userReducer } from './userRedux/userReducer';
 import { addRecipeReducer } from './addRecipeRedux/addRecipeReducer';
 import { updateRecipeReducer } from './updateRecipeRedux/updateRecipeReducer';
+import { commentReducer } from './commentRedux/commentReducer';
 
 export const initialState = {
   token: JSON.parse(localStorage.getItem('lubie-placki-token')),
@@ -32,7 +37,7 @@ export const initialState = {
 };
 
 const appReducer = (state = initialState, action) => {
-  
+
   switch (action.type) {
 
     case LOGIN_REQUEST:
@@ -95,6 +100,20 @@ const appReducer = (state = initialState, action) => {
     case UPDATE_PHOTO_SUCCESS:
     case UPDATE_PHOTO_ERROR: {
       return { ...state, ...updateRecipeReducer(action) }
+    }
+
+    case ADD_COMMENT_REQUEST:
+    case ADD_COMMENT_SUCCESS:
+    case ADD_COMMENT_ERROR:
+
+    case DELETE_COMMENT_REQUEST:
+    case DELETE_COMMENT_SUCCESS:
+    case DELETE_COMMENT_ERROR:
+
+    case UPDATE_COMMENT_REQUEST:
+    case UPDATE_COMMENT_SUCCESS:
+    case UPDATE_COMMENT_ERROR: {
+      return { ...state, ...commentReducer(action) }
     }
 
     default:

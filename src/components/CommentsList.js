@@ -3,11 +3,21 @@ import React from 'react';
 import Comment from './Comment'
 import CommentInput from './CommentInput';
 
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
+import { addComment } from '../redux/commentRedux/actions/addComment';
+import { deleteComment } from '../redux/commentRedux/actions/deleteComment';
+import { updateComment } from '../redux/commentRedux/actions/updateComment';
+
 class CommentsList extends React.Component {
 
     state = {
         comments: [],
-        loadingComments: true
+        loadingComments: true,
+        user: {
+            id: undefined
+        }
     }
 
     componentDidMount = () => {
@@ -19,42 +29,28 @@ class CommentsList extends React.Component {
                 loadingComments: false
             }) 
         })
+
+        fetch("http://localhost:3004/users", {
+            headers: {
+                'securityTokenValue': this.props.token
+            }
+        })
+        .then(resp => resp.json())
+        .then(user => {
+            this.setState({ user })
+        })
     }
 
     postComment = text => {
-        fetch("http://localhost:3004/comments/recipe/" + this.props.recipe_id + "/user/" + this.props.user_id, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: text
-        })
-        .then(this.componentDidMount);
+        this.props.addComment(this.props.token, this.props.recipe_id, text).then(this.componentDidMount);
     }
 
-    deleteComment = (id) => {
-        fetch("http://localhost:3004/comments/" + id, {
-            method: 'DELETE'
-        })
-        .then(this.componentDidMount);
+    deleteComment = id => {
+        this.props.deleteComment(this.props.token, id).then(this.componentDidMount);
     }
 
     updateComment = (id, text) => {
-        fetch("http://localhost:3004/comments/" + id, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: text
-        })
-        .then(this.componentDidMount);
-    }
-
-    likeComment = (id) => {
-        fetch("http://localhost:3004/comments/" + id + "/like", {
-            method: 'POST'
-        })
-        .then(this.componentDidMount);
+        this.props.updateComment(this.props.token, id, text).then(this.componentDidMount);
     }
 	
 	render() {
@@ -67,9 +63,7 @@ class CommentsList extends React.Component {
             deleteComment={this.deleteComment}
             updateComment={this.updateComment}
 
-            likeComment={this.likeComment}
-
-            user_id={this.props.user_id}
+            user_id={this.state.user.id}
         />)
 
 		return (
@@ -82,4 +76,21 @@ class CommentsList extends React.Component {
 	}
 }
 
-export default CommentsList;
+const mapStateToProps = state => {
+    return {
+		token: state.token,
+		loading: state.loading,
+        error: state.error
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+	addComment: (token, recipe_id, text) => dispatch(addComment(token, recipe_id, text)),
+	deleteComment: (token, comment_id) => dispatch(deleteComment(token, comment_id)),
+	updateComment: (token, comment_id, text) => dispatch(updateComment(token, comment_id, text))
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withRouter(CommentsList))

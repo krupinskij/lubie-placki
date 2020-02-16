@@ -40,15 +40,15 @@ class RecipePage extends React.Component {
             <div className="page">
                 <Recipe recipe={this.state.recipe}/>
 
-                <RecipePhotosController 
+                {/* <RecipePhotosController 
                     recipe_id={this.state.recipe.id} 
                     photos_count={this.state.recipe.recipePhotos}
                     user_id={this.state.user!=null ? this.state.user.id : undefined}
-                />
+                /> */}
 
                 <CommentsList 
                     recipe_id={this.state.recipe.id} 
-                    user_id={this.state.user!=null ? this.state.user.id : undefined} 
+                    token={this.state.token} 
                     comments={this.state.comments}
                 />
             </div>
