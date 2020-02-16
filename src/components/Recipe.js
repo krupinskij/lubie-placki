@@ -3,8 +3,9 @@ import React from 'react'
 import RatingController from './RatingController';
 
 import { Link } from 'react-router-dom'
-
 import { connect } from 'react-redux'
+
+import { deleteRecipe } from '../redux/deleteRecipeRedux/actions/deleteRecipe';
 
 import history from '../helpers/history'
 
@@ -17,26 +18,23 @@ class Recipe extends React.Component {
     componentDidMount = () => {
         fetch("http://localhost:3004/users", {
             headers: {
-                'securityTokenValue': this.props.token 
+                'securityTokenValue': this.props.token
             }
         })
-        .then(resp => resp.json())
-        .then(user => {
-            this.setState({ user })
-        })
+            .then(resp => resp.json())
+            .then(user => {
+                this.setState({ user })
+            })
     }
 
     handleDelete = event => {
-        fetch("http://localhost:3004/recipes/"+this.props.recipe.id,{
-            method: 'DELETE',
-            headers: {
-                'securityTokenValue': this.props.token 
-            }
-          })
-          .then(() => {
-              history.push("/");
-              window.location.reload(false);
-          });
+
+        this.props.deleteRecipe(this.props.token, this.props.recipe.id)
+            .then(() => {
+                history.push("/");
+                window.location.reload(false);
+            });
+
     }
 
     render() {
@@ -65,21 +63,21 @@ class Recipe extends React.Component {
                     <Link className="recipe__title" to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
                 </h2>
 
-                <RatingController recipe={recipe} token={this.props.token}/>
+                <RatingController recipe={recipe} token={this.props.token} />
 
                 <div className="recipe__author">
                     Dodano {recipe.add_date} przez: <Link className="recipe__user" to={`/user/${recipe.user.id}`}>{recipe.user.username} </Link>
                     {
-                        this.state.user!==null && this.state.user.id===recipe.user.id &&
+                        this.state.user !== null && this.state.user.id === recipe.user.id &&
                         <>
-                            <button className="recipe__delete" onClick={ this.handleDelete }>Usuń</button>
+                            <button className="recipe__delete" onClick={this.handleDelete}>Usuń</button>
                             <Link className="recipe__edit" to={"/edit/" + recipe.id}>Edytuj</Link>
                         </>
                     }
                 </div>
 
                 <img className="recipe__photo" src={`http://localhost:3004/recipes/${recipe.id}/photo`} alt={recipe.title} />
-                
+
                 <div className="recipe__section">
                     <h3>Opis: </h3>
                     {recipe.description}
@@ -111,12 +109,19 @@ class Recipe extends React.Component {
 }
 
 const mapStateToProps = state => {
-	
-	return {
-	  token: state.token,
-	}
-  }
-  
-  export default connect(
-	mapStateToProps
-  )(Recipe)
+
+    return {
+        token: state.token,
+        loading: state.loading,
+        error: state.error
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    deleteRecipe: (token, recipe_id) => dispatch(deleteRecipe(token, recipe_id))
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Recipe)

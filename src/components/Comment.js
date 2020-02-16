@@ -32,10 +32,6 @@ class Comment extends React.Component {
     this.props.updateComment(this.props.comment.id, this.state.text);
   }
 
-  handleLikeClick = event => {
-    this.props.likeComment(this.props.comment.id);
-  }
-
   handleChangeText = event => {
     const target = event.target;
     const value = target.value;
@@ -76,9 +72,6 @@ class Comment extends React.Component {
                 )
 
               }
-
-
-
             </>
             :
             <>

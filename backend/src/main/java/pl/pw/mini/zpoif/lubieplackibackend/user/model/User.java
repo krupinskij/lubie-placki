@@ -1,9 +1,11 @@
 package pl.pw.mini.zpoif.lubieplackibackend.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Rating;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
+import pl.pw.mini.zpoif.lubieplackibackend.user.util.UserSerializer;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +23,7 @@ public class User implements Serializable {
     private String username;
 
     @Column
+    @JsonIgnore
     private String password;
 
     @ElementCollection
@@ -36,6 +39,7 @@ public class User implements Serializable {
     private byte[] avatar;
 
     @Column(name = "security_token")
+    @JsonIgnore
     private UUID securityToken;
 
     @OneToMany(mappedBy = "user")

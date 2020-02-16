@@ -135,30 +135,6 @@ ALTER TABLE public.ratings_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 
 
--- RECIPE PHOTOS --
-
-DROP TABLE IF EXISTS public.recipe_photos;
-DROP SEQUENCE IF EXISTS public.recipe_photos_id_seq;
-
-CREATE TABLE public.recipe_photos (
-    id bigint NOT NULL,
-    photo bytea NOT NULL,
-    recipe_id integer NOT NULL
-);
-
-ALTER TABLE public.recipe_photos OWNER TO postgres;
-
-CREATE SEQUENCE public.recipe_photos_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-ALTER TABLE public.recipe_photos_id_seq OWNER TO postgres;
-ALTER SEQUENCE public.recipe_photos_id_seq OWNED BY public.recipe_photos.id;
-
-
 -- RECIPES --
 
 DROP TABLE IF EXISTS public.recipes;
@@ -248,8 +224,6 @@ ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.
 
 ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.ratings_id_seq'::regclass);
 
-ALTER TABLE ONLY public.recipe_photos ALTER COLUMN id SET DEFAULT nextval('public.recipe_photos_id_seq'::regclass);
-
 ALTER TABLE ONLY public.recipes ALTER COLUMN id SET DEFAULT nextval('public.recipes_id_seq'::regclass);
 
 ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
@@ -318,8 +292,6 @@ SELECT pg_catalog.setval('public.ingredients_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.ratings_id_seq', 13, true);
 
-SELECT pg_catalog.setval('public.recipe_photos_id_seq', 1, false);
-
 SELECT pg_catalog.setval('public.recipes_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.tags_id_seq', 6, true);
@@ -342,9 +314,6 @@ ALTER TABLE ONLY public.ingredients
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
-ALTER TABLE ONLY public.recipe_photos
-    ADD CONSTRAINT recipe_photos_pkey PRIMARY KEY (id);
-
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
 
@@ -356,7 +325,6 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
-
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
@@ -378,9 +346,6 @@ ALTER TABLE ONLY public.ratings
 
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-ALTER TABLE ONLY public.recipe_photos
-    ADD CONSTRAINT recipe_photos_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT recipes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);

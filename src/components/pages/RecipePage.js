@@ -1,6 +1,5 @@
 import React from 'react';
 import Recipe from '../Recipe';
-import RecipePhotosController from '../RecipePhotosController';
 import CommentsList from '../CommentsList';
 
 import { connect } from 'react-redux'
@@ -40,12 +39,6 @@ class RecipePage extends React.Component {
             <div className="page">
                 <Recipe recipe={this.state.recipe}/>
 
-                {/* <RecipePhotosController 
-                    recipe_id={this.state.recipe.id} 
-                    photos_count={this.state.recipe.recipePhotos}
-                    user_id={this.state.user!=null ? this.state.user.id : undefined}
-                /> */}
-
                 <CommentsList 
                     recipe_id={this.state.recipe.id} 
                     token={this.state.token} 
@@ -59,7 +52,9 @@ class RecipePage extends React.Component {
 const mapStateToProps = state => {
 	
 	return {
-	  token: state.token,
+      token: state.token,
+      loading: state.loading,
+      error: state.error
 	}
   }
   
