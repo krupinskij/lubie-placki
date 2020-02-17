@@ -1,6 +1,12 @@
 import React from 'react'
 import star from '../svg/star.svg'
 
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
+import { addRating } from '../redux/ratingRedux/actions/addRating';
+import { deleteRating } from '../redux/ratingRedux/actions/deleteRating';
+
 class RatingController extends React.Component {
 
     state = {
@@ -38,29 +44,23 @@ class RatingController extends React.Component {
     handlePostRating = (event, rating) => {
         if(this.props.token === null) return;
 
-        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'securityTokenValue': this.props.token
-            },
-            body: JSON.stringify(rating)
+        this.props.addRating(this.props.token, this.props.recipe.id, rating)
+        .then(id => { 
+            if(id===-1) return;
+
+            this.componentDidMount() 
         })
-        .then(resp => { this.componentDidMount() })
     }
 
     handleDeleteRating = event => {
         if(this.props.token === null) return;
         if(this.state.userRating < 0) return;
 
-        fetch("http://localhost:3004/recipes/" + this.props.recipe.id + "/rating", {
-            method: 'DELETE',
-            headers: {
-                'securityTokenValue': this.props.token
-            }
-        })
+        
+        this.props.deleteRating(this.props.token, this.props.recipe.id)
+        .then(id => {
+            if(id===-1) return;
 
-        .then(() => {
             this.setState({
                 userRating: -1
             })
@@ -118,4 +118,20 @@ class RatingController extends React.Component {
     }
 }
 
-export default RatingController;
+const mapStateToProps = state => {
+    return {
+		token: state.token,
+		loading: state.loading,
+        error: state.error
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+	addRating: (token, recipe_id, rating) => dispatch(addRating(token, recipe_id, rating)),
+	deleteRating: (token, recipe_id) => dispatch(deleteRating(token, recipe_id))
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withRouter(RatingController))

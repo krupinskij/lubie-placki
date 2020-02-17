@@ -3,12 +3,14 @@ import { ADD_RECIPE } from './addRecipeRedux/constants/addRecipeGroup';
 import { UPDATE_RECIPE } from './updateRecipeRedux/constants/updateRecipeGroup';
 import { DELETE_RECIPE } from './deleteRecipeRedux/constants/deleteRecipeGroup';
 import { COMMENT } from './commentRedux/constants/commentGroup';
+import { RATING } from './ratingRedux/constants/ratingGroup';
 
 import { userReducer } from './userRedux/userReducer';
 import { addRecipeReducer } from './addRecipeRedux/addRecipeReducer';
 import { updateRecipeReducer } from './updateRecipeRedux/updateRecipeReducer';
 import { deleteRecipeReducer } from './deleteRecipeRedux/deleteRecipeReducer';
 import { commentReducer } from './commentRedux/commentReducer';
+import { ratingReducer } from './ratingRedux/ratingReducer';
 
 export const initialState = {
   token: JSON.parse(localStorage.getItem('lubie-placki-token')),
@@ -44,6 +46,10 @@ const appReducer = (state = initialState, action) => {
 
     case COMMENT: {
       return { ...state, ...commentReducer(action) }
+    }
+
+    case RATING: {
+      return { ...state, ...ratingReducer(action) }
     }
 
     default:
