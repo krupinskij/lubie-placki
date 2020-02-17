@@ -32,22 +32,22 @@ public class Recipe implements Serializable {
     private LocalDateTime add_date;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe")
+    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe")
+    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL)
     private List<Direction> directions;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe")
+    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL)
     private List<Hint> hints;
 
     @JsonIgnore
     private byte[] photo;
 
     @ElementCollection
-    @OneToMany(mappedBy="recipe")
+    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL)
     private List<Tag> tags;
 
     @ManyToOne
@@ -55,12 +55,12 @@ public class Recipe implements Serializable {
     private User user;
 
     @ElementCollection
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Rating> ratings;
 
     @ElementCollection
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
 

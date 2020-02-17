@@ -28,27 +28,22 @@ public class RecipeController {
             @RequestParam(required = false) String sort,
             @RequestParam(required = false) Integer page
     ) {
-        return ResponseEntity.ok(recipeService.findAll(type, sort, page));
+        return ResponseEntity.ok(recipeService.getAll(type, sort, page));
     }
 
-    @GetMapping(path = "/pages")
-    public ResponseEntity getPagesCount(@RequestParam(required = false) String type) {
-        return ResponseEntity.ok(recipeService.getPagesCount(type));
-    }
-
-    @GetMapping(path = "/{id}")
-    public ResponseEntity getRecipeById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(recipeService.findById(id));
-    }
-
-    @GetMapping(path = "/{id}/photo", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity getRecipePhoto(@PathVariable("id") Long id) throws IOException {
-        return ResponseEntity.ok(recipeService.getRecipePhotoByRecipeId(id));
+    @GetMapping(path = "/{recipe_id}")
+    public ResponseEntity getRecipeById(@PathVariable Long recipe_id) {
+        return ResponseEntity.ok(recipeService.getRecipeByRecipeId(recipe_id));
     }
 
     @GetMapping("/user/{user_id}")
-    public ResponseEntity getRecipesByUser(@PathVariable("user_id") Long user_id) {
-        return ResponseEntity.ok(recipeService.findByUserId(user_id));
+    public ResponseEntity getRecipesByUser(@PathVariable Long user_id) {
+        return ResponseEntity.ok(recipeService.getRecipesByUserId(user_id));
+    }
+
+    @GetMapping(path = "/{recipe_id}/photo", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity getRecipePhoto(@PathVariable Long recipe_id) {
+        return ResponseEntity.ok(recipeService.getRecipePhotoByRecipeId(recipe_id));
     }
 
     @GetMapping(path="/random")
@@ -56,7 +51,10 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getRandomId());
     }
 
-
+    @GetMapping(path = "/pages")
+    public ResponseEntity getPagesCount(@RequestParam(required = false) String type) {
+        return ResponseEntity.ok(recipeService.getPagesCount(type));
+    }
 
     @PostMapping(path = "")
     public ResponseEntity saveRecipe(@RequestHeader String securityTokenValue, @RequestBody Recipe recipe) {
@@ -130,6 +128,8 @@ public class RecipeController {
         recipeService.deleteRecipe(securityToken, id);
         return ResponseEntity.ok("Usunięto przepis");
     }
+
+
 
 
     @PostMapping(path="/{recipe_id}/rating")

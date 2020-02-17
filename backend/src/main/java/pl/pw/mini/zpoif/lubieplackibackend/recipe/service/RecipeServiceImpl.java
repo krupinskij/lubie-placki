@@ -60,7 +60,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findAll(String type, String sort, Integer page) {
+    public List<Recipe> getAll(String type, String sort, Integer page) {
         return recipeRepository.findAll().stream()
                 .filter(recipe -> type==null || recipe.getType().equals(type))
                 .sorted((r1, r2) -> {
@@ -75,26 +75,29 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe findById(Long id) {
-        return recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+    public Recipe getRecipeByRecipeId(Long recipe_id) {
+        return recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
     }
 
     @Override
-    public List<Recipe> findByUserId(Long user_id) {
-        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika!"));
+    public List<Recipe> getRecipesByUserId(Long user_id) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika"));
 
-        return recipeRepository.findByUser(user);
+        return user.getRecipes();
     }
 
     @Override
-    public byte[] getRecipePhotoByRecipeId(Long id) throws IOException {
-        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+    public byte[] getRecipePhotoByRecipeId(Long recipe_id) {
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
 
         if(recipe.getPhoto()!=null) return recipe.getPhoto();
 
-        ClassPathResource imgFile = new ClassPathResource("image/cake.png");
-
-        return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        try {
+            ClassPathResource imgFile = new ClassPathResource("image/cake.png");
+            return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -106,9 +109,102 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Long getPagesCount(String type) {
+        long count =  recipeRepository.findAll().stream()
+                .filter(recipe -> type==null || recipe.getType().equals(type))
+                .count();
+
+        if(count == 0) return 1L;
+        return (count+9)/10;
+    }
+
+    // -- save recipe -- //
+
+    @Override
+    public Recipe saveRecipe(UUID securityToken, Recipe recipe) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+
+        recipe.setUser(user);
+        recipe.setAdd_date(LocalDateTime.now());
+        recipe.setRatings(new ArrayList<>());
+
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public List<Ingredient> saveAllIngredientsByRecipeId(UUID securityToken, Long recipe_id, List<Ingredient> ingredients) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        for(Ingredient ingredient : ingredients) {
+            ingredient.setRecipe(recipe);
+            ingredientRepository.save(ingredient);
+        }
+
+        return ingredients;
+    }
+
+    @Override
+    public List<Direction> saveAllDirectionsByRecipeId(UUID securityToken, Long recipe_id, List<Direction> directions) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        for(Direction direction : directions) {
+            direction.setRecipe(recipe);
+            directionRepository.save(direction);
+        }
+
+        return directions;
+    }
+
+    @Override
+    public List<Hint> saveAllHintsByRecipeId(UUID securityToken, Long recipe_id, List<Hint> hints) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        for(Hint hint : hints) {
+            hint.setRecipe(recipe);
+            hintRepository.save(hint);
+        }
+
+        return hints;
+    }
+
+    @Override
+    public Recipe saveRecipePhotoByRecipeId(UUID securityToken, Long recipe_id, byte[] photo) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        recipe.setPhoto(photo);
+
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public List<Tag> saveTagsByRecipeId(UUID securityToken, Long recipe_id, String tagString) {
+        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        List<Tag> tags = Arrays.stream(tagString.substring(1).split("#"))
+                .map(s -> {
+                    Tag tag = new Tag();
+                    tag.setText(s.trim());
+
+                    return tag;
+                })
+                .collect(Collectors.toList());
+        recipe.setTags(tags);
+        recipeRepository.save(recipe);
+
+        return tags;
+    }
+
+    @Override
     public Recipe updateRecipeByRecipeId(UUID securityToken, Long recipe_id, Recipe new_recipe) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś autorem tego przepisu"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         recipe.setTitle(new_recipe.getTitle());
         recipe.setDescription(new_recipe.getDescription());
@@ -119,8 +215,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Ingredient> updateAllIngredientsByRecipeId(UUID securityToken, Long recipe_id, List<Ingredient> ingredients) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś autorem tego przepisu"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         ingredientRepository.deleteAll(recipe.getIngredients());
 
@@ -134,8 +232,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Direction> updateAllDirectionsByRecipeId(UUID securityToken, Long recipe_id, List<Direction> directions) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś autorem tego przepisu"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         directionRepository.deleteAll(recipe.getDirections());
 
@@ -149,8 +249,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Hint> updateAllHintsByRecipeId(UUID securityToken, Long recipe_id, List<Hint> hints) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś autorem tego przepisu"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         hintRepository.deleteAll(recipe.getHints());
 
@@ -164,8 +266,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe updateRecipePhotoByRecipeId(UUID securityToken, Long recipe_id, byte[] photo) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś autorem tego przepisu"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
+
+        if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         recipe.setPhoto(photo);
 
@@ -173,122 +277,22 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe saveRecipe(UUID securityToken, Recipe recipe) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
+    public void deleteRecipe(UUID securityToken, Long recipe_id) {
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
-        recipe.setUser(user);
-        recipe.setAdd_date(LocalDateTime.now());
-        recipe.setRatings(new ArrayList<Rating>());
-
-        return recipeRepository.save(recipe);
-    }
-
-    @Override
-    public List<Ingredient> saveAllIngredientsByRecipeId(UUID securityToken, Long recipe_id, List<Ingredient> ingredients) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
-
-        for(Ingredient ingredient : ingredients) {
-            ingredient.setRecipe(recipe);
-            ingredientRepository.save(ingredient);
-        }
-
-        return ingredients;
-    }
-
-    @Override
-    public List<Direction> saveAllDirectionsByRecipeId(UUID securityToken, Long recipe_id, List<Direction> directions) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
-
-        for(Direction direction : directions) {
-            direction.setRecipe(recipe);
-            directionRepository.save(direction);
-        }
-
-        return directions;
-    }
-
-    @Override
-    public List<Hint> saveAllHintsByRecipeId(UUID securityToken, Long recipe_id, List<Hint> hints) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
-
-        for(Hint hint : hints) {
-            hint.setRecipe(recipe);
-            hintRepository.save(hint);
-        }
-
-        return hints;
-    }
-
-    @Override
-    public Recipe saveRecipePhotoByRecipeId(UUID securityToken, Long recipe_id, byte[] photo) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
-
-        recipe.setPhoto(photo);
-
-        return recipeRepository.save(recipe);
-    }
-
-    @Override
-    public List<Tag> saveTagsByRecipeId(UUID securityToken, Long recipe_id, String tags) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
-
-        String[] array = tags.substring(1).split("#");
-        for(String text : array) {
-
-            Tag tag = new Tag();
-            tag.setText(text.trim());
-            tag.setRecipe(recipe);
-            tagRepository.save(tag);
-        }
-
-        return recipe.getTags();
-    }
-
-    @Override
-    public void deleteRecipe(UUID securityToken, Long id) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu!"));
-
-        for(Rating rating : recipe.getRatings()) {
-            ratingRepository.delete(rating);
-        }
-
-        for(Comment comment: recipe.getComments()) {
-            commentRepository.delete(comment);
-        }
-
-        for(Tag tag: recipe.getTags()) {
-            tagRepository.delete(tag);
-        }
-
-        for(Direction direction : recipe.getDirections()) {
-            directionRepository.delete(direction);
-        }
-
-        for(Ingredient ingredient : recipe.getIngredients()) {
-            ingredientRepository.delete(ingredient);
-        }
-
-        for(Hint hint : recipe.getHints()) {
-            hintRepository.delete(hint);
-        }
+        if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         recipeRepository.delete(recipe);
     }
 
-    @Override
-    public Long getPagesCount(String type) {
-        long count =  recipeRepository.findAll().stream()
-                .filter(recipe -> type==null || recipe.getType().equals(type))
-                .count();
 
-        return (count+9)/10;
-    }
+
+
+
+
+
+
 
     @Override
     public Rating addRatingByRecipeId(UUID securityToken, Long recipe_id, Integer r) {
