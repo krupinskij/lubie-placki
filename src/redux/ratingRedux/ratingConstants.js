@@ -1,0 +1,9 @@
+export const RATING = 'Rating/RATING';
+
+export const ADD_RATING_REQUEST = 'Rating/ADD_RATING_REQUEST';
+export const ADD_RATING_SUCCESS = 'Rating/ADD_RATING_SUCCESS';
+export const ADD_RATING_ERROR = 'Rating/ADD_RATING_ERROR';
+
+export const DELETE_RATING_REQUEST = 'Rating/DELETE_RATING_REQUEST';
+export const DELETE_RATING_SUCCESS = 'Rating/DELETE_RATING_SUCCESS';
+export const DELETE_RATING_ERROR = 'Rating/DELETE_RATING_ERROR';

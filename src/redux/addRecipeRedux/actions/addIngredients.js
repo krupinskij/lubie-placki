@@ -1,9 +1,10 @@
 import {
     ADD_INGREDIENTS_REQUEST,
     ADD_INGREDIENTS_SUCCESS,
-    ADD_INGREDIENTS_ERROR
-} from '../constants/addIngredientsConstants';
-import { ADD_RECIPE } from '../constants/addRecipeGroup';
+    ADD_INGREDIENTS_ERROR,
+
+    ADD_RECIPE 
+} from '../addRecipeConstants';
 
 export const addIngredients = (token, recipe_id, hints) => {
     return dispatch => {
@@ -20,7 +21,7 @@ export const addIngredients = (token, recipe_id, hints) => {
             .then(resp => {
 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(addSuccess(resp));

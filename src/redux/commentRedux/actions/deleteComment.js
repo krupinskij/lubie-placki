@@ -2,8 +2,9 @@ import {
     DELETE_COMMENT_REQUEST,
     DELETE_COMMENT_SUCCESS,
     DELETE_COMMENT_ERROR,
-} from '../constants/deleteCommentConstants'
-import { COMMENT } from '../constants/commentGroup';
+
+    COMMENT 
+} from '../commentConstants';
 
 export const deleteComment = (token, comment_id) => {
     return dispatch => {
@@ -22,7 +23,7 @@ export const deleteComment = (token, comment_id) => {
                 }
 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(deleteSuccess());

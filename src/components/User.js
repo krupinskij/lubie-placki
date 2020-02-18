@@ -4,21 +4,7 @@ import {withRouter} from 'react-router-dom'
 
 class User extends React.Component {
     
-    state = {
-        points: 0
-    }
-    
-    componentDidMount = () => {
-        fetch("http://localhost:3004/users/" + this.props.user.id + "/points")
-        .then(resp => resp.json())
-        .then(resp => {
-            this.setState({
-                points: resp
-            })
-        })
-    }
-
-	render() {
+    render() {
         const user = this.props.user;
         
         return (
@@ -29,7 +15,7 @@ class User extends React.Component {
                     {user.username}
                 </h1>
                 <div>
-                    Punkty: {this.state.points}
+                    Punkty: {user.points}
                 </div>
             </div>
 		)

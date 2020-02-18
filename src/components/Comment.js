@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Link } from 'react-router-dom'
 
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
 class Comment extends React.Component {
 
   state = {
@@ -63,12 +66,12 @@ class Comment extends React.Component {
                 this.props.user_id !== undefined &&
 
                 (
-                  this.props.user_id === this.props.comment.user.id &&
+                  this.props.token === this.props.comment.user.securityToken &&
 
-                    <div className="comment__buttons">
-                      <button className="comment__button comment__button--delete" onClick={this.handleDeleteClick}>Usuń</button>
-                      <button className="comment__button comment__button--edit" onClick={this.handleEditClick}>Edytuj</button>
-                    </div>
+                  <div className="comment__buttons">
+                    <button className="comment__button comment__button--delete" onClick={this.handleDeleteClick}>Usuń</button>
+                    <button className="comment__button comment__button--edit" onClick={this.handleEditClick}>Edytuj</button>
+                  </div>
                 )
 
               }
@@ -90,4 +93,12 @@ class Comment extends React.Component {
   }
 }
 
-export default Comment;
+const mapStateToProps = state => {
+  return {
+    token: state.token
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(withRouter(Comment))

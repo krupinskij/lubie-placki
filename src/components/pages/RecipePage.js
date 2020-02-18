@@ -25,23 +25,23 @@ class RecipePage extends React.Component {
             })
 
         fetch("http://localhost:3004/users")
-        .then(resp => resp.json())
-        .then(user => {
-            this.setState({ user })
-        })
+            .then(resp => resp.json())
+            .then(user => {
+                this.setState({ user })
+            })
     }
 
     render() {
 
-        if(this.state.loading) return(<div>Ładowanie...</div>)
+        if (this.state.loading) return (<div>Ładowanie...</div>)
 
-        return(
+        return (
             <div className="page">
-                <Recipe recipe={this.state.recipe}/>
+                <Recipe recipe={this.state.recipe} />
 
-                <CommentsList 
-                    recipe_id={this.state.recipe.id} 
-                    token={this.state.token} 
+                <CommentsList
+                    recipe_id={this.state.recipe.id}
+                    token={this.state.token}
                     comments={this.state.comments}
                 />
             </div>
@@ -50,14 +50,14 @@ class RecipePage extends React.Component {
 }
 
 const mapStateToProps = state => {
-	
-	return {
-      token: state.token,
-      loading: state.loading,
-      error: state.error
-	}
-  }
-  
-  export default connect(
-	mapStateToProps
-  )(RecipePage)
+
+    return {
+        token: state.token,
+        loading: state.loading,
+        error: state.error
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(RecipePage)

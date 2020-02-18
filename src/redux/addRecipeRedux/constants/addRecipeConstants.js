@@ -1,3 +1,0 @@
-export const ADD_RECIPE_REQUEST = 'Recipe/ADD_RECIPE_REQUEST';
-export const ADD_RECIPE_SUCCESS = 'Recipe/ADD_RECIPE_SUCCESS';
-export const ADD_RECIPE_ERROR = 'Recipe/ADD_RECIPE_ERROR';

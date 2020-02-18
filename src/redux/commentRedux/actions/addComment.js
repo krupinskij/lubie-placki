@@ -2,8 +2,9 @@ import {
     ADD_COMMENT_REQUEST,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_ERROR,
-} from '../constants/addCommentConstants'
-import { COMMENT } from '../constants/commentGroup';
+
+    COMMENT 
+} from '../commentConstants';
 
 export const addComment = (token, recipe_id, text) => {
     return dispatch => {
@@ -24,7 +25,7 @@ export const addComment = (token, recipe_id, text) => {
                 }
 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(addSuccess());

@@ -1,9 +1,10 @@
 import {
     DELETE_RECIPE_REQUEST,
     DELETE_RECIPE_SUCCESS,
-    DELETE_RECIPE_ERROR
-} from '../constants/deleteRecipeConstants';
-import { DELETE_RECIPE } from '../constants/deleteRecipeGroup';
+    DELETE_RECIPE_ERROR,
+
+    DELETE_RECIPE 
+} from '../deleteRecipeConstants';
 
 import history from '../../../helpers/history';
 
@@ -24,16 +25,15 @@ export const deleteRecipe = (token, recipe_id) => {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(deleteSuccess());
-
-                history.push("/");
-                window.location.reload(false);
+                return resp;
             })
             .catch(error => {
                 dispatch(deleteError(error.message))
+                return undefined;
             })
     }
 }

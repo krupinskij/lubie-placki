@@ -2,8 +2,9 @@ import {
     UPDATE_COMMENT_REQUEST,
     UPDATE_COMMENT_SUCCESS,
     UPDATE_COMMENT_ERROR,
-} from '../constants/updateCommentConstants'
-import { COMMENT } from '../constants/commentGroup';
+
+    COMMENT 
+} from '../commentConstants';
 
 export const updateComment = (token, comment_id, text) => {
     return dispatch => {
@@ -24,7 +25,7 @@ export const updateComment = (token, comment_id, text) => {
                 }
 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess());

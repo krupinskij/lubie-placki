@@ -1,9 +1,10 @@
 import {
     UPDATE_PHOTO_REQUEST,
     UPDATE_PHOTO_SUCCESS,
-    UPDATE_PHOTO_ERROR
-} from '../constants/updatePhotoConstants';
-import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
+    UPDATE_PHOTO_ERROR,
+
+    UPDATE_RECIPE 
+} from '../updateRecipeConstants';
 
 export const updatePhoto = (token, recipe_id, photo) => {
     return dispatch => {
@@ -20,7 +21,7 @@ export const updatePhoto = (token, recipe_id, photo) => {
             .then(resp => {
                 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess(resp));

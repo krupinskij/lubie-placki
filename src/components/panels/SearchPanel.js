@@ -7,7 +7,7 @@ import FA from 'react-fontawesome'
 class SearchPanel extends React.Component {
 
     state = {
-        search: ""
+        search: ''
     }
 
     handleSearchChange = event => {

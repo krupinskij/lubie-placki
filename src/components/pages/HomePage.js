@@ -8,49 +8,49 @@ import {withRouter} from 'react-router-dom';
 
 class HomePage extends React.Component {
 	state = {
-		recipes: [],
-
-		type: '',
-		page: ''
+		type: 'all',
+		page: 1,
+		length: 1
 	}
 
-	fetchData = parsed => {
-
+	fetchQuery = parsed => {
 		this.setState({
-			type: parsed.type ? parsed.type : '',
-			page: parsed.page ? parsed.page : 1,
+			type: parsed.type !== undefined ? parsed.type : 'all',
+			page: parsed.page !== undefined ? parsed.page : 1,
 		})
-		
-		fetch("http://localhost:3004/recipes?" + 
-			(parsed.type ? `type=${parsed.type}&` : '') +
-			"page=" + (parsed.page ? parsed.page : 1))
-			.then(resp => resp.json())
-			.then(resp => {
-				this.setState({
-					recipes: resp
-				})
-			})
 	}
 
 	componentWillReceiveProps = nextProps => {
 		const parsed = queryString.parse(nextProps.location.search);
-		this.fetchData(parsed);
+		this.fetchQuery(parsed);
 	}
 
 	componentDidMount = () => {
 		const parsed = queryString.parse(this.props.history.location.search);
-		this.fetchData(parsed);
+		this.fetchQuery(parsed);
 	}
 
 	handleChangePage = (event, page) => {
-		this.props.history.push("/?page=" + page + (this.state.type ? '&type=' + this.state.type : ''));
+		this.props.history.push('/?type=' + this.state.type + '&page=' + page);
 	}
+	
+	setLength = length => {
+        this.setState({ length })
+    }
 	
 	render() {
 		return(
 			<div className="page">
-				<RecipesList recipes={this.state.recipes}/>
-				<PageController currentPage={this.state.page} choosePage={this.handleChangePage}/>
+				<RecipesList
+					type={ this.state.type }
+					page={ this.state.page }
+                    setLength={ this.setLength }
+				/>
+				<PageController
+				length={this.state.length}
+                    currentPage={this.state.page} 
+                    choosePage={this.handleChangePage}
+                />
 			</div>
 		)
 	}

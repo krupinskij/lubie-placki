@@ -11,7 +11,7 @@ class UserPanel extends React.Component {
   state = {
     display: 'none',
     user: {
-      username: ""
+      username: ''
     }
   }
 

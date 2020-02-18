@@ -14,10 +14,7 @@ class CommentsList extends React.Component {
 
     state = {
         comments: [],
-        loadingComments: true,
-        user: {
-            id: undefined
-        }
+        loadingComments: true
     }
 
     componentDidMount = () => {
@@ -28,16 +25,6 @@ class CommentsList extends React.Component {
                 comments,
                 loadingComments: false
             }) 
-        })
-
-        fetch("http://localhost:3004/users", {
-            headers: {
-                'securityTokenValue': this.props.token
-            }
-        })
-        .then(resp => resp.json())
-        .then(user => {
-            this.setState({ user })
         })
     }
 
@@ -62,8 +49,6 @@ class CommentsList extends React.Component {
             comment={comment}
             deleteComment={this.deleteComment}
             updateComment={this.updateComment}
-
-            user_id={this.state.user.id}
         />)
 
 		return (

@@ -1,14 +1,15 @@
 import {
     EDIT_REQUEST,
     EDIT_SUCCESS,
-    EDIT_ERROR
-} from '../constants/editContants';
-import { USER } from '../constants/userGroup';
+    EDIT_ERROR,
+    
+    USER 
+} from '../userConstants';
 
 export const editUser = (token, id, username) => {
     return dispatch => {
         dispatch(editRequest())
-        return fetch("http://localhost:3004/users/" + id + "/username", {
+        return fetch('http://localhost:3004/users/' + id + '/username', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +24,7 @@ export const editUser = (token, id, username) => {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(editSuccess(resp));

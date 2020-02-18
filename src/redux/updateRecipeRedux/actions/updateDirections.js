@@ -1,9 +1,10 @@
 import {
     UPDATE_DIRECTIONS_REQUEST,
     UPDATE_DIRECTIONS_SUCCESS,
-    UPDATE_DIRECTIONS_ERROR
-} from '../constants/updateDirectionsConstants';
-import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
+    UPDATE_DIRECTIONS_ERROR,
+
+    UPDATE_RECIPE 
+} from '../updateRecipeConstants';
 
 export const updateDirections = (token, recipe_id, directions) => {
     return dispatch => {

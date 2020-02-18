@@ -1,9 +1,10 @@
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-    LOGIN_ERROR
-} from '../constants/loginConstants';
-import { USER } from '../constants/userGroup';
+    LOGIN_ERROR,
+    
+    USER 
+} from '../userConstants';
 
 import history from '../../../helpers/history'
 
@@ -24,13 +25,13 @@ export const loginUser = (user) => {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(loginSuccess(resp));
                 localStorage.setItem('lubie-placki-token', JSON.stringify(resp));
 
-                history.push("/");
+                history.push('/');
                 window.location.reload(false);
             })
             .catch(error => {

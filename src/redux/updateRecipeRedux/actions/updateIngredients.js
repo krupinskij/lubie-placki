@@ -1,9 +1,10 @@
 import {
     UPDATE_INGREDIENTS_REQUEST,
     UPDATE_INGREDIENTS_SUCCESS,
-    UPDATE_INGREDIENTS_ERROR
-} from '../constants/updateIngredientsConstants';
-import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
+    UPDATE_INGREDIENTS_ERROR,
+
+    UPDATE_RECIPE 
+} from '../updateRecipeConstants';
 
 export const updateIngredients = (token, recipe_id, ingredients) => {
     return dispatch => {

@@ -1,25 +1,25 @@
 import { 
-  DELETE_RECIPE_REQUEST, DELETE_RECIPE_SUCCESS, DELETE_RECIPE_ERROR 
-} from './deleteRecipeConstants';
+  GET_RECIPES_REQUEST, GET_RECIPES_SUCCESS, GET_RECIPES_ERROR 
+} from './getRecipesConstants';
 
-export function deleteRecipeReducer(action) {
+
+export function getRecipesReducer(action) {
 
   switch (action.type) {
 
-    case DELETE_RECIPE_REQUEST: {
+    case GET_RECIPES_REQUEST:
       return {
         loading: {
           active: true,
-          message: 'Trwa usuwanie przepisu...'
+          message: 'Trwa ładowanie przepisów'
         },
         error: {
           active: false,
           message: ''
         }
       }
-    }
 
-    case DELETE_RECIPE_SUCCESS: {
+    case GET_RECIPES_SUCCESS:
       return {
         loading: {
           active: false,
@@ -28,12 +28,10 @@ export function deleteRecipeReducer(action) {
         error: {
           active: false,
           message: ''
-        },
-        cos: (function() { console.log('aaaa')})()
+        }
       }
-    }
 
-    case DELETE_RECIPE_ERROR: {
+    case GET_RECIPES_ERROR:
       return {
         loading: {
           active: false,
@@ -44,7 +42,6 @@ export function deleteRecipeReducer(action) {
           message: action.payload.error
         }
       }
-    }
 
     default:
       return {}

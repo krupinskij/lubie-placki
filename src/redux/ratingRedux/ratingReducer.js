@@ -1,5 +1,7 @@
-import { ADD_RATING_REQUEST, ADD_RATING_SUCCESS, ADD_RATING_ERROR } from "./constants/addRatingConstants";
-import { DELETE_RATING_REQUEST, DELETE_RATING_SUCCESS, DELETE_RATING_ERROR } from "./constants/deleteRatingConstants";
+import { 
+	ADD_RATING_REQUEST, ADD_RATING_SUCCESS, ADD_RATING_ERROR,
+	DELETE_RATING_REQUEST, DELETE_RATING_SUCCESS, DELETE_RATING_ERROR 
+} from './ratingConstants';
 
 export function ratingReducer(action) {
 
@@ -9,11 +11,11 @@ export function ratingReducer(action) {
 			return {
 				loading: {
 					active: true,
-					message: "Trwa dodawanie oceny..."
+					message: 'Trwa dodawanie oceny...'
 				},
 				error: {
 					active: false,
-					message: ""
+					message: ''
 				}
 			}
 
@@ -21,11 +23,11 @@ export function ratingReducer(action) {
 			return {
 				loading: {
 					active: false,
-					message: ""
+					message: ''
 				},
 				error: {
 					active: false,
-					message: ""
+					message: ''
 				}
 			}
 
@@ -33,7 +35,7 @@ export function ratingReducer(action) {
 			return {
 				loading: {
 					active: false,
-					message: ""
+					message: ''
 				},
 				error: {
 					active: true,
@@ -45,11 +47,11 @@ export function ratingReducer(action) {
 			return {
 				loading: {
 					active: true,
-					message: "Trwa usuwanie oceny..."
+					message: 'Trwa usuwanie oceny...'
 				},
 				error: {
 					active: false,
-					message: ""
+					message: ''
 				}
 			}
 
@@ -57,11 +59,11 @@ export function ratingReducer(action) {
 			return {
 				loading: {
 					active: false,
-					message: ""
+					message: ''
 				},
 				error: {
 					active: false,
-					message: ""
+					message: ''
 				}
 			}
 
@@ -69,7 +71,7 @@ export function ratingReducer(action) {
 			return {
 				loading: {
 					active: false,
-					message: ""
+					message: ''
 				},
 				error: {
 					active: true,

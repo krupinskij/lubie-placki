@@ -1,6 +1,8 @@
-import { ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_ERROR } from './constants/addCommentConstants';
-import { DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_ERROR } from './constants/deleteCommentConstants';
-import { UPDATE_COMMENT_REQUEST, UPDATE_COMMENT_SUCCESS, UPDATE_COMMENT_ERROR } from './constants/updateCommentConstants';
+import { 
+  ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_ERROR,
+  DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_ERROR,
+  UPDATE_COMMENT_REQUEST, UPDATE_COMMENT_SUCCESS, UPDATE_COMMENT_ERROR 
+} from './commentConstants';
 
 export function commentReducer(action) {
 
@@ -10,11 +12,11 @@ export function commentReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie komentarza..."
+          message: 'Trwa dodawanie komentarza...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -22,11 +24,11 @@ export function commentReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -34,7 +36,7 @@ export function commentReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -46,11 +48,11 @@ export function commentReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa usuwanie komentarza..."
+          message: 'Trwa usuwanie komentarza...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -58,11 +60,11 @@ export function commentReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -70,7 +72,7 @@ export function commentReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -82,11 +84,11 @@ export function commentReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa edytowanie komentarza..."
+          message: 'Trwa edytowanie komentarza...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -94,11 +96,11 @@ export function commentReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -106,7 +108,7 @@ export function commentReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,

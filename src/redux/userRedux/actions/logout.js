@@ -1,9 +1,10 @@
 import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_ERROR
-} from '../constants/logoutConstants';
-import { USER } from '../constants/userGroup';
+    LOGOUT_ERROR,
+    
+    USER 
+} from '../userConstants';
 
 import history from '../../../helpers/history'
 
@@ -24,13 +25,13 @@ export const logoutUser = token => {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(logoutSuccess());
                 localStorage.removeItem('lubie-placki-token');
 
-                history.push("/");
+                history.push('/');
                 window.location.reload(false);
             })
             .catch(error => {

@@ -1,9 +1,10 @@
 import {
     UPDATE_HINTS_REQUEST,
     UPDATE_HINTS_SUCCESS,
-    UPDATE_HINTS_ERROR
-} from '../constants/updateHintsConstants';
-import { UPDATE_RECIPE } from '../constants/updateRecipeGroup';
+    UPDATE_HINTS_ERROR,
+
+    UPDATE_RECIPE 
+} from '../updateRecipeConstants';
 
 export const updateHints = (token, recipe_id, hints) => {
     return dispatch => {
@@ -20,7 +21,7 @@ export const updateHints = (token, recipe_id, hints) => {
             .then(resp => {
 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess(resp));

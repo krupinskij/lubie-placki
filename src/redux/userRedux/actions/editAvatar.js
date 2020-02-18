@@ -1,14 +1,15 @@
 import {
     EDIT_AVATAR_REQUEST,
     EDIT_AVATAR_SUCCESS,
-    EDIT_AVATAR_ERROR
-} from '../constants/editAvatarConstants';
-import { USER } from '../constants/userGroup';
+    EDIT_AVATAR_ERROR,
+    
+    USER 
+} from '../userConstants';
 
 export const editAvatar = (token, id, avatar) => {
     return dispatch => {
         dispatch(editRequest())
-        return fetch("http://localhost:3004/users/" + id + "/avatar", {
+        return fetch('http://localhost:3004/users/' + id + '/avatar', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +24,7 @@ export const editAvatar = (token, id, avatar) => {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(editSuccess());

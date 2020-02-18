@@ -1,8 +1,10 @@
-import { UPDATE_RECIPE_REQUEST, UPDATE_RECIPE_SUCCESS, UPDATE_RECIPE_ERROR } from './constants/updateRecipeConstants';
-import { UPDATE_INGREDIENTS_REQUEST, UPDATE_INGREDIENTS_SUCCESS, UPDATE_INGREDIENTS_ERROR } from './constants/updateIngredientsConstants';
-import { UPDATE_DIRECTIONS_REQUEST, UPDATE_DIRECTIONS_SUCCESS, UPDATE_DIRECTIONS_ERROR } from './constants/updateDirectionsConstants';
-import { UPDATE_HINTS_REQUEST, UPDATE_HINTS_SUCCESS, UPDATE_HINTS_ERROR } from './constants/updateHintsConstants';
-import { UPDATE_PHOTO_REQUEST, UPDATE_PHOTO_SUCCESS, UPDATE_PHOTO_ERROR } from './constants/updatePhotoConstants';
+import { 
+  UPDATE_RECIPE_REQUEST, UPDATE_RECIPE_SUCCESS, UPDATE_RECIPE_ERROR,
+  UPDATE_INGREDIENTS_REQUEST, UPDATE_INGREDIENTS_SUCCESS, UPDATE_INGREDIENTS_ERROR,
+  UPDATE_DIRECTIONS_REQUEST, UPDATE_DIRECTIONS_SUCCESS, UPDATE_DIRECTIONS_ERROR,
+  UPDATE_HINTS_REQUEST, UPDATE_HINTS_SUCCESS, UPDATE_HINTS_ERROR,
+  UPDATE_PHOTO_REQUEST, UPDATE_PHOTO_SUCCESS, UPDATE_PHOTO_ERROR 
+} from './updateRecipeConstants';
 
 export function updateRecipeReducer(action) {
 
@@ -12,7 +14,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -21,7 +23,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -39,7 +41,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -48,7 +50,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -66,7 +68,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -75,7 +77,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -93,7 +95,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -102,7 +104,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -120,7 +122,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -129,7 +131,7 @@ export function updateRecipeReducer(action) {
       return {
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }

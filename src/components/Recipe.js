@@ -32,7 +32,6 @@ class Recipe extends React.Component {
         this.props.deleteRecipe(this.props.token, this.props.recipe.id)
             .then(() => {
                 history.push("/");
-                window.location.reload(false);
             });
 
     }

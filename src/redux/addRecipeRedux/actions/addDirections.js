@@ -1,9 +1,10 @@
-import {
-    ADD_DIRECTIONS_REQUEST,
-    ADD_DIRECTIONS_SUCCESS,
-    ADD_DIRECTIONS_ERROR
-} from '../constants/addDirectionsConstants';
-import { ADD_RECIPE } from '../constants/addRecipeGroup';
+import { 
+    ADD_DIRECTIONS_REQUEST, 
+    ADD_DIRECTIONS_SUCCESS, 
+    ADD_DIRECTIONS_ERROR, 
+
+    ADD_RECIPE
+} from '../addRecipeConstants';
 
 export const addDirections = (token, recipe_id, directions) => {
     return dispatch => {
@@ -20,7 +21,7 @@ export const addDirections = (token, recipe_id, directions) => {
             .then(resp => {
 
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(addSuccess(resp));

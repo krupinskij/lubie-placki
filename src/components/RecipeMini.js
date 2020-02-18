@@ -5,8 +5,6 @@ import RatingController from './RatingController';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { deleteRecipe } from '../redux/deleteRecipeRedux/actions/deleteRecipe';
-
 import history from '../helpers/history';
 
 class RecipeMini extends React.Component {
@@ -28,12 +26,7 @@ class RecipeMini extends React.Component {
     }
 
     handleDelete = event => {
-
-        this.props.deleteRecipe(this.props.token, this.props.recipe.id)
-          .then(() => {
-              history.push("/");
-              window.location.reload(false);
-          });
+        this.props.deleteRecipe(this.props.recipe.id)
     }    
 
     render() {
@@ -77,7 +70,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    deleteRecipe: (token, recipe_id) => dispatch(deleteRecipe(token, recipe_id))
 })
 
 export default connect(

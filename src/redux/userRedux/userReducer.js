@@ -1,6 +1,8 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './constants/loginConstants';
-import { LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR } from './constants/logoutConstants';
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } from './constants/registerConstants';
+import { 
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
+  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
+  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR 
+} from './userConstants';
 
 export function userReducer(action) {
 
@@ -10,11 +12,11 @@ export function userReducer(action) {
         token: null,
         loading: {
           active: true,
-          message: "Trwa logowanie..."
+          message: 'Trwa logowanie...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -23,11 +25,11 @@ export function userReducer(action) {
         token: action.payload.token,
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
 
@@ -36,7 +38,7 @@ export function userReducer(action) {
           token: null,
           loading: {
             active: false,
-            message: ""
+            message: ''
           },
           error: {
             active: true,
@@ -49,11 +51,11 @@ export function userReducer(action) {
         return {
           loading: {
             active: true,
-            message: "Trwa wylogowywanie..."
+            message: 'Trwa wylogowywanie...'
           },
           error: {
             active: false,
-            message: ""
+            message: ''
           }
         }
       }
@@ -63,11 +65,11 @@ export function userReducer(action) {
           token: null,
           loading: {
             active: false,
-            message: ""
+            message: ''
           },
           error: {
             active: false,
-            message: ""
+            message: ''
           }
         }
       }
@@ -76,7 +78,7 @@ export function userReducer(action) {
         return {
           loading: {
             active: false,
-            message: ""
+            message: ''
           },
           error: {
             active: true,
@@ -90,11 +92,11 @@ export function userReducer(action) {
           token: null, 
           loading: {
             active: true,
-            message: "Trwa rejestracja..."
+            message: 'Trwa rejestracja...'
           },
           error: {
             active: false,
-            message: ""
+            message: ''
           }
         }
       }
@@ -104,11 +106,11 @@ export function userReducer(action) {
           token: action.payload.token,
           loading: {
             active: false,
-            message: ""
+            message: ''
           },
           error: {
             active: false,
-            message: ""
+            message: ''
           }
         }
       }
@@ -118,7 +120,7 @@ export function userReducer(action) {
           token: null,
           loading: {
             active: false,
-            message: ""
+            message: ''
           },
           error: {
             active: true,

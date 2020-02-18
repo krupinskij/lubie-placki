@@ -1,9 +1,10 @@
 import {
     ADD_RATING_REQUEST,
     ADD_RATING_SUCCESS,
-    ADD_RATING_ERROR
-} from '../constants/addRatingConstants';
-import { RATING } from '../constants/ratingGroup';
+    ADD_RATING_ERROR,
+
+    RATING 
+} from '../ratingConstants';
 
 export const addRating = (token, recipe_id, rating) => {
     return dispatch => {
@@ -23,7 +24,7 @@ export const addRating = (token, recipe_id, rating) => {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(addSuccess());

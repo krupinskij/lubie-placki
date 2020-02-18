@@ -50,12 +50,14 @@ public class RecipeServiceTest {
 
         String[] titles = new String[] { "aaa", "bbb", "ccc", "ddd", "eee", "fff" };
         String[] types = new String[] { "makowiec", "jablecznik", "piernik", "inne" };
+        String[] texts = new String[] { "aaa", "bbb", "ccc", "ddd", "eee", "fff" };
         Random random = new Random();
 
         List<Recipe> recipes = new ArrayList<>();
 
         for(int i = 0; i < count; i++) {
             List<Rating> ratings = new ArrayList<>();
+            List<Tag> tags = new ArrayList<>();
             Recipe recipe = new Recipe();
 
             for(int j = 0; j < 5; j++) {
@@ -65,10 +67,19 @@ public class RecipeServiceTest {
                 ratings.add(rating);
             }
 
+            for(int j = 0; j < 6; j++) {
+                if(random.nextBoolean()) {
+                    Tag tag = new Tag();
+                    tag.setText(texts[j]);
+                    tags.add(tag);
+                }
+            }
+
             recipe.setTitle(titles[random.nextInt(titles.length-1)]);
             recipe.setType(types[random.nextInt(types.length-1)]);
             recipe.setAdd_date(getRandomDate());
             recipe.setRatings(ratings);
+            recipe.setTags(tags);
 
             recipes.add(recipe);
         }
@@ -83,7 +94,7 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll(null, "alpha", null);
+        List<Recipe> returnedRecipes = recipeService.getAll(null, "alpha", null, null, null);
         assertEquals(sortedRecipes, returnedRecipes);
     }
 
@@ -94,7 +105,7 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll(null, "average", null);
+        List<Recipe> returnedRecipes = recipeService.getAll(null, "average", null, null, null);
         assertEquals(sortedRecipes, returnedRecipes);
     }
 
@@ -105,7 +116,7 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll(null, "count", null);
+        List<Recipe> returnedRecipes = recipeService.getAll(null, "count", null, null, null);
         assertEquals(sortedRecipes, returnedRecipes);
     }
 
@@ -116,7 +127,7 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll(null, null, null);
+        List<Recipe> returnedRecipes = recipeService.getAll(null, null, null, null, null);
         assertEquals(sortedRecipes, returnedRecipes);
     }
 
@@ -126,7 +137,7 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll(null, null, 2);
+        List<Recipe> returnedRecipes = recipeService.getAll(null, null, null, null, 2);
         assertEquals(1, returnedRecipes.size());
     }
 
@@ -136,7 +147,7 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll(null, null, 5);
+        List<Recipe> returnedRecipes = recipeService.getAll(null, null, null, null, 5);
         assertEquals(0, returnedRecipes.size());
     }
 
@@ -150,7 +161,26 @@ public class RecipeServiceTest {
 
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
-        List<Recipe> returnedRecipes = recipeService.getAll("jablecznik", null, 1);
+        List<Recipe> returnedRecipes = recipeService.getAll("jablecznik", null, null, null, 1);
+        assertEquals(filteredRecipes, returnedRecipes);
+    }
+
+    @Test
+    public void getAll_FilterByTag_ReturnListOfRecipes() {
+        List<Recipe> recipes = getRecipes(10);
+        List<Recipe> filteredRecipes = recipes.stream()
+                .filter(r -> {
+                    for(Tag tag: r.getTags()) {
+                        if(tag.getText().equals("aaa")) return true;
+                    }
+                    return false;
+                })
+                .sorted(Comparator.comparing(Recipe::getAdd_date).reversed())
+                .collect(Collectors.toList());
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        List<Recipe> returnedRecipes = recipeService.getAll(null, null, "aaa", null, 1);
         assertEquals(filteredRecipes, returnedRecipes);
     }
 
@@ -216,44 +246,6 @@ public class RecipeServiceTest {
         } catch (RecipeNotFoundException ex) {
             assertEquals("Nie ma takiego przepisu", ex.getMessage());
         }
-    }
-
-
-
-    @Test
-    public void getPagesCount_EmptyList_Return1() {
-
-        Mockito.when(recipeRepository.findAll()).thenReturn(getRecipes(0));
-
-        Long pagesCount = recipeService.getPagesCount(null);
-        assertEquals(1, pagesCount);
-    }
-
-    @Test
-    public void getPagesCount_ListWith1Item_Return1() {
-
-        Mockito.when(recipeRepository.findAll()).thenReturn(getRecipes(1));
-
-        Long pagesCount = recipeService.getPagesCount(null);
-        assertEquals(1, pagesCount);
-    }
-
-    @Test
-    public void getPagesCount_ListWith10Items_Return1() {
-
-        Mockito.when(recipeRepository.findAll()).thenReturn(getRecipes(10));
-
-        Long pagesCount = recipeService.getPagesCount(null);
-        assertEquals(1, pagesCount);
-    }
-
-    @Test
-    public void getPagesCount_ListWith11Items_Return2() {
-
-        Mockito.when(recipeRepository.findAll()).thenReturn(getRecipes(11));
-
-        Long pagesCount = recipeService.getPagesCount(null);
-        assertEquals(2, pagesCount);
     }
 
     @Test

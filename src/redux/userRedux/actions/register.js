@@ -1,9 +1,10 @@
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
-    REGISTER_ERROR
-} from '../constants/registerConstants';
-import { USER } from '../constants/userGroup';
+    REGISTER_ERROR,
+    
+    USER 
+} from '../userConstants';
 
 import history from '../../../helpers/history';
 
@@ -24,13 +25,13 @@ export const registerUser = (user) => {
                     throw new Error(resp.message)
                 }
                 else if (resp.status && resp.status !== 200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(registerSuccess(resp));
                 localStorage.setItem('user', JSON.stringify(resp));
 
-                history.push("/");
+                history.push('/');
                 window.location.reload(false);
 
 

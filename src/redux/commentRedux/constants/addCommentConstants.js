@@ -1,3 +1,0 @@
-export const ADD_COMMENT_REQUEST = 'Comment/ADD_COMMENT_REQUEST';
-export const ADD_COMMENT_SUCCESS = 'Comment/ADD_COMMENT_SUCCESS';
-export const ADD_COMMENT_ERROR = 'Comment/ADD_COMMENT_ERROR';

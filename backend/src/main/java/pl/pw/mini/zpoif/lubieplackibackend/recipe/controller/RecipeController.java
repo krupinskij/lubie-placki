@@ -26,9 +26,11 @@ public class RecipeController {
     public ResponseEntity getRecipes(
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Integer page
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Long user,
+            @RequestParam Integer page
     ) {
-        return ResponseEntity.ok(recipeService.getAll(type, sort, page));
+        return ResponseEntity.ok(recipeService.getAll(type, sort, search, user, page));
     }
 
     @GetMapping(path = "/{recipe_id}")
@@ -49,11 +51,6 @@ public class RecipeController {
     @GetMapping(path="/random")
     public ResponseEntity getRandomId() {
         return ResponseEntity.ok(recipeService.getRandomId());
-    }
-
-    @GetMapping(path = "/pages")
-    public ResponseEntity getPagesCount(@RequestParam(required = false) String type) {
-        return ResponseEntity.ok(recipeService.getPagesCount(type));
     }
 
     @PostMapping(path = "")
@@ -125,8 +122,7 @@ public class RecipeController {
     @DeleteMapping(path="/{id}")
     public ResponseEntity deleteRecipe(@RequestHeader String securityTokenValue, @PathVariable Long id) {
         UUID securityToken = UUID.fromString(securityTokenValue);
-        recipeService.deleteRecipe(securityToken, id);
-        return ResponseEntity.ok("Usunięto przepis");
+        return ResponseEntity.ok(recipeService.deleteRecipe(securityToken, id));
     }
 
 

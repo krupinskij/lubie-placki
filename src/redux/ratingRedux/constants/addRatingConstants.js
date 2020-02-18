@@ -1,3 +1,0 @@
-export const ADD_RATING_REQUEST = "Rating/ADD_RATING_REQUEST";
-export const ADD_RATING_SUCCESS = "Rating/ADD_RATING_SUCCESS";
-export const ADD_RATING_ERROR = "Rating/ADD_RATING_ERROR";

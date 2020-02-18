@@ -9,14 +9,13 @@ import java.util.UUID;
 
 public interface RecipeService {
 
-    List<Recipe> getAll(String type, String sort, Integer page);
+    List<Recipe> getAll(String type, String sort, String text, Long user_id, Integer page);
 
     Recipe getRecipeByRecipeId(Long recipe_id);
     List<Recipe> getRecipesByUserId(Long user_id);
 
     byte[] getRecipePhotoByRecipeId(Long recipe_id);
 
-    Long getPagesCount(String type);
     Long getRandomId();
 
     // -- save recipe -- //
@@ -36,7 +35,7 @@ public interface RecipeService {
     List<Hint> updateAllHintsByRecipeId(UUID securityToken, Long recipe_id, List<Hint> hints);
     Recipe updateRecipePhotoByRecipeId(UUID securityToken, Long recipe_id, byte[] photo);
 
-    void deleteRecipe(UUID securityToken, Long recipe_id);
+    Recipe deleteRecipe(UUID securityToken, Long recipe_id);
 
 
     Rating addRatingByRecipeId(UUID securityToken, Long recipe_id, Integer rating);

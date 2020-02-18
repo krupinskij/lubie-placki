@@ -1,9 +1,11 @@
-import { ADD_RECIPE_REQUEST, ADD_RECIPE_SUCCESS, ADD_RECIPE_ERROR } from './constants/addRecipeConstants';
-import { ADD_INGREDIENTS_REQUEST, ADD_INGREDIENTS_SUCCESS, ADD_INGREDIENTS_ERROR } from './constants/addIngredientsConstants';
-import { ADD_DIRECTIONS_REQUEST, ADD_DIRECTIONS_SUCCESS, ADD_DIRECTIONS_ERROR } from './constants/addDirectionsConstants';
-import { ADD_HINTS_REQUEST, ADD_HINTS_SUCCESS, ADD_HINTS_ERROR } from './constants/addHintsConstants';
-import { ADD_PHOTO_REQUEST, ADD_PHOTO_SUCCESS, ADD_PHOTO_ERROR } from './constants/addPhotoConstants';
-import { ADD_TAGS_REQUEST, ADD_TAGS_SUCCESS, ADD_TAGS_ERROR } from './constants/addTagsConstants';
+import { 
+  ADD_RECIPE_REQUEST, ADD_RECIPE_SUCCESS, ADD_RECIPE_ERROR,
+  ADD_INGREDIENTS_REQUEST, ADD_INGREDIENTS_SUCCESS, ADD_INGREDIENTS_ERROR,
+  ADD_DIRECTIONS_REQUEST, ADD_DIRECTIONS_SUCCESS, ADD_DIRECTIONS_ERROR,
+  ADD_HINTS_REQUEST, ADD_HINTS_SUCCESS, ADD_HINTS_ERROR,
+  ADD_PHOTO_REQUEST, ADD_PHOTO_SUCCESS, ADD_PHOTO_ERROR,
+  ADD_TAGS_REQUEST, ADD_TAGS_SUCCESS, ADD_TAGS_ERROR 
+} from './addRecipeConstants';
 
 export function addRecipeReducer(action) {
 
@@ -13,11 +15,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie przepisu..."
+          message: 'Trwa dodawanie przepisu...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -26,11 +28,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -39,7 +41,7 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -52,11 +54,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie składników..."
+          message: 'Trwa dodawanie składników...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -65,11 +67,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -78,7 +80,7 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -91,11 +93,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie sposobu wykonania..."
+          message: 'Trwa dodawanie sposobu wykonania...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -104,11 +106,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -117,7 +119,7 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -130,11 +132,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie wskazówek..."
+          message: 'Trwa dodawanie wskazówek...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -143,11 +145,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -156,7 +158,7 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -169,11 +171,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie zdjęcia..."
+          message: 'Trwa dodawanie zdjęcia...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -182,11 +184,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -195,7 +197,7 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,
@@ -208,11 +210,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: true,
-          message: "Trwa dodawanie słów kluczowych..."
+          message: 'Trwa dodawanie słów kluczowych...'
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -221,11 +223,11 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: false,
-          message: ""
+          message: ''
         }
       }
     }
@@ -234,7 +236,7 @@ export function addRecipeReducer(action) {
       return {
         loading: {
           active: false,
-          message: ""
+          message: ''
         },
         error: {
           active: true,

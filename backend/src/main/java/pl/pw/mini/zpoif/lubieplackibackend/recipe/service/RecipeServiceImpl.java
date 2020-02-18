@@ -60,9 +60,19 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> getAll(String type, String sort, Integer page) {
+    public List<Recipe> getAll(String type, String sort, String text, Long user_id, Integer page) {
         return recipeRepository.findAll().stream()
-                .filter(recipe -> type==null || recipe.getType().equals(type))
+                .filter(recipe -> type == null || type.equals("all") || recipe.getType().equals(type))
+                .filter(recipe -> {
+                    if(text == null) return true;
+
+                    for (Tag tag: recipe.getTags()) {
+                        if(tag.getText().equals(text)) return true;
+                    }
+
+                    return false;
+                })
+                .filter(recipe -> user_id == null || recipe.getUser().getId().equals(user_id))
                 .sorted((r1, r2) -> {
                     if(sort!=null && sort.equals("alpha")) return r1.getTitle().compareToIgnoreCase(r2.getTitle());
                     else if(sort!=null && sort.equals("average")) return Double.compare(r2.getAverageRating(), r1.getAverageRating());
@@ -106,16 +116,6 @@ public class RecipeServiceImpl implements RecipeService {
         Random random = new Random();
 
         return recipes.get(random.nextInt(recipes.size())).getId();
-    }
-
-    @Override
-    public Long getPagesCount(String type) {
-        long count =  recipeRepository.findAll().stream()
-                .filter(recipe -> type==null || recipe.getType().equals(type))
-                .count();
-
-        if(count == 0) return 1L;
-        return (count+9)/10;
     }
 
     // -- save recipe -- //
@@ -277,13 +277,15 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void deleteRecipe(UUID securityToken, Long recipe_id) {
+    public Recipe deleteRecipe(UUID securityToken, Long recipe_id) {
         User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
         if(!user.equals(recipe.getUser())) throw new UnauthorizedException("Nie jesteś autorem tego przepisu");
 
         recipeRepository.delete(recipe);
+
+        return recipe;
     }
 
 

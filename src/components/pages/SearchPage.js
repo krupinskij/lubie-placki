@@ -1,49 +1,65 @@
 import React from 'react';
-import queryString from 'query-string'
 
 import RecipesList from '../RecipesList';
 import SearchController from '../SearchController';
+import PageController from '../PageController';
+
+import queryString from 'query-string'
+
+import { withRouter } from 'react-router-dom';
 
 class SearchPage extends React.Component {
 
     state = {
-        recipes: [],
-        search: ""
+        search: 'ddd',
+        page: 1,
+		length: 1
     }
 
-    fetchData = parsed => {
-
+    fetchQuery = parsed => {
 		this.setState({
-			search: parsed.s
-		})
-		
-		fetch("http://localhost:3004/recipes/search?s=" + parsed.s)
-        .then(resp => resp.json())
-        .then(resp => {
-            this.setState({
-                recipes: resp
-            })
+			search: parsed.s !== undefined ? parsed.s : '',
+			page: parsed.page !== undefined ? parsed.page : 1,
+		}, () => {
+            console.log(this.state);
         })
 	}
 
     componentWillReceiveProps = nextProps => {
 		const parsed = queryString.parse(nextProps.location.search);
-		this.fetchData(parsed);
+		this.fetchQuery(parsed);
     }
     
     componentDidMount = () => {
 		const parsed = queryString.parse(this.props.history.location.search);
-		this.fetchData(parsed);
+		this.fetchQuery(parsed);
+    }
+    
+    handleChangePage = (event, page) => {
+		this.props.history.push('/search?s=' + this.state.search + '&page=' + page);
 	}
+	
+	setLength = length => {
+        this.setState({ length })
+    }
 
     render() {
         return(
             <div className="page">
                 <SearchController/>
-                <RecipesList recipes={this.state.recipes}/>
+                <RecipesList
+                    search={ this.state.search }
+                    page={ this.state.page }
+                    setLength={ this.setLength }
+                />
+                <PageController
+                    length={this.state.length}
+                    currentPage={this.state.page} 
+                    choosePage={this.handleChangePage}
+                />
             </div>
         )
     }
 }
 
-export default SearchPage
+export default withRouter(SearchPage)
