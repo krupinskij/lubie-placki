@@ -42,14 +42,14 @@ export const loginUser = (user) => {
 
 const loginRequest = () => {
     return {
-        class: USER,
+        group: USER,
         type: LOGIN_REQUEST
     }
 }
 
 const loginSuccess = token => {
     return {
-        class: USER,
+        group: USER,
         type: LOGIN_SUCCESS,
         payload: {
             token
@@ -59,7 +59,7 @@ const loginSuccess = token => {
 
 const loginError = error => {
     return {
-        class: USER,
+        group: USER,
         type: LOGIN_ERROR,
         payload: {
             error

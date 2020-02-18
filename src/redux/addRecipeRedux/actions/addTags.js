@@ -34,21 +34,21 @@ export const addTags = (token, recipe_id, tags) => {
 
 const addRequest = () => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_TAGS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_TAGS_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_TAGS_ERROR,
         payload: {
             error

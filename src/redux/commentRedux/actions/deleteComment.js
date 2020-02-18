@@ -36,21 +36,21 @@ export const deleteComment = (token, comment_id) => {
 
 const deleteRequest = () => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: DELETE_COMMENT_REQUEST
     }
 }
 
 const deleteSuccess = () => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: DELETE_COMMENT_SUCCESS
     };
 }
 
 const deleteError = error => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: DELETE_COMMENT_ERROR,
         payload: {
             error

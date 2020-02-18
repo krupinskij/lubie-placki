@@ -2,7 +2,7 @@ import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
   LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
   REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR 
-} from './userConstants';
+} from '../userConstants';
 
 export function userReducer(action) {
 
@@ -10,10 +10,6 @@ export function userReducer(action) {
     case LOGIN_REQUEST:
       return {
         token: null,
-        loading: {
-          active: true,
-          message: 'Trwa logowanie...'
-        },
         error: {
           active: false,
           message: ''
@@ -23,10 +19,6 @@ export function userReducer(action) {
     case LOGIN_SUCCESS:
       return {
         token: action.payload.token,
-        loading: {
-          active: false,
-          message: ''
-        },
         error: {
           active: false,
           message: ''
@@ -36,10 +28,6 @@ export function userReducer(action) {
       case LOGIN_ERROR: {
         return {
           token: null,
-          loading: {
-            active: false,
-            message: ''
-          },
           error: {
             active: true,
             message: action.payload.error
@@ -49,10 +37,6 @@ export function userReducer(action) {
   
       case LOGOUT_REQUEST: {
         return {
-          loading: {
-            active: true,
-            message: 'Trwa wylogowywanie...'
-          },
           error: {
             active: false,
             message: ''
@@ -63,10 +47,6 @@ export function userReducer(action) {
       case LOGOUT_SUCCESS: {
         return {
           token: null,
-          loading: {
-            active: false,
-            message: ''
-          },
           error: {
             active: false,
             message: ''
@@ -76,10 +56,6 @@ export function userReducer(action) {
 
       case LOGOUT_ERROR: {
         return {
-          loading: {
-            active: false,
-            message: ''
-          },
           error: {
             active: true,
             message: action.payload.error
@@ -89,11 +65,7 @@ export function userReducer(action) {
   
       case REGISTER_REQUEST: {
         return {
-          token: null, 
-          loading: {
-            active: true,
-            message: 'Trwa rejestracja...'
-          },
+          token: null,
           error: {
             active: false,
             message: ''
@@ -104,10 +76,6 @@ export function userReducer(action) {
       case REGISTER_SUCCESS: {
         return {
           token: action.payload.token,
-          loading: {
-            active: false,
-            message: ''
-          },
           error: {
             active: false,
             message: ''
@@ -118,10 +86,6 @@ export function userReducer(action) {
       case REGISTER_ERROR: {
         return {
           token: null,
-          loading: {
-            active: false,
-            message: ''
-          },
           error: {
             active: true,
             message: action.payload.error

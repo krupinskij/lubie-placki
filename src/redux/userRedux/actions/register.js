@@ -44,14 +44,14 @@ export const registerUser = (user) => {
 
 const registerRequest = () => {
     return {
-        class: USER,
+        group: USER,
         type: REGISTER_REQUEST
     }
 }
 
 const registerSuccess = user => {
     return {
-        class: USER,
+        group: USER,
         type: REGISTER_SUCCESS,
         payload: {
             user
@@ -61,7 +61,7 @@ const registerSuccess = user => {
 
 const registerError = error => {
     return {
-        class: USER,
+        group: USER,
         type: REGISTER_ERROR,
         payload: {
             error

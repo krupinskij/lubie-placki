@@ -37,21 +37,21 @@ export const editAvatar = (token, id, avatar) => {
 
 const editRequest = () => {
     return {
-        class: USER,
+        group: USER,
         type: EDIT_AVATAR_REQUEST
     }
 }
 
 const editSuccess = () => {
     return {
-        class: USER,
+        group: USER,
         type: EDIT_AVATAR_SUCCESS
     };
 }
 
 const editError = error => {
     return {
-        class: USER,
+        group: USER,
         type: EDIT_AVATAR_ERROR,
         payload: {
             error

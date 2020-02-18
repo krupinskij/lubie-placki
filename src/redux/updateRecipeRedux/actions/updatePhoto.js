@@ -34,21 +34,21 @@ export const updatePhoto = (token, recipe_id, photo) => {
 
 const updateRequest = () => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_PHOTO_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_PHOTO_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_PHOTO_ERROR,
         payload: {
             error

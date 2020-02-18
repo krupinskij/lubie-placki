@@ -34,21 +34,21 @@ export const updateDirections = (token, recipe_id, directions) => {
 
 const updateRequest = () => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_DIRECTIONS_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_DIRECTIONS_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_DIRECTIONS_ERROR,
         payload: {
             error

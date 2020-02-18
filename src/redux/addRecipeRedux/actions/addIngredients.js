@@ -34,21 +34,21 @@ export const addIngredients = (token, recipe_id, hints) => {
 
 const addRequest = () => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_INGREDIENTS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_INGREDIENTS_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_INGREDIENTS_ERROR,
         payload: {
             error

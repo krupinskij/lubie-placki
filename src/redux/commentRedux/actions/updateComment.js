@@ -38,21 +38,21 @@ export const updateComment = (token, comment_id, text) => {
 
 const updateRequest = () => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: UPDATE_COMMENT_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: UPDATE_COMMENT_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: UPDATE_COMMENT_ERROR,
         payload: {
             error

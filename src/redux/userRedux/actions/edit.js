@@ -38,14 +38,14 @@ export const editUser = (token, id, username) => {
 
 const editRequest = () => {
     return {
-        class: USER,
+        group: USER,
         type: EDIT_REQUEST
     }
 }
 
 const editSuccess = user => {
     return {
-        class: USER,
+        group: USER,
         type: EDIT_SUCCESS,
         payload: {
             user
@@ -55,7 +55,7 @@ const editSuccess = user => {
 
 const editError = error => {
     return {
-        class: USER,
+        group: USER,
         type: EDIT_ERROR,
         payload: {
             error

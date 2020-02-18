@@ -38,21 +38,21 @@ export const addComment = (token, recipe_id, text) => {
 
 const addRequest = () => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: ADD_COMMENT_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: ADD_COMMENT_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        class: COMMENT,
+        group: COMMENT,
         type: ADD_COMMENT_ERROR,
         payload: {
             error

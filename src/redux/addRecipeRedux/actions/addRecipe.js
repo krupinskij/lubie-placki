@@ -36,21 +36,21 @@ export const addRecipe = (token, recipe) => {
 
 const addRequest = () => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_RECIPE_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_RECIPE_SUCCESS
     };
 }
 
 const addError = error => {
     return {
-        class: ADD_RECIPE,
+        group: ADD_RECIPE,
         type: ADD_RECIPE_ERROR,
         payload: {
             error

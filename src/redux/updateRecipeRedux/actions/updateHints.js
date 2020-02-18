@@ -34,21 +34,21 @@ export const updateHints = (token, recipe_id, hints) => {
 
 const updateRequest = () => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_HINTS_REQUEST
     }
 }
 
 const updateSuccess = () => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_HINTS_SUCCESS
     };
 }
 
 const updateError = error => {
     return {
-        class: UPDATE_RECIPE,
+        group: UPDATE_RECIPE,
         type: UPDATE_HINTS_ERROR,
         payload: {
             error

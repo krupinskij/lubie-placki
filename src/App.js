@@ -22,6 +22,7 @@ import EditUserPage from './components/pages/EditUserPage';
 import EditRecipePage from './components/pages/EditRecipePage';
 
 import SearchPage from './components/pages/SearchPage';
+import Loading from './components/Loading';
 
 const store = createStore(rootReducer, applyMiddleware(reduxLogger, reduxThunk))
 
@@ -47,6 +48,8 @@ class App extends React.Component {
 						<Route path="/edit/:id" component={EditRecipePage} />
 
 						<Route path="/search" component={SearchPage} />
+
+						<Loading/>
 					</div>
 				</BrowserRouter>
 			</Provider>
