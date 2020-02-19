@@ -63,10 +63,6 @@ class AddPage extends React.Component {
         },
 
 		photo: '',
-		photoValid: { 
-            isValid: false,
-            message: 'Dodaj zdjęcie'
-		},
 
 		tags: '',
 		
@@ -85,7 +81,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			valid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -132,42 +127,15 @@ class AddPage extends React.Component {
 		const target = event.target;
 		const value = target.files[0];
 
-		const valid = validate(
-			isFile(value)
-		)
-
-		const toSubmit = canSubmit(
-			this.state.titleValid,
-			valid,
-			this.state.ingredientsValid,
-			this.state.directionsValid,
-			this.state.hintsValid
-		)
-
 		this.setState({
-			photo: value,
-			photoValid: valid,
-			toSubmit
+			photo: value
 		})
 	}
 
 	deleteImage = event => {
-		const valid = validate(
-			required('')
-		)
-
-		const toSubmit = canSubmit(
-			this.state.titleValid,
-			valid,
-			this.state.ingredientsValid,
-			this.state.directionsValid,
-			this.state.hintsValid
-		)
 
 		this.setState({
-			photo: '',
-			photoValid: valid,
-			toSubmit
+			photo: ''
 		})
 	}
 
@@ -186,7 +154,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -211,7 +178,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -238,7 +204,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -266,7 +231,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -293,7 +257,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			valid,
 			this.state.directionsValid,
 			this.state.hintsValid
@@ -321,7 +284,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			valid,
 			this.state.hintsValid
@@ -346,7 +308,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			valid,
 			this.state.hintsValid
@@ -373,7 +334,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			valid,
 			this.state.hintsValid
@@ -401,7 +361,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			valid
@@ -426,7 +385,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			valid
@@ -453,7 +411,6 @@ class AddPage extends React.Component {
 
 		const toSubmit = canSubmit(
 			this.state.titleValid,
-			this.state.photoValid,
 			this.state.ingredientsValid,
 			this.state.directionsValid,
 			valid
@@ -476,8 +433,7 @@ class AddPage extends React.Component {
 		const recipe = {
 			title: this.state.title,
 			description: this.state.description,
-			type: this.state.type,
-			photo: null
+			type: this.state.type
 		}
 
 		const ingredients = this.state.ingredients.map(i => { 
@@ -513,18 +469,19 @@ class AddPage extends React.Component {
 
 			if(id === undefined) return;
 
-			Promise.all([
-				this.props.addIngredients(token, id, ingredients), 
-				this.props.addDirections(token, id, directions), 
-				this.props.addHints(token, id, hints), 
-				this.props.addPhoto(token, id, photo),
-				this.props.addTags(token, id, tags)
-			])
+			const promises = [];
+			promises.push(this.props.addIngredients(token, id, ingredients))
+			promises.push(this.props.addDirections(token, id, directions))
+			promises.push(this.props.addHints(token, id, hints))
+			if(photo !== '') promises.push(this.props.addPhoto(token, id, photo))
+			promises.push(this.props.addTags(token, id, tags))
+
+			Promise.all([promises])
 			.then(() => { 
 				setTimeout(this.props.deleteAddIngredientsNotification, 3000);
 				setTimeout(this.props.deleteAddDirectionsNotification, 3000);
 				setTimeout(this.props.deleteAddHintsNotification, 3000);
-				setTimeout(this.props.deleteAddPhotoNotification, 3000);
+				if(photo !== '') setTimeout(this.props.deleteAddPhotoNotification, 3000);
 				setTimeout(this.props.deleteAddTagsNotification, 3000);
 				
 				this.props.history.push('/'); 
@@ -617,7 +574,7 @@ class AddPage extends React.Component {
 					<hr className='form__separator'/>
 
 					<div className='form__section'>
-						<label className='form__label for__label--required' htmlFor='photo'>Zdjęcie ciasta: </label>
+						<label className='form__label' htmlFor='photo'>Zdjęcie ciasta: </label>
 						{
 							this.state.photo === '' ?
 							<label className='form__button' htmlFor='photo'>Dodaj zdjęcie
@@ -628,12 +585,6 @@ class AddPage extends React.Component {
 								<button className='form__image-delete' onClick={this.deleteImage}>X</button>
 							</div>
 						}
-						{ 
-                            !this.state.photoValid.isValid && 
-                            <span className='form__warning'>
-                                { this.state.photoValid.message }
-                            </span> 
-                        }
 					</div>
 
 					<hr className='form__separator'/>

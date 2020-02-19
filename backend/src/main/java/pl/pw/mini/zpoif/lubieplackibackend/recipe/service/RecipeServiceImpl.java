@@ -185,10 +185,12 @@ public class RecipeServiceImpl implements RecipeService {
         userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
+        //throw new RecipeNotFoundException("string: " + tagString );
         List<Tag> tags = Arrays.stream(tagString.substring(1).split("#"))
                 .map(s -> {
                     Tag tag = new Tag();
                     tag.setText(s.trim());
+                    tag.setRecipe(recipe);
 
                     return tag;
                 })

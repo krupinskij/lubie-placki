@@ -10,16 +10,22 @@ import {
 export const addTags = (token, recipe_id, tags) => {
     return dispatch => {
         dispatch(addRequest())
+        console.log(tags);
         return fetch('http://localhost:3004/recipes/' + recipe_id + '/tags', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'text/plain',
                 'securityTokenValue': token
             },
             body: tags
         })
-            .then(resp => resp.json())
             .then(resp => {
+                console.log(resp);
+                return resp.json()
+            })
+            .then(resp => {
+
+                console.log(resp);
 
                 if(resp.status === 401 || resp.status === 403) {
                     throw new Error(resp.message);
@@ -48,17 +54,17 @@ export const deleteAddTagsNotification = () => {
 const addRequest = () => {
     return {
         group: ADD_RECIPE,
-        type: ADD_TAGS_REQUEST,
-        payload: {
-            success: 'Pomyślnie dodano słowa kluczowe'
-        }
+        type: ADD_TAGS_REQUEST
     }
 }
 
 const addSuccess = () => {
     return {
         group: ADD_RECIPE,
-        type: ADD_TAGS_SUCCESS
+        type: ADD_TAGS_SUCCESS,
+        payload: {
+            success: 'Pomyślnie dodano słowa kluczowe'
+        }
     };
 }
 
