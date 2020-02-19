@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    List<String> getUsernamesByPrefix(String prefix);
     UUID saveUser(User user);
 
     UUID login(String username, String password);
@@ -20,8 +19,8 @@ public interface UserService {
 
     User updateUsername(UUID securityToken, String username);
 
-    byte[] getDefaultAvatar() throws IOException;
-    byte[] getUserAvatarByUserId(Long user_id) throws IOException;
+    byte[] getDefaultAvatar();
+    byte[] getUserAvatarByUserId(Long user_id);
     User updateUserAvatar(UUID securityToken, byte[] avatar);
 
     Integer getPointsByUserId(Long user_id);

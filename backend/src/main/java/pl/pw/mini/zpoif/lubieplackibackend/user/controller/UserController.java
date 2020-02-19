@@ -22,11 +22,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/register/usernames")
-    public ResponseEntity getUsernamesByPrefix(@RequestParam String prefix) {
-        return ResponseEntity.ok(userService.getUsernamesByPrefix(prefix));
-    }
-
     @PostMapping("/register")
     public ResponseEntity addUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.saveUser(user));
@@ -80,12 +75,12 @@ public class UserController {
     }
 
     @GetMapping(path = "/default/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity getDefaultAvatar() throws IOException {
+    public ResponseEntity getDefaultAvatar() {
         return ResponseEntity.ok(userService.getDefaultAvatar());
     }
 
     @GetMapping(path = "/{user_id}/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity getUserAvatarByUserId(@PathVariable Long user_id) throws IOException {
+    public ResponseEntity getUserAvatarByUserId(@PathVariable Long user_id) {
         return ResponseEntity.ok(userService.getUserAvatarByUserId(user_id));
     }
 

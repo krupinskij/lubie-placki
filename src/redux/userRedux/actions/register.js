@@ -9,7 +9,7 @@ import {
 
 import history from '../../../helpers/history';
 
-export const registerUser = (user) => {
+export const registerUser = user => {
     return dispatch => {
         dispatch(registerRequest())
         return fetch('http://localhost:3004/users/register', {
@@ -22,7 +22,7 @@ export const registerUser = (user) => {
             .then(resp => resp.json())
             .then(resp => {
 
-                if(resp.status===401 || resp.status === 403) {
+                if(resp.status === 401 || resp.status === 403) {
                     throw new Error(resp.message)
                 }
                 else if (resp.status && resp.status !== 200) {
@@ -30,7 +30,7 @@ export const registerUser = (user) => {
                 }
 
                 dispatch(registerSuccess(resp));
-                localStorage.setItem('user', JSON.stringify(resp));
+                localStorage.setItem('lubie-placki-token', JSON.stringify(resp));
 
                 history.push('/');
                 return resp;

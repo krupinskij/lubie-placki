@@ -5,8 +5,6 @@ import { withRouter } from 'react-router-dom'
 
 import { loginUser, deleteLoginUserNotification } from '../../redux/userRedux/actions/login'
 
-import Loading from '../Loading';
-
 class LoginPage extends React.Component {
     state = {
         username: "",
@@ -31,9 +29,12 @@ class LoginPage extends React.Component {
             username: this.state.username,
             password: this.state.password
         }
+        
         this.props.loginUser(user)
-        .then(() => {
+        .then(resp => {
             setTimeout(this.props.deleteLoginUserNotification, 3000);
+
+            if(resp === undefined) return;
             
             this.props.history.push('/');
         });
@@ -44,8 +45,6 @@ class LoginPage extends React.Component {
         return (
 
             <div className="page">
-                
-                {this.props.loading.active && <Loading message={this.props.loading.message}/>}
 
                 <form className="component component--wide add-recipe-form" onSubmit={this.handleSubmit}>
                     <h2 className="form__header">Zaloguj się</h2>
@@ -61,8 +60,6 @@ class LoginPage extends React.Component {
                     </div>
 
                     <input className="form__submit" type="submit" value="Zaloguj się" />
-                    
-                    {this.props.error.active && <span className="form__error">{this.props.error.message}</span>}
 
                     <span className="form__direction">Nie masz jeszcze konta? <Link className="form__link" to="/register">Zarejestruj się!</Link></span>
                 </form>

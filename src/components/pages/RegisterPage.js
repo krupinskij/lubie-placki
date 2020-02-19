@@ -5,8 +5,6 @@ import { withRouter } from 'react-router-dom'
 
 import { registerUser, deleteRegisterUserNotification } from '../../redux/userRedux/actions/register'
 
-import Loading from '../Loading';
-
 import {
     required,
     minLength,
@@ -17,23 +15,23 @@ import { validate, canSubmit } from '../../validation/validator';
 
 class RegisterPage extends React.Component {
     state = {
-        username: "",
-        password: "",
-        confirm: "",
+        username: '',
+        password: '',
+        confirm: '',
 
         usernameValid: {
             isValid: false,
-            message: ""
+            message: ''
         },
 
         passwordValid: {
             isValid: false,
-            message: ""
+            message: ''
         },
 
         confirmValid: {
             isValid: false,
-            message: ""
+            message: ''
         },
 
         toSubmit: false
@@ -123,8 +121,10 @@ class RegisterPage extends React.Component {
         }
 
         this.props.registerUser(user)
-        .then(() => {
+        .then(resp => {
             setTimeout(this.props.deleteRegisterUserNotification, 3000);
+
+            if(resp === undefined) return;
 
             this.props.history.push('/');
         });
@@ -132,52 +132,50 @@ class RegisterPage extends React.Component {
 
     render() {
         return (
-            <div className="page">
+            <div className='page'>
 
-                {this.props.loading.active && <Loading message={this.props.loading.message} />}
+                <form className='component component--wide add-recipe-form' onSubmit={this.handleSubmit}>
+                    <h2 className='form__header'>Zarejestruj się</h2>
 
-                <form className="component component--wide add-recipe-form" onSubmit={this.handleSubmit}>
-                    <h2 className="form__header">Zarejestruj się</h2>
-
-                    <div className="form__section">
-                        <label className="form__label" htmlFor="username">Nazwa użytkownika: </label>
-                        <input className="form__input" id="username" name="username" type="text" onChange={this.handleUsernameChange} />
+                    <div className='form__section'>
+                        <label className='form__label' htmlFor='username'>Nazwa użytkownika: </label>
+                        <input className='form__input' id='username' name='username' type='text' onChange={this.handleUsernameChange} />
                         {
                             !this.state.usernameValid.isValid &&
-                            <span className="form__warning">
+                            <span className='form__warning'>
                                 {this.state.usernameValid.message}
                             </span>
                         }
                     </div>
 
-                    <div className="form__section">
-                        <label className="form__label" htmlFor="password">Hasło: </label>
-                        <input className="form__input" id="password" name="password" type="password" onChange={this.handlePasswordChange} />
+                    <div className='form__section'>
+                        <label className='form__label' htmlFor='password'>Hasło: </label>
+                        <input className='form__input' id='password' name='password' type='password' onChange={this.handlePasswordChange} />
                         {
                             !this.state.passwordValid.isValid &&
-                            <span className="form__warning">
+                            <span className='form__warning'>
                                 {this.state.passwordValid.message}
                             </span>
                         }
                     </div>
 
-                    <div className="form__section">
-                        <label className="form__label" htmlFor="repeat">Powtórz hasło: </label>
-                        <input className="form__input" id="repeat" name="confirm" type="password" onChange={this.handleConfirmChange} />
+                    <div className='form__section'>
+                        <label className='form__label' htmlFor='repeat'>Powtórz hasło: </label>
+                        <input className='form__input' id='repeat' name='confirm' type='password' onChange={this.handleConfirmChange} />
                         {
                             !this.state.confirmValid.isValid &&
-                            <span className="form__warning">
+                            <span className='form__warning'>
                                 {this.state.confirmValid.message}
                             </span>
                         }
                     </div>
 
                     <input
-                        className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error"}
-                        type="submit" value="Zarejestruj się" 
+                        className={this.state.toSubmit ? 'form__submit form__submit--success' : 'form__submit form__submit--error'}
+                        type='submit' value='Zarejestruj się' 
                     />
 
-                    <span className="form__direction">Masz już konto? <Link className="form__link" to="/login">Zaloguj się!</Link></span>
+                    <span className='form__direction'>Masz już konto? <Link className='form__link' to='/login'>Zaloguj się!</Link></span>
                 </form>
             </div>
         )

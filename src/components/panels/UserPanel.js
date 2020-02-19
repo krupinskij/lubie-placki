@@ -51,20 +51,20 @@ class UserPanel extends React.Component {
     const { user } = this.state;
     return (
 
-      <div className="navbar__account-container" onClick={this.handleClick}>
-        <div className="navbar__account" >
-          <span className="navbar__login-text">Jesteś zalogowany <br /> jako, {user.username}</span>
-          <img className="navbar__photo" src={`http://localhost:3004/users/${user.id}/avatar`} alt={user.username + "avatar"} />
+      <div className='navbar__account-container' onClick={this.handleClick}>
+        <div className='navbar__account' >
+          <span className='navbar__login-text'>Jesteś zalogowany <br /> jako, {user.username}</span>
+          <img className='navbar__photo' src={`http://localhost:3004/users/${user.id}/avatar`} alt={user.username + 'avatar'} />
 
         </div>
-        <div className="account-panel__list">
-          <Link className="account-panel__list-item" style={{ display: this.state.display }} to={`/user/${user.id}`}>
+        <div className='account-panel__list'>
+          <Link className='account-panel__list-item' style={{ display: this.state.display }} to={`/user/${user.id}`}>
             Twój profil
           </Link>
-          <Link className="account-panel__list-item" style={{ display: this.state.display }} to={`/user/edit/${user.id}`}>
+          <Link className='account-panel__list-item' style={{ display: this.state.display }} to={`/user/edit/${user.id}`}>
             Edytuj profil
           </Link>
-          <button className="account-panel__list-item" style={{ display: this.state.display }} onClick={this.handleLogout}>
+          <button className='account-panel__list-item' style={{ display: this.state.display }} onClick={this.handleLogout}>
             Wyloguj
           </button>
         </div>

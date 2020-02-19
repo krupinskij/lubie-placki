@@ -23,7 +23,6 @@ public class User implements Serializable {
     private String username;
 
     @Column
-    @JsonIgnore
     private String password;
 
     @ElementCollection

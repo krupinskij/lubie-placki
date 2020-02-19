@@ -26,22 +26,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getUsernamesByPrefix(String prefix) {
-
-        return userRepository.findAll().stream()
-                .map(User::getUsername)
-                .filter(username -> username.startsWith(prefix))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public UUID saveUser(User user) {
+    public UUID saveUser(User newUser) {
+        User user = userRepository.findByUsername(newUser.getUsername()).orElse(null);
+        if(user != null) throw new UnauthorizedException("Istnieje już użytkownik o podanej nazwie");
 
         UUID randomUUID = UUID.randomUUID();
-        user.setSecurityToken(randomUUID);
-        userRepository.save(user);
+        newUser.setSecurityToken(randomUUID);
+        userRepository.save(newUser);
 
-        return user.getSecurityToken();
+        return newUser.getSecurityToken();
     }
 
     @Override
@@ -92,21 +85,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public byte[] getDefaultAvatar() throws IOException {
+    public byte[] getDefaultAvatar() {
         ClassPathResource imgFile = new ClassPathResource("image/avatar.png");
 
-        return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        try {
+            return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
     @Override
-    public byte[] getUserAvatarByUserId(Long user_id) throws IOException {
+    public byte[] getUserAvatarByUserId(Long user_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
 
         if(user.getAvatar()!=null) return user.getAvatar();
 
         ClassPathResource imgFile = new ClassPathResource("image/avatar.png");
 
-        return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        try {
+            return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
     @Override
