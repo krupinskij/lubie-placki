@@ -3,7 +3,8 @@ import {
     EDIT_SUCCESS,
     EDIT_ERROR,
     
-    USER 
+    USER, 
+    EDIT_DELETE
 } from '../userConstants';
 
 export const editUser = (token, id, username) => {
@@ -20,7 +21,7 @@ export const editUser = (token, id, username) => {
             .then(resp => resp.json())
             .then(resp => {
 
-                if(resp.status===401) {
+                if(resp.status===401 || resp.status === 403) {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
@@ -28,13 +29,20 @@ export const editUser = (token, id, username) => {
                 }
 
                 dispatch(editSuccess(resp));
-                localStorage.setItem('user', JSON.stringify(resp));
+                return resp;
             })
             .catch(error => {
                 dispatch(editError(error.message))
+                return undefined;
             })
     }
 }
+
+export const deleteEditUserNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const editRequest = () => {
     return {
@@ -48,7 +56,8 @@ const editSuccess = user => {
         group: USER,
         type: EDIT_SUCCESS,
         payload: {
-            user
+            user,
+            success: 'Pomyślnie edytowano użytkownika'
         }
     };
 }
@@ -62,3 +71,10 @@ const editError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: USER,
+        type: EDIT_DELETE
+    }
+  }

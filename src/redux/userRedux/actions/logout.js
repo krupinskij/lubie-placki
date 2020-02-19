@@ -3,7 +3,8 @@ import {
     LOGOUT_SUCCESS,
     LOGOUT_ERROR,
     
-    USER 
+    USER, 
+    LOGOUT_DELETE
 } from '../userConstants';
 
 import history from '../../../helpers/history'
@@ -21,7 +22,7 @@ export const logoutUser = token => {
             .then(resp => resp.text())
             .then(resp => {
                 
-                if(resp.status===401) {
+                if(resp.status===401 || resp.status === 403) {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
@@ -32,13 +33,20 @@ export const logoutUser = token => {
                 localStorage.removeItem('lubie-placki-token');
 
                 history.push('/');
-                window.location.reload(false);
+                return resp;
             })
             .catch(error => {
                 dispatch(logoutError(error.message))
+                return undefined;
             })
     }
 }
+
+export const deleteLogoutUserNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const logoutRequest = () => {
     return {
@@ -50,7 +58,10 @@ const logoutRequest = () => {
 const logoutSuccess = () => {
     return {
         group: USER,
-        type: LOGOUT_SUCCESS
+        type: LOGOUT_SUCCESS,
+        payload: {
+            success: 'Pomyślnie wylogowano'
+        }
     };
 }
 
@@ -63,3 +74,10 @@ const logoutError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: USER,
+        type: LOGOUT_DELETE
+    }
+  }

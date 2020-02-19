@@ -52,9 +52,7 @@ class RecipePage extends React.Component {
 const mapStateToProps = state => {
 
     return {
-        token: state.token,
-        loading: state.loading,
-        error: state.error
+        token: state.token
     }
 }
 

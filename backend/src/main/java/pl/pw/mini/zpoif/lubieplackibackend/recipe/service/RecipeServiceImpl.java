@@ -318,13 +318,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void deleteRating(UUID securityToken, Long recipe_id) {
+    public Rating deleteRating(UUID securityToken, Long recipe_id) {
         User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
         for(Rating rating:  recipe.getRatings()) {
             if(rating.getUser().getId().equals(user.getId())) {
                 ratingRepository.delete(rating);
-                return;
+                return rating;
             }
         }
 

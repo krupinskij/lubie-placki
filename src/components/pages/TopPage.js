@@ -19,7 +19,7 @@ class TopPage extends React.Component {
 		this.setState({
 			sort: parsed.sort !== undefined ? parsed.sort : 'date',
 			page: parsed.page !== undefined ? parsed.page : 1,
-		}, () => console.log(this.state))
+		})
 	}
 
 	componentWillReceiveProps = nextProps => {

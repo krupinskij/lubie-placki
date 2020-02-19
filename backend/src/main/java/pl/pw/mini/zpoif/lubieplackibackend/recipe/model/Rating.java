@@ -1,6 +1,8 @@
 package pl.pw.mini.zpoif.lubieplackibackend.recipe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
 import javax.persistence.*;
@@ -16,7 +18,7 @@ public class Rating implements Serializable {
     @Column
     private Integer rating;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="recipe_id")
     @JsonIgnore
     private Recipe recipe;

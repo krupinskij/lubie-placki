@@ -9,7 +9,7 @@ class Loading extends React.Component {
     render() {
         if(!this.props.loading.active) return(<div/>);
 
-        const messages = this.props.loading.messages.map(m => <div className='modal__message'>{m}</div>)
+        const messages = this.props.loading.messages.map((m,i) => <div key={i} className='modal__message'>{m}</div>)
         return (
             <div className='modal'>
                 <div className='modal__content'>

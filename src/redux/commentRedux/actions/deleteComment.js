@@ -3,7 +3,8 @@ import {
     DELETE_COMMENT_SUCCESS,
     DELETE_COMMENT_ERROR,
 
-    COMMENT 
+    COMMENT, 
+    DELETE_COMMENT_DELETE
 } from '../commentConstants';
 
 export const deleteComment = (token, comment_id) => {
@@ -27,10 +28,18 @@ export const deleteComment = (token, comment_id) => {
                 }
 
                 dispatch(deleteSuccess());
+                return resp;
             })
             .catch(error => {
                 dispatch(deleteError(error.message))
+                return undefined;
             })
+    }
+}
+
+export const deleteDeleteCommentNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
     }
 }
 
@@ -44,7 +53,10 @@ const deleteRequest = () => {
 const deleteSuccess = () => {
     return {
         group: COMMENT,
-        type: DELETE_COMMENT_SUCCESS
+        type: DELETE_COMMENT_SUCCESS,
+        payload: {
+            success: 'Pomyślnie usunięto komentarz'
+        }
     };
 }
 
@@ -55,5 +67,12 @@ const deleteError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: COMMENT,
+        type: DELETE_COMMENT_DELETE
     }
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { registerUser } from '../../redux/userRedux/actions/register'
+import { registerUser, deleteRegisterUserNotification } from '../../redux/userRedux/actions/register'
 
 import Loading from '../Loading';
 
@@ -122,7 +122,12 @@ class RegisterPage extends React.Component {
             password: this.state.password
         }
 
-        this.props.registerUser(user);
+        this.props.registerUser(user)
+        .then(() => {
+            setTimeout(this.props.deleteRegisterUserNotification, 3000);
+
+            this.props.history.push('/');
+        });
     }
 
     render() {
@@ -169,9 +174,8 @@ class RegisterPage extends React.Component {
 
                     <input
                         className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error"}
-                        type="submit" value="Zarejestruj się" />
-
-                    {this.props.error.active && <span className="form__error">{this.props.error.message}</span>}
+                        type="submit" value="Zarejestruj się" 
+                    />
 
                     <span className="form__direction">Masz już konto? <Link className="form__link" to="/login">Zaloguj się!</Link></span>
                 </form>
@@ -182,14 +186,14 @@ class RegisterPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        token: state.token,
-        loading: state.loading,
-        error: state.error
+        token: state.token
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    registerUser: user => dispatch(registerUser(user))
+    registerUser: user => dispatch(registerUser(user)),
+
+    deleteRegisterUserNotification: () => dispatch(deleteRegisterUserNotification())
 })
 
 export default connect(

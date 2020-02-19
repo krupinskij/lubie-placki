@@ -137,8 +137,7 @@ public class RecipeController {
     @DeleteMapping(path = "/{recipe_id}/rating")
     public ResponseEntity deleteRating(@RequestHeader String securityTokenValue, @PathVariable Long recipe_id) {
         UUID securityToken = UUID.fromString(securityTokenValue);
-        recipeService.deleteRating(securityToken, recipe_id);
-        return ResponseEntity.ok("Usunięto ocenę");
+        return ResponseEntity.ok(recipeService.deleteRating(securityToken, recipe_id));
     }
 
     @GetMapping(path = "/{recipe_id}/ratings")

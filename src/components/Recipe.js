@@ -5,7 +5,7 @@ import RatingController from './RatingController';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { deleteRecipe } from '../redux/deleteRecipeRedux/actions/deleteRecipe';
+import { deleteRecipe, deleteDeleteRecipeNotification } from '../redux/deleteRecipeRedux/actions/deleteRecipe';
 
 import history from '../helpers/history'
 
@@ -30,7 +30,11 @@ class Recipe extends React.Component {
     handleDelete = event => {
 
         this.props.deleteRecipe(this.props.token, this.props.recipe.id)
-            .then(() => {
+            .then(recipe => {
+                setTimeout(this.props.deleteDeleteRecipeNotification, 3000);
+			
+                if(recipe === undefined) return;
+
                 history.push("/");
             });
 
@@ -110,14 +114,14 @@ class Recipe extends React.Component {
 const mapStateToProps = state => {
 
     return {
-        token: state.token,
-        loading: state.loading,
-        error: state.error
+        token: state.token
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    deleteRecipe: (token, recipe_id) => dispatch(deleteRecipe(token, recipe_id))
+    deleteRecipe: (token, recipe_id) => dispatch(deleteRecipe(token, recipe_id)),
+
+	deleteDeleteRecipeNotification: () => dispatch(deleteDeleteRecipeNotification())
 })
 
 export default connect(

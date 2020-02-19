@@ -3,7 +3,8 @@ import {
     DELETE_RATING_SUCCESS,
     DELETE_RATING_ERROR,
 
-    RATING
+    RATING,
+    DELETE_RATING_DELETE
 } from '../ratingConstants';
 
 export const deleteRating = (token, recipe_id) => {
@@ -12,13 +13,12 @@ export const deleteRating = (token, recipe_id) => {
         return fetch('http://localhost:3004/recipes/' + recipe_id + '/rating', {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
                 'securityTokenValue': token 
             }
         })
             .then(resp => resp.json())
             .then(resp => {
-
+                
                 if(resp.status===401 || resp.status===403) {
                     throw new Error(resp.message)
                 }
@@ -27,14 +27,20 @@ export const deleteRating = (token, recipe_id) => {
                 }
 
                 dispatch(deleteSuccess());
-                return 1;
+                return resp;
             })
             .catch(error => {
                 dispatch(deleteError(error.message))
-                return -1;
+                return undefined;
             })
     }
 }
+
+export const deleteDeleteRatingNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const deleteRequest = () => {
     return {
@@ -46,7 +52,10 @@ const deleteRequest = () => {
 const deleteSuccess = () => {
     return {
         group: RATING,
-        type: DELETE_RATING_SUCCESS
+        type: DELETE_RATING_SUCCESS,
+        payload: {
+            success: 'Pomyślnie usunięto ocenę'
+        }
     }
 }
 
@@ -59,3 +68,10 @@ const deleteError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: RATING,
+        type: DELETE_RATING_DELETE
+    }
+  }

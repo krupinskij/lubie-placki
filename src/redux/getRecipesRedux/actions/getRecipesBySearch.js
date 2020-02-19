@@ -3,7 +3,8 @@ import {
   GET_RECIPES_SUCCESS, 
   GET_RECIPES_ERROR,
 
-  GET_RECIPES
+  GET_RECIPES,
+  GET_RECIPES_DELETE
 } from '../getRecipesConstants';
 
 export const getRecipesBySearch = (search, page) => {
@@ -32,6 +33,12 @@ export const getRecipesBySearch = (search, page) => {
   }
 }
 
+export const deleteGetRecipesNotification = () => {
+  return dispatch => {
+      dispatch(deleteNotification());
+  }
+}
+
 const getRequest = () => {
   return {
       group: GET_RECIPES,
@@ -42,7 +49,10 @@ const getRequest = () => {
 const getSuccess = () => {
   return {
       group: GET_RECIPES,
-      type: GET_RECIPES_SUCCESS
+      type: GET_RECIPES_SUCCESS,
+      payload: {
+          success: 'Pomyślnie pobrano przepisy'
+      }
   }
 }
 
@@ -53,5 +63,12 @@ const getError = error => {
       payload: {
           error
       }
+  }
+}
+
+const deleteNotification = () => {
+  return {
+      group: GET_RECIPES,
+      type: GET_RECIPES_DELETE
   }
 }

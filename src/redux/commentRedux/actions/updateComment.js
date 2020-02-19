@@ -3,7 +3,8 @@ import {
     UPDATE_COMMENT_SUCCESS,
     UPDATE_COMMENT_ERROR,
 
-    COMMENT 
+    COMMENT, 
+    UPDATE_COMMENT_DELETE
 } from '../commentConstants';
 
 export const updateComment = (token, comment_id, text) => {
@@ -29,10 +30,18 @@ export const updateComment = (token, comment_id, text) => {
                 }
 
                 dispatch(updateSuccess());
+                return resp;
             })
             .catch(error => {
                 dispatch(updateError(error.message))
+                return undefined;
             })
+    }
+}
+
+export const deleteUpdateCommentNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
     }
 }
 
@@ -46,7 +55,10 @@ const updateRequest = () => {
 const updateSuccess = () => {
     return {
         group: COMMENT,
-        type: UPDATE_COMMENT_SUCCESS
+        type: UPDATE_COMMENT_SUCCESS,
+        payload: {
+            success: 'Pomyślnie edytowano komentarz'
+        }
     };
 }
 
@@ -57,5 +69,12 @@ const updateError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: COMMENT,
+        type: UPDATE_COMMENT_DELETE
     }
 }

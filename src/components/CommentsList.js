@@ -6,9 +6,9 @@ import CommentInput from './CommentInput';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { addComment } from '../redux/commentRedux/actions/addComment';
-import { deleteComment } from '../redux/commentRedux/actions/deleteComment';
-import { updateComment } from '../redux/commentRedux/actions/updateComment';
+import { addComment, deleteAddCommentNotification } from '../redux/commentRedux/actions/addComment';
+import { deleteComment, deleteDeleteCommentNotification } from '../redux/commentRedux/actions/deleteComment';
+import { updateComment, deleteUpdateCommentNotification } from '../redux/commentRedux/actions/updateComment';
 
 class CommentsList extends React.Component {
 
@@ -29,15 +29,33 @@ class CommentsList extends React.Component {
     }
 
     postComment = text => {
-        this.props.addComment(this.props.token, this.props.recipe_id, text).then(this.componentDidMount);
+        this.props.addComment(this.props.token, this.props.recipe_id, text)
+        .then(resp => {
+            setTimeout(this.props.deleteDeleteCommentNotification, 3000);
+            
+            if(resp === undefined) return;
+            this.componentDidMount();
+        })
     }
 
     deleteComment = id => {
-        this.props.deleteComment(this.props.token, id).then(this.componentDidMount);
+        this.props.deleteComment(this.props.token, id)
+        .then(resp => {
+            setTimeout(this.props.deleteDeleteCommentNotification, 3000);
+
+            if(resp === undefined) return;
+            this.componentDidMount();
+        })
     }
 
     updateComment = (id, text) => {
-        this.props.updateComment(this.props.token, id, text).then(this.componentDidMount);
+        this.props.updateComment(this.props.token, id, text)
+        .then(resp => {
+            if(resp === undefined) return;
+
+            setTimeout(this.props.deleteUpdateCommentNotification, 3000);
+            this.componentDidMount();
+        })
     }
 	
 	render() {
@@ -72,7 +90,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
 	addComment: (token, recipe_id, text) => dispatch(addComment(token, recipe_id, text)),
 	deleteComment: (token, comment_id) => dispatch(deleteComment(token, comment_id)),
-	updateComment: (token, comment_id, text) => dispatch(updateComment(token, comment_id, text))
+    updateComment: (token, comment_id, text) => dispatch(updateComment(token, comment_id, text)),
+    
+    deleteAddCommentNotification: () => dispatch(deleteAddCommentNotification()),
+    deleteDeleteCommentNotification: () => dispatch(deleteDeleteCommentNotification()),
+    deleteUpdateCommentNotification: () => dispatch(deleteUpdateCommentNotification())
 })
 
 export default connect(

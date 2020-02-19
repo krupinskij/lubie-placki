@@ -3,7 +3,8 @@ import {
     ADD_INGREDIENTS_SUCCESS,
     ADD_INGREDIENTS_ERROR,
 
-    ADD_RECIPE 
+    ADD_RECIPE, 
+    ADD_INGREDIENTS_DELETE
 } from '../addRecipeConstants';
 
 export const addIngredients = (token, recipe_id, hints) => {
@@ -20,15 +21,27 @@ export const addIngredients = (token, recipe_id, hints) => {
             .then(resp => resp.json())
             .then(resp => {
 
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
                     throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(addSuccess(resp));
+                return resp;
             })
             .catch(error => {
-                dispatch(addError(error.message))
+                dispatch(addError(error.message));
+                return undefined;
             })
+    }
+}
+
+export const deleteAddIngredientsNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
     }
 }
 
@@ -42,7 +55,10 @@ const addRequest = () => {
 const addSuccess = () => {
     return {
         group: ADD_RECIPE,
-        type: ADD_INGREDIENTS_SUCCESS
+        type: ADD_INGREDIENTS_SUCCESS,
+        payload: {
+            success: 'Pomyślnie dodano składniki'
+        }
     };
 }
 
@@ -53,5 +69,12 @@ const addError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: ADD_RECIPE,
+        type: ADD_INGREDIENTS_DELETE
     }
 }

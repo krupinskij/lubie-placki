@@ -35,8 +35,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public UUID saveUser(User user) {
+
+        UUID randomUUID = UUID.randomUUID();
+        user.setSecurityToken(randomUUID);
+        userRepository.save(user);
+
+        return user.getSecurityToken();
     }
 
     @Override

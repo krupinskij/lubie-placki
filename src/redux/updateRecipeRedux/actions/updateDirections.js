@@ -3,7 +3,8 @@ import {
     UPDATE_DIRECTIONS_SUCCESS,
     UPDATE_DIRECTIONS_ERROR,
 
-    UPDATE_RECIPE 
+    UPDATE_RECIPE, 
+    UPDATE_DIRECTIONS_DELETE
 } from '../updateRecipeConstants';
 
 export const updateDirections = (token, recipe_id, directions) => {
@@ -20,17 +21,29 @@ export const updateDirections = (token, recipe_id, directions) => {
             .then(resp => resp.json())
             .then(resp => {
 
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess(resp));
+                return resp;
             })
             .catch(error => {
-                dispatch(updateError(error.message))
+                dispatch(updateError(error.message));
+                return undefined;
             })
     }
 }
+
+export const deleteUpdateDirectionsNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const updateRequest = () => {
     return {
@@ -42,7 +55,10 @@ const updateRequest = () => {
 const updateSuccess = () => {
     return {
         group: UPDATE_RECIPE,
-        type: UPDATE_DIRECTIONS_SUCCESS
+        type: UPDATE_DIRECTIONS_SUCCESS,
+        payload: {
+            success: 'Pomyślnie edytowano sposób wykonania'
+        }
     };
 }
 
@@ -55,3 +71,10 @@ const updateError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: UPDATE_RECIPE,
+        type: UPDATE_DIRECTIONS_DELETE
+    }
+  }

@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom'
 
 import history from '../../helpers/history'
 
-import { editUser } from '../../redux/userRedux/actions/edit'
-import { editAvatar } from '../../redux/userRedux/actions/editAvatar'
+import { editUser, deleteEditUserNotification } from '../../redux/userRedux/actions/edit'
+import { editAvatar, deleteEditAvatarNotification } from '../../redux/userRedux/actions/editAvatar'
 
 import {
     required
@@ -101,8 +101,8 @@ class EditUserPage extends React.Component {
                 this.props.editUser(token, username)
             ])
                 .then(() => {
+                    setTimeout(this.props.deleteEditUserNotification, 3000);
                     history.push("/");
-                    window.location.reload(false);
                 });
         } else {
             Promise.all([
@@ -110,8 +110,8 @@ class EditUserPage extends React.Component {
                 this.props.editAvatar(token, avatar)
             ])
                 .then(() => {
+                    setTimeout(this.props.deleteEditAvatarNotification, 3000);
                     history.push("/");
-                    window.location.reload(false);
                 });
         }
 
@@ -157,15 +157,16 @@ class EditUserPage extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-      token: state.token,
-      loading: state.loading,
-	  error: state.error
+      token: state.token
 	}
   }
   
   const mapDispatchToProps = dispatch => ({
     editUser: (token, user) => dispatch(editUser(token, user)),
-    editAvatar: (token, avatar) => dispatch(editAvatar(token, avatar))
+    editAvatar: (token, avatar) => dispatch(editAvatar(token, avatar)),
+
+    deleteEditUserNotification: () => dispatch(deleteEditUserNotification()),
+    deleteEditAvatarNotification: () => dispatch(deleteEditAvatarNotification())
   })
 
 export default connect(

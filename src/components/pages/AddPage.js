@@ -3,12 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { addRecipe } from '../../redux/addRecipeRedux/actions/addRecipe';
-import { addIngredients } from '../../redux/addRecipeRedux/actions/addIngredients';
-import { addDirections } from '../../redux/addRecipeRedux/actions/addDirections';
-import { addHints } from '../../redux/addRecipeRedux/actions/addHints';
-import { addPhoto } from '../../redux/addRecipeRedux/actions/addPhoto';
-import { addTags } from '../../redux/addRecipeRedux/actions/addTags';
+import { addRecipe, deleteAddRecipeNotification } from '../../redux/addRecipeRedux/actions/addRecipe';
+import { addIngredients, deleteAddIngredientsNotification } from '../../redux/addRecipeRedux/actions/addIngredients';
+import { addDirections, deleteAddDirectionsNotification } from '../../redux/addRecipeRedux/actions/addDirections';
+import { addHints, deleteAddHintsNotification } from '../../redux/addRecipeRedux/actions/addHints';
+import { addPhoto, deleteAddPhotoNotification } from '../../redux/addRecipeRedux/actions/addPhoto';
+import { addTags, deleteAddTagsNotification } from '../../redux/addRecipeRedux/actions/addTags';
 
 import { 
 	required,
@@ -509,7 +509,9 @@ class AddPage extends React.Component {
 
 		this.props.addRecipe(token, recipe)
 		.then(id => {
-			if(id === -1) return;
+			setTimeout(this.props.deleteAddRecipeNotification, 3000);
+
+			if(id === undefined) return;
 
 			Promise.all([
 				this.props.addIngredients(token, id, ingredients), 
@@ -517,8 +519,15 @@ class AddPage extends React.Component {
 				this.props.addHints(token, id, hints), 
 				this.props.addPhoto(token, id, photo),
 				this.props.addTags(token, id, tags)
-			]).then(
-				() => { this.props.history.push('/'); 
+			])
+			.then(() => { 
+				setTimeout(this.props.deleteAddIngredientsNotification, 3000);
+				setTimeout(this.props.deleteAddDirectionsNotification, 3000);
+				setTimeout(this.props.deleteAddHintsNotification, 3000);
+				setTimeout(this.props.deleteAddPhotoNotification, 3000);
+				setTimeout(this.props.deleteAddTagsNotification, 3000);
+				
+				this.props.history.push('/'); 
 			})
 		})
 	}
@@ -706,7 +715,14 @@ const mapDispatchToProps = dispatch => ({
 	addDirections: (token, id, directions) => dispatch(addDirections(token, id, directions)),
 	addHints: (token, id, hints) => dispatch(addHints(token, id, hints)),
 	addPhoto: (token, id, photos) => dispatch(addPhoto(token, id, photos)),
-	addTags: (token, id, tags) => dispatch(addTags(token, id, tags))
+	addTags: (token, id, tags) => dispatch(addTags(token, id, tags)),
+
+	deleteAddRecipeNotification: () => dispatch(deleteAddRecipeNotification()),
+	deleteAddIngredientsNotification: () => dispatch(deleteAddIngredientsNotification()),
+	deleteAddDirectionsNotification: () => dispatch(deleteAddDirectionsNotification()),
+	deleteAddHintsNotification: () => dispatch(deleteAddHintsNotification()),
+	deleteAddPhotoNotification: () => dispatch(deleteAddPhotoNotification()),
+	deleteAddTagsNotification: () => dispatch(deleteAddTagsNotification())
 })
 
 export default connect(

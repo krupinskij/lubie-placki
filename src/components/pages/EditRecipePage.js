@@ -3,11 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { updateRecipe } from '../../redux/updateRecipeRedux/actions/updateRecipe';
-import { updateIngredients } from '../../redux/updateRecipeRedux/actions/updateIngredients';
-import { updateDirections } from '../../redux/updateRecipeRedux/actions/updateDirections';
-import { updateHints } from '../../redux/updateRecipeRedux/actions/updateHints';
-import { updatePhoto } from '../../redux/updateRecipeRedux/actions/updatePhoto';
+import { updateRecipe, deleteUpdateRecipeNotification } from '../../redux/updateRecipeRedux/actions/updateRecipe';
+import { updateIngredients, deleteUpdateIngredientsNotification } from '../../redux/updateRecipeRedux/actions/updateIngredients';
+import { updateDirections, deleteUpdateDirectionsNotification } from '../../redux/updateRecipeRedux/actions/updateDirections';
+import { updateHints, deleteUpdateHintsNotification } from '../../redux/updateRecipeRedux/actions/updateHints';
+import { updatePhoto, deleteUpdatePhotoNotification } from '../../redux/updateRecipeRedux/actions/updatePhoto';
 
 import {
 	required,
@@ -500,8 +500,13 @@ class EditRecipePage extends React.Component {
 				this.props.updatePhoto(token, recipe_id, photo)
 			])
 				.then(() => {
+					setTimeout(this.props.deleteUpdateRecipeNotification, 3000);
+					setTimeout(this.props.deleteUpdateIngredientsNotification, 3000);
+					setTimeout(this.props.deleteUpdateDirectionsNotification, 3000);
+					setTimeout(this.props.deleteUpdateHintsNotification, 3000);
+					setTimeout(this.props.deleteUpdatePhotoNotification, 3000);
+
 					this.props.history.push("/");
-					window.location.reload(false);
 				})
 		} else {
 			Promise.all([
@@ -511,8 +516,13 @@ class EditRecipePage extends React.Component {
 				this.props.updateHints(token, recipe_id, hints)
 			])
 				.then(() => {
+
+					setTimeout(this.props.deleteUpdateRecipeNotification, 3000);
+					setTimeout(this.props.deleteUpdateIngredientsNotification, 3000);
+					setTimeout(this.props.deleteUpdateDirectionsNotification, 3000);
+					setTimeout(this.props.deleteUpdateHintsNotification, 3000);
+
 					this.props.history.push("/");
-					window.location.reload(false);
 				})
 		}
 	}
@@ -663,9 +673,7 @@ class EditRecipePage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-		token: state.token,
-		loading: state.loading,
-        error: state.error
+		token: state.token
     }
 }
 
@@ -674,7 +682,13 @@ const mapDispatchToProps = dispatch => ({
 	updateIngredients: (token, recipe_id, ingredients) => dispatch(updateIngredients(token, recipe_id, ingredients)),
 	updateDirections: (token, recipe_id, directions) => dispatch(updateDirections(token, recipe_id, directions)),
 	updateHints: (token, recipe_id, hints) => dispatch(updateHints(token, recipe_id, hints)),
-	updatePhoto: (token, recipe_id, photos) => dispatch(updatePhoto(token, recipe_id, photos))
+	updatePhoto: (token, recipe_id, photos) => dispatch(updatePhoto(token, recipe_id, photos)),
+
+	deleteUpdateRecipeNotification: () => dispatch(deleteUpdateRecipeNotification()),
+	deleteUpdateIngredientsNotification: () => dispatch(deleteUpdateIngredientsNotification()),
+	deleteUpdateDirectionsNotification: () => dispatch(deleteUpdateDirectionsNotification()),
+	deleteUpdateHintsNotification: () => dispatch(deleteUpdateHintsNotification()),
+	deleteUpdatePhotoNotification: () => dispatch(deleteUpdatePhotoNotification())
 })
 
 export default connect(

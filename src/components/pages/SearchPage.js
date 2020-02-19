@@ -20,9 +20,7 @@ class SearchPage extends React.Component {
 		this.setState({
 			search: parsed.s !== undefined ? parsed.s : '',
 			page: parsed.page !== undefined ? parsed.page : 1,
-		}, () => {
-            console.log(this.state);
-        })
+		})
 	}
 
     componentWillReceiveProps = nextProps => {

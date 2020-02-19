@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { loginUser } from '../../redux/userRedux/actions/login'
+import { loginUser, deleteLoginUserNotification } from '../../redux/userRedux/actions/login'
 
 import Loading from '../Loading';
 
@@ -31,7 +31,12 @@ class LoginPage extends React.Component {
             username: this.state.username,
             password: this.state.password
         }
-        this.props.loginUser(user);
+        this.props.loginUser(user)
+        .then(() => {
+            setTimeout(this.props.deleteLoginUserNotification, 3000);
+            
+            this.props.history.push('/');
+        });
     }
 
     render() {
@@ -68,14 +73,14 @@ class LoginPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        token: state.token,
-        loading: state.loading,
-        error: state.error
+        token: state.token
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    loginUser: user => dispatch(loginUser(user))
+    loginUser: user => dispatch(loginUser(user)),
+
+    deleteLoginUserNotification: () => dispatch(deleteLoginUserNotification())
 })
 
 export default connect(

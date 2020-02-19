@@ -126,5 +126,9 @@ export function addRecipeLoadingReducers(action, loading) {
         }
       }
     }
+
+    default: {
+      return {}
+    }
   }
 }

@@ -55,7 +55,7 @@ public class Recipe implements Serializable {
     private User user;
 
     @ElementCollection
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Rating> ratings;
 

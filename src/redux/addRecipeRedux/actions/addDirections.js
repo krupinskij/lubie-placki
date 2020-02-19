@@ -3,7 +3,8 @@ import {
     ADD_DIRECTIONS_SUCCESS, 
     ADD_DIRECTIONS_ERROR, 
 
-    ADD_RECIPE
+    ADD_RECIPE,
+    ADD_DIRECTIONS_DELETE
 } from '../addRecipeConstants';
 
 export const addDirections = (token, recipe_id, directions) => {
@@ -20,15 +21,27 @@ export const addDirections = (token, recipe_id, directions) => {
             .then(resp => resp.json())
             .then(resp => {
 
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
                     throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(addSuccess(resp));
+                return resp;
             })
             .catch(error => {
                 dispatch(addError(error.message))
+                return undefined;
             })
+    }
+}
+
+export const deleteAddDirectionsNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
     }
 }
 
@@ -42,7 +55,10 @@ const addRequest = () => {
 const addSuccess = () => {
     return {
         group: ADD_RECIPE,
-        type: ADD_DIRECTIONS_SUCCESS
+        type: ADD_DIRECTIONS_SUCCESS,
+        payload: {
+            success: 'Pomyślnie dodano sposób wykonania'
+        }
     };
 }
 
@@ -53,5 +69,12 @@ const addError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: ADD_RECIPE,
+        type: ADD_DIRECTIONS_DELETE
     }
 }

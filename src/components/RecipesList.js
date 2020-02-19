@@ -4,12 +4,12 @@ import RecipeMini from './RecipeMini'
 
 import { connect } from 'react-redux'
 
-import { getRecipesByType } from '../redux/getRecipesRedux/actions/getRecipesByType';
+import { getRecipesByType, deleteGetRecipesNotification } from '../redux/getRecipesRedux/actions/getRecipesByType';
 import { getRecipesBySort } from '../redux/getRecipesRedux/actions/getRecipesBySort';
 import { getRecipesBySearch } from '../redux/getRecipesRedux/actions/getRecipesBySearch';
 import { getRecipesByUser } from '../redux/getRecipesRedux/actions/getRecipesByUser';
 
-import { deleteRecipe } from '../redux/deleteRecipeRedux/actions/deleteRecipe';
+import { deleteRecipe, deleteDeleteRecipeNotification } from '../redux/deleteRecipeRedux/actions/deleteRecipe';
 
 
 class RecipesList extends React.Component {
@@ -19,8 +19,6 @@ class RecipesList extends React.Component {
 	}
 
 	componentDidMount = () => {
-
-		console.log(this.props.search + ": in recipe list")
 
 		const page = this.props.page;
 
@@ -35,6 +33,7 @@ class RecipesList extends React.Component {
 	componentWillReceiveProps = props => {
 
 		const page = props.page;
+		
 		if(!(
 			props.type !== this.props.type || 
 			props.sort !== this.props.sort || 
@@ -55,6 +54,8 @@ class RecipesList extends React.Component {
 		.then(recipes => {
 			this.setState({ recipes })
 
+			setTimeout(this.props.deleteGetRecipesNotification, 3000);
+
 			let length = Math.floor((recipes.length + 9) / 10);
 			if(length === 0) length = 1;
 
@@ -65,6 +66,8 @@ class RecipesList extends React.Component {
 	deleteRecipe = recipe_id => {
 		this.props.deleteRecipe(this.props.token, recipe_id)
 		.then(recipe => {
+			setTimeout(this.props.deleteDeleteRecipeNotification, 3000);
+
 			if(recipe === undefined) return;
 			
 			this.componentDidMount();
@@ -101,7 +104,11 @@ const mapDispatchToProps = dispatch => ({
 	getRecipesBySort: (sort, page) => dispatch(getRecipesBySort(sort, page)),
 	getRecipesBySearch: (search, page) => dispatch(getRecipesBySearch(search, page)),
 	getRecipesByUser: (user, page) => dispatch(getRecipesByUser(user, page)),
-	deleteRecipe: (token, recipe_id) => dispatch(deleteRecipe(token, recipe_id))
+	deleteRecipe: (token, recipe_id) => dispatch(deleteRecipe(token, recipe_id)),
+
+	deleteDeleteRecipeNotification: () => dispatch(deleteDeleteRecipeNotification()),
+	deleteGetRecipesNotification: () => dispatch(deleteGetRecipesNotification())
+
 })
 
 export default connect(

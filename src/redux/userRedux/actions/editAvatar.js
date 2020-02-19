@@ -3,7 +3,8 @@ import {
     EDIT_AVATAR_SUCCESS,
     EDIT_AVATAR_ERROR,
     
-    USER 
+    USER, 
+    EDIT_AVATAR_DELETE
 } from '../userConstants';
 
 export const editAvatar = (token, id, avatar) => {
@@ -20,7 +21,7 @@ export const editAvatar = (token, id, avatar) => {
             .then(resp => resp.json())
             .then(resp => {
 
-                if(resp.status===401) {
+                if(resp.status===401 || resp.status === 403) {
                     throw new Error(resp.message)
                 }
                 else if(resp.status && resp.status!==200) {
@@ -28,12 +29,20 @@ export const editAvatar = (token, id, avatar) => {
                 }
 
                 dispatch(editSuccess());
+                return resp;
             })
             .catch(error => {
                 dispatch(editError(error.message))
+                return undefined;
             })
     }
 }
+
+export const deleteEditAvatarNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const editRequest = () => {
     return {
@@ -45,7 +54,10 @@ const editRequest = () => {
 const editSuccess = () => {
     return {
         group: USER,
-        type: EDIT_AVATAR_SUCCESS
+        type: EDIT_AVATAR_SUCCESS,
+        payload: {
+            success: 'Pomyślnie edytowano zdjęcie użytkownika'
+        }
     };
 }
 
@@ -58,3 +70,10 @@ const editError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: USER,
+        type: EDIT_AVATAR_DELETE
+    }
+  }

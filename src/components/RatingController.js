@@ -4,8 +4,8 @@ import star from '../svg/star.svg'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { addRating } from '../redux/ratingRedux/actions/addRating';
-import { deleteRating } from '../redux/ratingRedux/actions/deleteRating';
+import { addRating, deleteAddRatingNotification } from '../redux/ratingRedux/actions/addRating';
+import { deleteRating, deleteDeleteRatingNotification } from '../redux/ratingRedux/actions/deleteRating';
 
 class RatingController extends React.Component {
 
@@ -45,8 +45,10 @@ class RatingController extends React.Component {
         if(this.props.token === null) return;
 
         this.props.addRating(this.props.token, this.props.recipe.id, rating)
-        .then(id => { 
-            if(id===-1) return;
+        .then(resp => { 
+            setTimeout(this.props.deleteDeleteRatingNotification, 3000);
+            
+            if(resp === undefined) return;
 
             this.componentDidMount() 
         })
@@ -58,8 +60,10 @@ class RatingController extends React.Component {
 
         
         this.props.deleteRating(this.props.token, this.props.recipe.id)
-        .then(id => {
-            if(id===-1) return;
+        .then(resp => {
+            setTimeout(this.props.deleteDeleteRatingNotification, 3000);
+
+            if(resp === undefined) return;
 
             this.setState({
                 userRating: -1
@@ -120,15 +124,16 @@ class RatingController extends React.Component {
 
 const mapStateToProps = state => {
     return {
-		token: state.token,
-		loading: state.loading,
-        error: state.error
+		token: state.token
     }
 }
 
 const mapDispatchToProps = dispatch => ({
 	addRating: (token, recipe_id, rating) => dispatch(addRating(token, recipe_id, rating)),
-	deleteRating: (token, recipe_id) => dispatch(deleteRating(token, recipe_id))
+    deleteRating: (token, recipe_id) => dispatch(deleteRating(token, recipe_id)),
+    
+    deleteAddRatingNotification: () => dispatch(deleteAddRatingNotification()),
+    deleteDeleteRatingNotification: () => dispatch(deleteDeleteRatingNotification())
 })
 
 export default connect(

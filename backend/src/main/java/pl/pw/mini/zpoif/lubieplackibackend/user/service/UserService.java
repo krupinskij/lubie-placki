@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface UserService {
     List<String> getUsernamesByPrefix(String prefix);
-    User saveUser(User user);
+    UUID saveUser(User user);
 
     UUID login(String username, String password);
     void logout(UUID securityToken);

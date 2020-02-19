@@ -6,13 +6,7 @@ import { DELETE_RECIPE } from './deleteRecipeRedux/deleteRecipeConstants';
 import { COMMENT } from './commentRedux/commentConstants';
 import { RATING } from './ratingRedux/ratingConstants';
 
-import { getRecipesReducer } from './getRecipesRedux/reducers/getRecipesReducer';
-import { userReducer } from './userRedux/reducers/userReducer';
-import { addRecipeReducer } from './addRecipeRedux/reducers/addRecipeReducer';
-import { updateRecipeReducer } from './updateRecipeRedux/reducers/updateRecipeReducer';
-import { deleteRecipeReducer } from './deleteRecipeRedux/reducers/deleteRecipeReducer';
-import { commentReducer } from './commentRedux/reducers/commentReducer';
-import { ratingReducer } from './ratingRedux/reducers/ratingReducer';
+import { userTokenReducers } from './userRedux/reducers/userTokenReducer';
 
 import { getRecipesLoadingReducers } from './getRecipesRedux/reducers/getRecipesLoadingReducers'
 import { addRecipeLoadingReducers } from './addRecipeRedux/reducers/addRecipeLoadingReducers';
@@ -22,17 +16,21 @@ import { deleteRecipeLoadingReducers } from './deleteRecipeRedux/reducers/delete
 import { commentLoadingReducers } from './commentRedux/reducers/commentLoadingReducers';
 import { ratingLoadingReducers } from './ratingRedux/reducers/ratingLoadingReducers'
 
+import { getRecipesNotificationReducers } from './getRecipesRedux/reducers/getRecipesNotificationReducers'
+import { addRecipeNotificationReducers } from './addRecipeRedux/reducers/addRecipeNotificationReducers';
+import { userNotificationReducers } from './userRedux/reducers/userNotificationReducers';
+import { updateRecipeNotificationReducers } from './updateRecipeRedux/reducers/updateRecipeNotificationReducers';
+import { deleteRecipeNotificationReducers } from './deleteRecipeRedux/reducers/deleteRecipeNotificationReducers';
+import { commentNotificationReducers } from './commentRedux/reducers/commentNotificationReducers';
+import { ratingNotificationReducers } from './ratingRedux/reducers/ratingNotificationReducers'
+
 export const initialState = {
   token: JSON.parse(localStorage.getItem('lubie-placki-token')),
   loading: {
     active: false,
     messages: []
   },
-  messages: [],
-  error: {
-    active: false,
-    message: ''
-  }
+  notifications: []
 };
 
 const appReducer = (state = initialState, action) => {
@@ -40,31 +38,60 @@ const appReducer = (state = initialState, action) => {
   switch (action.group) {
 
     case GET_RECIPES: {
-      return { ...state, ...getRecipesReducer(action), ...getRecipesLoadingReducers(action, state.loading) }
+      return { 
+        ...state,
+        ...getRecipesLoadingReducers(action, state.loading),
+        ...getRecipesNotificationReducers(action, state.notifications)
+      }
     }
 
     case USER: {
-      return { ...state, ...userReducer(action), ...userLoadingReducers(action, state.loading) }
+      return { 
+        ...state, 
+        ...userTokenReducers(action), 
+        ...userLoadingReducers(action, state.loading), 
+        ...userNotificationReducers(action, state.notifications) 
+      }
     }
 
     case ADD_RECIPE: {
-      return { ...state, ...addRecipeReducer(action),  ...addRecipeLoadingReducers(action, state.loading) }
+      return { 
+        ...state,
+        ...addRecipeLoadingReducers(action, state.loading), 
+        ...addRecipeNotificationReducers(action, state.notifications) 
+      }
     }
 
     case UPDATE_RECIPE: {
-      return { ...state, ...updateRecipeReducer(action), ...updateRecipeLoadingReducers(action, state.loading) }
+      return { 
+        ...state,
+        ...updateRecipeLoadingReducers(action, state.loading),
+        ...updateRecipeNotificationReducers(action, state.notifications)
+      }
     }
 
     case DELETE_RECIPE: {
-      return { ...state, ...deleteRecipeReducer(action), ...deleteRecipeLoadingReducers(action, state.loading) }
+      return { 
+        ...state,
+        ...deleteRecipeLoadingReducers(action, state.loading),
+        ...deleteRecipeNotificationReducers(action, state.notifications)
+      }
     }
 
     case COMMENT: {
-      return { ...state, ...commentReducer(action), ...commentLoadingReducers(action, state.loading) }
+      return { 
+        ...state,
+        ...commentLoadingReducers(action, state.loading),
+        ...commentNotificationReducers(action, state.notifications)
+      }
     }
 
     case RATING: {
-      return { ...state, ...ratingReducer(action), ...ratingLoadingReducers(action, state.loading) }
+      return { 
+        ...state,
+        ...ratingLoadingReducers(action, state.loading),
+        ...ratingNotificationReducers(action, state.notifications)
+      }
     }
 
     default:

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import './css/index.css';
 import './css/modal.css';
+import './css/notification.css';
 import './css/form.css';
 
 import App from './App';

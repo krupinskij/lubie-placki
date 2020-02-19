@@ -3,7 +3,8 @@ import {
     ADD_RATING_SUCCESS,
     ADD_RATING_ERROR,
 
-    RATING 
+    RATING, 
+    ADD_RATING_DELETE
 } from '../ratingConstants';
 
 export const addRating = (token, recipe_id, rating) => {
@@ -28,14 +29,20 @@ export const addRating = (token, recipe_id, rating) => {
                 }
 
                 dispatch(addSuccess());
-                return resp.id;
+                return resp
             })
             .catch(error => {
                 dispatch(addError(error.message))
-                return -1;
+                return undefined;
             })
     }
 }
+
+export const deleteAddRatingNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const addRequest = () => {
     return {
@@ -47,7 +54,10 @@ const addRequest = () => {
 const addSuccess = () => {
     return {
         group: RATING,
-        type: ADD_RATING_SUCCESS
+        type: ADD_RATING_SUCCESS,
+        payload: {
+            success: 'Pomyślnie dodano ocenę'
+        }
     }
 }
 
@@ -60,3 +70,10 @@ const addError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: RATING,
+        type: ADD_RATING_DELETE
+    }
+  }

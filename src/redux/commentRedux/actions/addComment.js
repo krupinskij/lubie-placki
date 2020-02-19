@@ -3,7 +3,8 @@ import {
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_ERROR,
 
-    COMMENT 
+    COMMENT, 
+    ADD_COMMENT_DELETE
 } from '../commentConstants';
 
 export const addComment = (token, recipe_id, text) => {
@@ -29,10 +30,18 @@ export const addComment = (token, recipe_id, text) => {
                 }
 
                 dispatch(addSuccess());
+                return resp;
             })
             .catch(error => {
                 dispatch(addError(error.message))
+                return undefined;
             })
+    }
+}
+
+export const deleteAddCommentNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
     }
 }
 
@@ -46,7 +55,10 @@ const addRequest = () => {
 const addSuccess = () => {
     return {
         group: COMMENT,
-        type: ADD_COMMENT_SUCCESS
+        type: ADD_COMMENT_SUCCESS,
+        payload: {
+            success: 'Pomyślnie dodano komentarz'
+        }
     };
 }
 
@@ -57,5 +69,12 @@ const addError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: COMMENT,
+        type: ADD_COMMENT_DELETE
     }
 }

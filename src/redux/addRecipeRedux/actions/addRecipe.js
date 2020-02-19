@@ -1,9 +1,10 @@
 import {
     ADD_RECIPE_REQUEST,
     ADD_RECIPE_SUCCESS,
-    ADD_RECIPE_ERROR,
+    ADD_RECIPE_ERROR, 
+    ADD_RECIPE_DELETE,
 
-    ADD_RECIPE 
+    ADD_RECIPE
 } from '../addRecipeConstants';
 
 export const addRecipe = (token, recipe) => {
@@ -20,6 +21,10 @@ export const addRecipe = (token, recipe) => {
             .then(resp => resp.json())
             .then(resp => {
 
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
                     throw new Error('Wystąpił nieznany błąd!');
                 }
@@ -29,8 +34,14 @@ export const addRecipe = (token, recipe) => {
             })
             .catch(error => {
                 dispatch(addError(error.message));
-                return -1;
+                return undefined;
             })
+    }
+}
+
+export const deleteAddRecipeNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
     }
 }
 
@@ -44,7 +55,10 @@ const addRequest = () => {
 const addSuccess = () => {
     return {
         group: ADD_RECIPE,
-        type: ADD_RECIPE_SUCCESS
+        type: ADD_RECIPE_SUCCESS,
+        payload: {
+            success: 'Pomyślnie dodano przepis'
+        }
     };
 }
 
@@ -55,5 +69,12 @@ const addError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: ADD_RECIPE,
+        type: ADD_RECIPE_DELETE
     }
 }

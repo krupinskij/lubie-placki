@@ -3,7 +3,8 @@ import {
     UPDATE_HINTS_SUCCESS,
     UPDATE_HINTS_ERROR,
 
-    UPDATE_RECIPE 
+    UPDATE_RECIPE, 
+    UPDATE_HINTS_DELETE
 } from '../updateRecipeConstants';
 
 export const updateHints = (token, recipe_id, hints) => {
@@ -20,17 +21,29 @@ export const updateHints = (token, recipe_id, hints) => {
             .then(resp => resp.json())
             .then(resp => {
 
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
                     throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess(resp));
+                return resp;
             })
             .catch(error => {
-                dispatch(updateError(error.message))
+                dispatch(updateError(error.message));
+                return undefined;
             })
     }
 }
+
+export const deleteUpdateHintsNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const updateRequest = () => {
     return {
@@ -42,7 +55,10 @@ const updateRequest = () => {
 const updateSuccess = () => {
     return {
         group: UPDATE_RECIPE,
-        type: UPDATE_HINTS_SUCCESS
+        type: UPDATE_HINTS_SUCCESS,
+        payload: {
+            success: 'Pomyślnie edytowano wskazówki'
+        }
     };
 }
 
@@ -55,3 +71,10 @@ const updateError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: UPDATE_RECIPE,
+        type: UPDATE_HINTS_DELETE
+    }
+  }

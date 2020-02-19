@@ -3,7 +3,8 @@ import {
     UPDATE_PHOTO_SUCCESS,
     UPDATE_PHOTO_ERROR,
 
-    UPDATE_RECIPE 
+    UPDATE_RECIPE, 
+    UPDATE_PHOTO_DELETE
 } from '../updateRecipeConstants';
 
 export const updatePhoto = (token, recipe_id, photo) => {
@@ -19,18 +20,30 @@ export const updatePhoto = (token, recipe_id, photo) => {
         })
             .then(resp => resp.json())
             .then(resp => {
-                
+
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
                     throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess(resp));
+                return resp;
             })
             .catch(error => {
-                dispatch(updateError(error.message))
+                dispatch(updateError(error.message));
+                return undefined;
             })
     }
 }
+
+export const deleteUpdatePhotoNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const updateRequest = () => {
     return {
@@ -42,7 +55,10 @@ const updateRequest = () => {
 const updateSuccess = () => {
     return {
         group: UPDATE_RECIPE,
-        type: UPDATE_PHOTO_SUCCESS
+        type: UPDATE_PHOTO_SUCCESS,
+        payload: {
+            success: 'Pomyślnie edytowano zdjęcie'
+        }
     };
 }
 
@@ -55,3 +71,10 @@ const updateError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: UPDATE_RECIPE,
+        type: UPDATE_PHOTO_DELETE
+    }
+  }

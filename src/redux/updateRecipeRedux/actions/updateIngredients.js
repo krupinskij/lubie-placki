@@ -3,7 +3,8 @@ import {
     UPDATE_INGREDIENTS_SUCCESS,
     UPDATE_INGREDIENTS_ERROR,
 
-    UPDATE_RECIPE 
+    UPDATE_RECIPE, 
+    UPDATE_INGREDIENTS_DELETE
 } from '../updateRecipeConstants';
 
 export const updateIngredients = (token, recipe_id, ingredients) => {
@@ -20,17 +21,29 @@ export const updateIngredients = (token, recipe_id, ingredients) => {
             .then(resp => resp.json())
             .then(resp => {
 
+                if(resp.status === 401 || resp.status === 403) {
+                    throw new Error(resp.message);
+                }
+
                 if(resp.status && resp.status!==200) {
-                    throw new Error("Wystąpił nieznany błąd!");
+                    throw new Error('Wystąpił nieznany błąd!');
                 }
 
                 dispatch(updateSuccess(resp));
+                return resp;
             })
             .catch(error => {
-                dispatch(updateError(error.message))
+                dispatch(updateError(error.message));
+                return undefined;
             })
     }
 }
+
+export const deleteUpdateIngredientsNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const updateRequest = () => {
     return {
@@ -42,7 +55,10 @@ const updateRequest = () => {
 const updateSuccess = () => {
     return {
         group: UPDATE_RECIPE,
-        type: UPDATE_INGREDIENTS_SUCCESS
+        type: UPDATE_INGREDIENTS_SUCCESS,
+        payload: {
+            success: 'Pomyślnie edytowano składniki'
+        }
     };
 }
 
@@ -55,3 +71,10 @@ const updateError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: UPDATE_RECIPE,
+        type: UPDATE_INGREDIENTS_DELETE
+    }
+  }

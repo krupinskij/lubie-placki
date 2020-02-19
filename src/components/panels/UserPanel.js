@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { logoutUser } from '../../redux/userRedux/actions/logout';
+import { logoutUser, deleteLogoutUserNotification } from '../../redux/userRedux/actions/logout';
 
 class UserPanel extends React.Component {
 
@@ -39,8 +39,12 @@ class UserPanel extends React.Component {
   }
 
   handleLogout = () => {
-    this.props.logoutUser(this.props.token);
-    this.props.history.push('/');
+    this.props.logoutUser(this.props.token)
+      .then(() => {
+        setTimeout(this.props.deleteLogoutUserNotification, 3000);
+
+        this.props.history.push('/');
+      });
   }
 
   render() {
@@ -76,7 +80,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  logoutUser: token => dispatch(logoutUser(token))
+  logoutUser: token => dispatch(logoutUser(token)),
+
+  deleteLogoutUserNotification: () => dispatch(deleteLogoutUserNotification())
 })
 
 export default connect(

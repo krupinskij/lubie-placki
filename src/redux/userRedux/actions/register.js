@@ -3,7 +3,8 @@ import {
     REGISTER_SUCCESS,
     REGISTER_ERROR,
     
-    USER 
+    USER, 
+    REGISTER_DELETE
 } from '../userConstants';
 
 import history from '../../../helpers/history';
@@ -21,7 +22,7 @@ export const registerUser = (user) => {
             .then(resp => resp.json())
             .then(resp => {
 
-                if (resp.status === 401) {
+                if(resp.status===401 || resp.status === 403) {
                     throw new Error(resp.message)
                 }
                 else if (resp.status && resp.status !== 200) {
@@ -32,15 +33,20 @@ export const registerUser = (user) => {
                 localStorage.setItem('user', JSON.stringify(resp));
 
                 history.push('/');
-                window.location.reload(false);
-
-
+                return resp;
             })
             .catch(error => {
                 dispatch(registerError(error.message))
+                return undefined;
             })
     }
 }
+
+export const deleteRegisterUserNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+  }
 
 const registerRequest = () => {
     return {
@@ -54,7 +60,8 @@ const registerSuccess = user => {
         group: USER,
         type: REGISTER_SUCCESS,
         payload: {
-            user
+            user,
+            success: 'Pomyślnie zarejestrowano użytkownika'
         }
     };
 }
@@ -68,3 +75,10 @@ const registerError = error => {
         }
     }
 }
+
+const deleteNotification = () => {
+    return {
+        group: USER,
+        type: REGISTER_DELETE
+    }
+  }

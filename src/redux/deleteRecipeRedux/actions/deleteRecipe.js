@@ -3,10 +3,9 @@ import {
     DELETE_RECIPE_SUCCESS,
     DELETE_RECIPE_ERROR,
 
-    DELETE_RECIPE 
+    DELETE_RECIPE, 
+    DELETE_RECIPE_DELETE
 } from '../deleteRecipeConstants';
-
-import history from '../../../helpers/history';
 
 export const deleteRecipe = (token, recipe_id) => {
     return dispatch => {
@@ -18,13 +17,13 @@ export const deleteRecipe = (token, recipe_id) => {
                 'securityTokenValue': token 
             }
         })
-            .then(resp => resp.json())
-            .then(resp => {
+        .then(resp => resp.json())
+        .then(resp => {
 
-                if(resp.status===401) {
+                if(resp.status === 401 || resp.status === 403) {
                     throw new Error(resp.message)
                 }
-                else if(resp.status && resp.status!==200) {
+                else if(resp.status && resp.status !== 200) {
                     throw new Error('Wystąpił nieznany błąd!');
                 }
 
@@ -38,6 +37,12 @@ export const deleteRecipe = (token, recipe_id) => {
     }
 }
 
+export const deleteDeleteRecipeNotification = () => {
+    return dispatch => {
+        dispatch(deleteNotification());
+    }
+}
+
 const deleteRequest = () => {
     return {
         group: DELETE_RECIPE,
@@ -48,7 +53,10 @@ const deleteRequest = () => {
 const deleteSuccess = () => {
     return {
         group: DELETE_RECIPE,
-        type: DELETE_RECIPE_SUCCESS
+        type: DELETE_RECIPE_SUCCESS,
+        payload: {
+            success: 'Pomyślnie usunięto przepis'
+        }
     }
 }
 
@@ -59,5 +67,12 @@ const deleteError = error => {
         payload: {
             error
         }
+    }
+}
+
+const deleteNotification = () => {
+    return {
+        group: DELETE_RECIPE,
+        type: DELETE_RECIPE_DELETE
     }
 }

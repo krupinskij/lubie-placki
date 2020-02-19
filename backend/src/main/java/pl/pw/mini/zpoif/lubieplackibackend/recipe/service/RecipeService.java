@@ -39,7 +39,7 @@ public interface RecipeService {
 
 
     Rating addRatingByRecipeId(UUID securityToken, Long recipe_id, Integer rating);
-    void deleteRating(UUID securityToken, Long recipe_id);
+    Rating deleteRating(UUID securityToken, Long recipe_id);
     Integer getRating(UUID securityToken, Long recipe_id);
     Double[] getRatingsByRecipeId(Long recipe_id);
     List<Rating> getRatings();

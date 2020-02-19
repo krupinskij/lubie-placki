@@ -5,8 +5,6 @@ import RatingController from './RatingController';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import history from '../helpers/history';
-
 class RecipeMini extends React.Component {
 
     state = {
@@ -61,18 +59,11 @@ class RecipeMini extends React.Component {
 }
 
 const mapStateToProps = state => {
-
     return {
-        token: state.token,
-        loading: state.loading,
-        error: state.error
+        token: state.token
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-})
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
   )(RecipeMini)

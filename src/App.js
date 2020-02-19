@@ -23,6 +23,7 @@ import EditRecipePage from './components/pages/EditRecipePage';
 
 import SearchPage from './components/pages/SearchPage';
 import Loading from './components/Loading';
+import NotificationsList from './components/NotificationsList';
 
 const store = createStore(rootReducer, applyMiddleware(reduxLogger, reduxThunk))
 
@@ -33,23 +34,24 @@ class App extends React.Component {
 				<BrowserRouter>
 					<div style={{ position: 'absolute', top: 0, flex: 1, alignSelf: 'stretch', right: 0, left: 0 }}>
 						<Navbar />
-						<Route exact path="/" component={HomePage} />
-						<Route path="/recipe/:id" component={RecipePage} />
-						<Route path="/random" component={RandomPage} />
-						<Route path="/add" component={AddPage} />
-						<Route path="/top" component={TopPage} />
+						<Route exact path='/' component={HomePage} />
+						<Route path='/recipe/:id' component={RecipePage} />
+						<Route path='/random' component={RandomPage} />
+						<Route path='/add' component={AddPage} />
+						<Route path='/top' component={TopPage} />
 
-						<Route path="/login" component={LoginPage} />
-						<Route path="/register" component={RegisterPage} />
+						<Route path='/login' component={LoginPage} />
+						<Route path='/register' component={RegisterPage} />
 
-						<Route exact path="/user/:id" component={UserPage} />
-						<Route path="/user/edit/:id" component={EditUserPage} />
+						<Route exact path='/user/:id' component={UserPage} />
+						<Route path='/user/edit/:id' component={EditUserPage} />
 
-						<Route path="/edit/:id" component={EditRecipePage} />
+						<Route path='/edit/:id' component={EditRecipePage} />
 
-						<Route path="/search" component={SearchPage} />
+						<Route path='/search' component={SearchPage} />
 
 						<Loading/>
+						<NotificationsList/>
 					</div>
 				</BrowserRouter>
 			</Provider>
