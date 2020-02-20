@@ -7,10 +7,10 @@ import {
     EDIT_DELETE
 } from '../userConstants';
 
-export const editUser = (token, id, username) => {
+export const editUser = (token, username) => {
     return dispatch => {
         dispatch(editRequest())
-        return fetch('http://localhost:3004/users/' + id + '/username', {
+        return fetch('http://localhost:3004/users/username', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

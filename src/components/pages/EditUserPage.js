@@ -3,8 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-import history from '../../helpers/history'
-
 import { editUser, deleteEditUserNotification } from '../../redux/userRedux/actions/edit'
 import { editAvatar, deleteEditAvatarNotification } from '../../redux/userRedux/actions/editAvatar'
 
@@ -16,26 +14,31 @@ import { validate, canSubmit } from '../../validation/validator';
 class EditUserPage extends React.Component {
 
     state = {
-        username: "",
+        username: '',
         usernameValid: {
-            isValid: false,
-            message: ""
+            isValid: true,
+            message: ''
         },
 
-        photo: "",
+        photo: '',
 
         toSubmit: true
     }
 
     componentDidMount = () => {
-        if(this.props.token === null) this.props.history.push("/");
+        if(this.props.token === null) this.props.history.push('/');
         
         const id = this.props.match.params.id;
 
-        fetch("http://localhost:3004/users")
+        fetch('http://localhost:3004/users', {
+            method: 'GET',
+            headers: {
+                'securityTokenValue': this.props.token
+            }
+        })
         .then(resp => resp.json())
         .then(user => {
-            if(user.id !== id) this.props.history.push("/");
+            if(user.id !== +id) this.props.history.push('/');
 
             this.setState({
                 username: user.username
@@ -83,7 +86,7 @@ class EditUserPage extends React.Component {
         )
 
         this.setState({
-            photo: "",
+            photo: '',
             toSubmit
         })
     }
@@ -96,22 +99,29 @@ class EditUserPage extends React.Component {
 
         const token = this.props.token;
 
-        if(avatar==="") {
-            Promise.all([
-                this.props.editUser(token, username)
-            ])
-                .then(() => {
+        if(avatar === '') {
+            this.props.editUser(token, username)
+                .then(resp => {
                     setTimeout(this.props.deleteEditUserNotification, 3000);
-                    history.push("/");
+
+                    if(resp === undefined) return;
+
+                    window.location.reload(false);
+                    this.props.history.push('/');
                 });
         } else {
             Promise.all([
                 this.props.editUser(token, username), 
                 this.props.editAvatar(token, avatar)
             ])
-                .then(() => {
+                .then(resp => {
+                    setTimeout(this.props.deleteEditUserNotification, 3000);
                     setTimeout(this.props.deleteEditAvatarNotification, 3000);
-                    history.push("/");
+
+                    if(resp[0] === undefined || resp[1] === undefined) return;
+
+                    window.location.reload(false);
+                    this.props.history.push('/');
                 });
         }
 
@@ -120,35 +130,40 @@ class EditUserPage extends React.Component {
 
     render() {
         return (
-            <div className="page">
-                <form className="component component--wide" onSubmit={this.handleSubmit}>
+            <div className='page'>
+                <form className='component component--wide' onSubmit={this.handleSubmit}>
 
-                    <h2 className="form__header">Edytuj dane: </h2>
+                    <h2 className='form__header'>Edytuj dane: </h2>
 
-                    <div className="form__section">
-                        <label className="form__label" htmlFor="username">Nazwa użytkownika</label>
-                        <input className="form__input" id="username" name="username" type="text" value={this.state.username} onChange={this.handleUsernameChange} />
+                    <div className='form__section'>
+                        <label className='form__label' htmlFor='username'>Nazwa użytkownika</label>
+                        <input className='form__input' id='username' name='username' type='text' value={this.state.username} onChange={this.handleUsernameChange} />
                     </div>
 
-                    <hr className="form__separator" />
+                    <hr className='form__separator' />
 
-                    <div className="form__section">
-                        <label className="form__label" htmlFor="photo">Zdjęcie ciasta: </label>
+                    <div className='form__section'>
+                        <label className='form__label' htmlFor='photo'>Zdjęcie ciasta: 
+                            <label className='form__button form__button--add' htmlFor='photo'>Dodaj zdjęcie
+								<input className='form__file' id='photo' name='photo' type='file' onChange={this.handlePhotoChange} />
+							</label> 
+                        </label>
                         {
-                            this.state.photo === "" ?
-                                <label className="form__button" htmlFor="photo">Dodaj zdjęcie
-								<input className="form__file" id="photo" name="photo" type="file" onChange={this.handlePhotoChange} />
-                                </label> :
-                                <div className="form__image">
-                                    <img className="form__image-sample" src={URL.createObjectURL(this.state.photo)} alt="sample" />
-                                    <button className="form__image-delete" onClick={this.handlePhotoDelete}>X</button>
+                            this.state.photo === '' ?
+                                <div className='form__image'>
+									<img className='form__image-sample' src={`http://localhost:3004/users/${this.props.match.params.id}/avatar`} alt='sample' />
+								</div>
+                                :
+                                <div className='form__image'>
+                                    <img className='form__image-sample' src={URL.createObjectURL(this.state.photo)} alt='sample' />
+                                    <button className='form__image-delete' onClick={this.handlePhotoDelete}>X</button>
                                 </div>
                         }
                     </div>
 
                     <input
-                        className={this.state.toSubmit ? "form__submit form__submit--success" : "form__submit form__submit--error"}
-                        type="submit" value="Dodaj" />
+                        className={this.state.toSubmit ? 'form__submit form__submit--success' : 'form__submit form__submit--error'}
+                        type='submit' value='Edytuj' />
                 </form>
             </div>
         )

@@ -599,9 +599,9 @@ class EditRecipePage extends React.Component {
 
 					<div className='form__section'>
 						<label className='form__label for__label--required' htmlFor='photo'>Zdjęcie ciasta:
-						<label className='form__button form__button--add' htmlFor='photo'>Dodaj zdjęcie
-							<input className='form__file' id='photo' name='photo' type='file' onChange={this.changePhoto} />
-						</label> 
+							<label className='form__button form__button--add' htmlFor='photo'>Dodaj zdjęcie
+								<input className='form__file' id='photo' name='photo' type='file' onChange={this.changePhoto} />
+							</label> 
 						</label>
 						{
 							this.state.photo === '' ?

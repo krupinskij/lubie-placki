@@ -85,7 +85,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUsername(UUID securityToken, String username) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie ma takiego użytkownika"));
+        User oldUser = userRepository.findByUsername(username).orElse(null);
+        if(oldUser != null && !user.equals(oldUser)) throw new UnauthorizedException("Podana nazwa jest już zajęta");
 
         user.setUsername(username);
         return userRepository.save(user);

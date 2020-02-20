@@ -7,10 +7,10 @@ import {
     EDIT_AVATAR_DELETE
 } from '../userConstants';
 
-export const editAvatar = (token, id, avatar) => {
+export const editAvatar = (token, avatar) => {
     return dispatch => {
         dispatch(editRequest())
-        return fetch('http://localhost:3004/users/' + id + '/avatar', {
+        return fetch('http://localhost:3004/users/avatar', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
