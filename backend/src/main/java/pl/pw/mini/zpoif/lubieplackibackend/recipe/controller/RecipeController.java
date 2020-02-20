@@ -48,6 +48,11 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getRecipePhotoByRecipeId(recipe_id));
     }
 
+    @GetMapping(path = "/default/photo", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity getDefaultPhoto() {
+        return ResponseEntity.ok(recipeService.getDefaultPhoto());
+    }
+
     @GetMapping(path="/random")
     public ResponseEntity getRandomId() {
         return ResponseEntity.ok(recipeService.getRandomId());

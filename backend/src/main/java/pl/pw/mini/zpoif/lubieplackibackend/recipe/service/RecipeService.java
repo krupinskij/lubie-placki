@@ -15,6 +15,7 @@ public interface RecipeService {
     List<Recipe> getRecipesByUserId(Long user_id);
 
     byte[] getRecipePhotoByRecipeId(Long recipe_id);
+    byte[] getDefaultPhoto();
 
     Long getRandomId();
 

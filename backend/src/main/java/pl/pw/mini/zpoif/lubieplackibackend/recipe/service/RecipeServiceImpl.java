@@ -111,6 +111,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public byte[] getDefaultPhoto() {
+        try {
+            ClassPathResource imgFile = new ClassPathResource("image/cake.png");
+            return StreamUtils.copyToByteArray(imgFile.getInputStream());
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
+    @Override
     public Long getRandomId() {
         List<Recipe> recipes = recipeRepository.findAll();
         Random random = new Random();
@@ -185,7 +195,6 @@ public class RecipeServiceImpl implements RecipeService {
         userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
         Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
-        //throw new RecipeNotFoundException("string: " + tagString );
         List<Tag> tags = Arrays.stream(tagString.substring(1).split("#"))
                 .map(s -> {
                     Tag tag = new Tag();

@@ -58,39 +58,31 @@
 }
 
 .form__button {
-    width: 40%;
+    display: block;
+    width: max-content;
     font-size: 16px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px dashed black;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    background: white;
     cursor: pointer;
-}
 
-.form__button--add {
+    float: right;
+
+    
     padding: 1% 2%;
     margin-left: 10px;
     border-radius: 5px;
     border: 0;
     text-align: center;
-    background: green;
     font-weight: bold;
     color: white;
-    cursor: pointer;
+}
+
+.form__button--add {
+    background: green;
 }
 
 .form__button--delete {
-    padding: 1% 2%;
-    margin: 2%;
-    border-radius: 5px;
-    border: 0;
-    text-align: center;
     background: red;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
 }
 
 .form__file {
