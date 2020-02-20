@@ -16,7 +16,7 @@ export const deleteComment = (token, comment_id) => {
                 'securityTokenValue': token
             }
         })
-            .then(resp => resp.json())
+            .then(resp => resp.text())
             .then(resp => {
 
                 if(resp.status === 401 || resp.status === 403) {

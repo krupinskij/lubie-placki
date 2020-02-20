@@ -46,6 +46,7 @@ class Comment extends React.Component {
 
   render() {
     const comment = this.props.comment;
+
     return (
       <div className="component comment">
         <h2 className="comment__header">
@@ -63,16 +64,12 @@ class Comment extends React.Component {
               </div>
 
               {
-                this.props.user_id !== undefined &&
-
-                (
-                  this.props.token === this.props.comment.user.securityToken &&
+                this.props.id === comment.user.id &&
 
                   <div className="comment__buttons">
                     <button className="comment__button comment__button--delete" onClick={this.handleDeleteClick}>Usuń</button>
                     <button className="comment__button comment__button--edit" onClick={this.handleEditClick}>Edytuj</button>
                   </div>
-                )
 
               }
             </>

@@ -13,8 +13,7 @@ import { addTags, deleteAddTagsNotification } from '../../redux/addRecipeRedux/a
 import {
 	required,
 	nonBlank,
-	isNumber,
-	isFile
+	isNumber
 } from '../../validation/requirements';
 import { validate, canSubmit } from '../../validation/validator';
 

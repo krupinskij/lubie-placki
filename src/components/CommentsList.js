@@ -13,8 +13,8 @@ import { updateComment, deleteUpdateCommentNotification } from '../redux/comment
 class CommentsList extends React.Component {
 
     state = {
-        comments: [],
-        loadingComments: true
+        id: undefined,
+        comments: []
     }
 
     componentDidMount = () => {
@@ -22,16 +22,26 @@ class CommentsList extends React.Component {
         .then(resp => resp.json())
         .then(comments => { 
             this.setState({ 
-                comments,
-                loadingComments: false
+                comments
             }) 
+        })
+
+        fetch("http://localhost:3004/users/id", {
+            method: 'GET',
+            headers: {
+                'securityTokenValue': this.props.token
+            }
+        })
+        .then(resp => resp.json())
+        .then(id => { 
+            this.setState({ id }); 
         })
     }
 
     postComment = text => {
         this.props.addComment(this.props.token, this.props.recipe_id, text)
         .then(resp => {
-            setTimeout(this.props.deleteDeleteCommentNotification, 3000);
+            setTimeout(this.props.deleteAddCommentNotification, 3000);
             
             if(resp === undefined) return;
             this.componentDidMount();
@@ -51,20 +61,19 @@ class CommentsList extends React.Component {
     updateComment = (id, text) => {
         this.props.updateComment(this.props.token, id, text)
         .then(resp => {
-            if(resp === undefined) return;
-
             setTimeout(this.props.deleteUpdateCommentNotification, 3000);
+
+            if(resp === undefined) return;
             this.componentDidMount();
         })
     }
 	
 	render() {
 
-        if(this.state.loadingComments) return (<div>Ładowanie...</div>);
-
 		const comments = this.state.comments.map(comment => <Comment key={comment.id}
             
             comment={comment}
+            id={this.state.id}
             deleteComment={this.deleteComment}
             updateComment={this.updateComment}
         />)
@@ -81,9 +90,7 @@ class CommentsList extends React.Component {
 
 const mapStateToProps = state => {
     return {
-		token: state.token,
-		loading: state.loading,
-        error: state.error
+		token: state.token
     }
 }
 

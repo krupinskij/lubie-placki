@@ -13,6 +13,7 @@ public interface UserService {
     void logout(UUID securityToken);
 
     User getUser(UUID securityToken);
+    Long getId(UUID securityToken);
     User getUserById(Long id);
 
     String getUsernameByUserId(Long user_id);

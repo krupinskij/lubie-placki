@@ -58,6 +58,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(securityToken));
     }
 
+    @GetMapping(path = "/id")
+    public ResponseEntity getId(@RequestHeader String securityTokenValue) {
+        UUID securityToken = UUID.fromString(securityTokenValue);
+        return ResponseEntity.ok(userService.getId(securityToken));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
