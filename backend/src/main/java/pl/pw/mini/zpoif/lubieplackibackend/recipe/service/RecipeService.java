@@ -1,15 +1,14 @@
 package pl.pw.mini.zpoif.lubieplackibackend.recipe.service;
 
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
-import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 public interface RecipeService {
 
     List<Recipe> getAll(String type, String sort, String text, Long user_id, Integer page);
+    Long getPagesCount(String type, String search, Long user_id);
 
     Recipe getRecipeByRecipeId(Long recipe_id);
     List<Recipe> getRecipesByUserId(Long user_id);
@@ -18,8 +17,6 @@ public interface RecipeService {
     byte[] getDefaultPhoto();
 
     Long getRandomId();
-
-    Long getPagesCount(String type, String search, Long user_id);
 
     // -- save recipe -- //
 
@@ -45,7 +42,4 @@ public interface RecipeService {
     Rating deleteRating(UUID securityToken, Long recipe_id);
     Integer getRating(UUID securityToken, Long recipe_id);
     Double[] getRatingsByRecipeId(Long recipe_id);
-    List<Rating> getRatings();
-
-    List<Recipe> getRecipesByTag(String s);
 }

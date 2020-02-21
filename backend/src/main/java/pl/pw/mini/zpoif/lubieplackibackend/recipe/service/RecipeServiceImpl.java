@@ -85,6 +85,26 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Long getPagesCount(String type, String text, Long user_id) {
+        long length = recipeRepository.findAll().stream()
+                .filter(recipe -> type == null || type.equals("all") || recipe.getType().equals(type))
+                .filter(recipe -> {
+                    if(text == null) return true;
+                    for (Tag tag: recipe.getTags()) {
+                        if(tag.getText().equals(text)) return true;
+                    }
+                    return false;
+                })
+                .filter(recipe -> user_id == null || recipe.getUser().getId().equals(user_id))
+                .count();
+
+        length = (length + 9) / 10;
+        if(length == 0) length = 1L;
+
+        return length;
+    }
+
+    @Override
     public Recipe getRecipeByRecipeId(Long recipe_id) {
         return recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
     }
@@ -126,28 +146,6 @@ public class RecipeServiceImpl implements RecipeService {
         Random random = new Random();
 
         return recipes.get(random.nextInt(recipes.size())).getId();
-    }
-
-    @Override
-    public Long getPagesCount(String type, String text, Long user_id) {
-        long length = recipeRepository.findAll().stream()
-                .filter(recipe -> type == null || type.equals("all") || recipe.getType().equals(type))
-                .filter(recipe -> {
-                    if(text == null) return true;
-
-                    for (Tag tag: recipe.getTags()) {
-                        if(tag.getText().equals(text)) return true;
-                    }
-
-                    return false;
-                })
-                .filter(recipe -> user_id == null || recipe.getUser().getId().equals(user_id))
-                .count();
-
-        length = (length + 9) / 10;
-        if(length == 0) length = 1L;
-
-        return length;
     }
 
     // -- save recipe -- //
@@ -321,24 +319,15 @@ public class RecipeServiceImpl implements RecipeService {
         return recipe;
     }
 
-
-
-
-
-
-
-
-
     @Override
     public Rating addRatingByRecipeId(UUID securityToken, Long recipe_id, Integer r) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
         for(Rating rating: recipe.getRatings()) {
             if(rating.getUser().equals(user)) {
                 rating.setRating(r);
                 return ratingRepository.save(rating);
-                //return rating;
             }
         }
 
@@ -347,15 +336,17 @@ public class RecipeServiceImpl implements RecipeService {
         rating.setRecipe(recipe);
         rating.setUser(user);
 
-        return ratingRepository.save(rating);
+        ratingRepository.save(rating);
+
+        return rating;
     }
 
     @Override
     public Rating deleteRating(UUID securityToken, Long recipe_id) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
         for(Rating rating:  recipe.getRatings()) {
-            if(rating.getUser().getId().equals(user.getId())) {
+            if(rating.getUser().equals(user)) {
                 ratingRepository.delete(rating);
                 return rating;
             }
@@ -367,11 +358,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Integer getRating(UUID securityToken, Long recipe_id) {
         User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
         List<Rating> ratings = recipe.getRatings();
 
         for(Rating rating: ratings) {
-            if(rating.getUser().getId().equals(user.getId())) return rating.getRating();
+            if(rating.getUser().equals(user)) return rating.getRating();
         }
 
         throw new RatingNotFoundException("Ten użytkownik nie ocenił jeszcze tego przepisu");
@@ -379,27 +370,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Double[] getRatingsByRecipeId(Long recipe_id) {
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
         return new Double[]{ recipe.getAverageRating(), recipe.getCountRating() };
     }
 
-    @Override
-    public List<Rating> getRatings() {
-        return ratingRepository.findAll();
-    }
-
-    @Override
-    public List<Recipe> getRecipesByTag(String s) {
-        if(s==null || s.equals("")) return recipeRepository.findAll().stream()
-                .sorted(Comparator.comparing(Recipe::getAdd_date).reversed())
-                .collect(Collectors.toList());
-
-        return tagRepository.findByText(s).stream()
-                .map(Tag::getRecipe)
-                .sorted(Comparator.comparing(Recipe::getAdd_date).reversed())
-                .collect(Collectors.toList());
-    }
 
 
 }

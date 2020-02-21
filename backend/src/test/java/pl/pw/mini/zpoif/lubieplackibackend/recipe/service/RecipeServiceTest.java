@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RatingNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.exception.RecipeNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.*;
 import pl.pw.mini.zpoif.lubieplackibackend.recipe.repository.*;
@@ -28,6 +29,7 @@ public class RecipeServiceTest {
     @Mock IngredientRepository ingredientRepository;
     @Mock DirectionRepository directionRepository;
     @Mock HintRepository hintRepository;
+    @Mock RatingRepository ratingRepository;
 
     @Mock UserRepository userRepository;
 
@@ -182,6 +184,81 @@ public class RecipeServiceTest {
 
         List<Recipe> returnedRecipes = recipeService.getAll(null, null, "aaa", null, 1);
         assertEquals(filteredRecipes, returnedRecipes);
+    }
+
+    @Test
+    public void getPagesCount_EmptyList_Return1() {
+        List<Recipe> recipes = getRecipes(0);
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        Long returnedCount = recipeService.getPagesCount(null, null, null);
+        assertEquals(1, returnedCount);
+    }
+
+    @Test
+    public void getPagesCount_ListWith1Element_Return1() {
+        List<Recipe> recipes = getRecipes(1);
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        Long returnedCount = recipeService.getPagesCount(null, null, null);
+        assertEquals(1, returnedCount);
+    }
+
+    @Test
+    public void getPagesCount_ListWith10Elements_Return1() {
+        List<Recipe> recipes = getRecipes(10);
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        Long returnedCount = recipeService.getPagesCount(null, null, null);
+        assertEquals(1, returnedCount);
+    }
+
+    @Test
+    public void getPagesCount_ListWith11Elements_Return2() {
+        List<Recipe> recipes = getRecipes(11);
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        Long returnedCount = recipeService.getPagesCount(null, null, null);
+        assertEquals(2, returnedCount);
+    }
+
+    @Test
+    public void getPagesCount_FilterByType_ReturnPagesCount() {
+        List<Recipe> recipes = getRecipes(20);
+        long pagesCount = recipes.stream()
+                .filter(r -> r.getType().equals("jablecznik"))
+                .count();
+        pagesCount = (pagesCount + 9) / 10;
+        if(pagesCount == 0) pagesCount = 1;
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        Long returnedCount = recipeService.getPagesCount("jablecznik", null, null);
+        assertEquals(pagesCount, returnedCount);
+    }
+
+    @Test
+    public void getPagesCount_FilterByTag_ReturnPagesCount() {
+        List<Recipe> recipes = getRecipes(20);
+        long pagesCount = recipes.stream()
+                .filter(r -> {
+                    for(Tag tag: r.getTags()) {
+                        if(tag.getText().equals("aaa")) return true;
+                    }
+                    return false;
+                })
+                .count();
+        pagesCount = (pagesCount + 9) / 10;
+        if(pagesCount == 0) pagesCount = 1;
+
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
+
+        Long returnedCount = recipeService.getPagesCount(null, "aaa", null);
+        assertEquals(pagesCount, returnedCount);
     }
 
     @Test
@@ -855,6 +932,247 @@ public class RecipeServiceTest {
         }
     }
 
+    @Test
+    public void addRatingByRecipeId_UnassignedSecurityToken_ThrowUnauthorizedException() {
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.addRatingByRecipeId(UUID.randomUUID(), 1L, 5);
+            fail("Should throw UnauthorizedException");
+        } catch (UnauthorizedException ex) {
+            assertEquals("Zaloguj się", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void addRatingByRecipeId_UnassignedRecipeId_ThrowRecipeNotFoundException() {
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(new User()));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.addRatingByRecipeId(UUID.randomUUID(), 1L, 5);
+            fail("Should throw RecipeNotFoundException");
+        } catch (RecipeNotFoundException ex) {
+            assertEquals("Nie znaleziono przepisu", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void addRatingByRecipeId_SetRating_ReturnRating() {
+
+        Recipe recipe = new Recipe();
+        recipe.setRatings(new ArrayList<>());
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(new User()));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+        Mockito.when(ratingRepository.save(Mockito.any())).thenReturn(new Rating());
+
+        Rating returnedRating = recipeService.addRatingByRecipeId(UUID.randomUUID(), 1L, 5);
+        assertEquals(5, returnedRating.getRating());
+    }
+
+    @Test
+    public void deleteRating_UnassignedSecurityToken_ThrowUnauthorizedException() {
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.deleteRating(UUID.randomUUID(), 1L);
+            fail("Should throw UnauthorizedException");
+        } catch (UnauthorizedException ex) {
+            assertEquals("Zaloguj się", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteRating_UnassignedRecipeId_ThrowRecipeNotFoundException() {
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(new User()));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.deleteRating(UUID.randomUUID(), 1L);
+            fail("Should throw RecipeNotFoundException");
+        } catch (RecipeNotFoundException ex) {
+            assertEquals("Nie znaleziono przepisu", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteRating_RecipeWithNoRatings_ThrowRatingNotFoundException() {
+
+        User user = new User();
+        Recipe recipe = new Recipe();
+        recipe.setRatings(new ArrayList<>());
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(user));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        try {
+            recipeService.deleteRating(UUID.randomUUID(), 1L);
+            fail("Should throw RatingNotFoundException");
+        } catch (RatingNotFoundException ex) {
+            assertEquals("Ten użytkownik nie ocenił jeszcze tego przepisu", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteRating_UnassignedRecipe_ThrowRatingNotFoundException() {
+
+        User user = new User();
+
+        Rating rating = new Rating();
+        rating.setUser(user);
+
+        Recipe recipe = new Recipe();
+        List<Rating> ratings = new ArrayList<>();
+        ratings.add(rating);
+        recipe.setRatings(ratings);
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(user));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        Rating returnedRating = recipeService.deleteRating(UUID.randomUUID(), 1L);
+        assertEquals(rating, returnedRating);
+    }
+
+    @Test
+    public void getRating_UnassignedSecurityToken_ThrowUnauthorizedException() {
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.getRating(UUID.randomUUID(), 1L);
+            fail("Should throw UnauthorizedException");
+        } catch (UnauthorizedException ex) {
+            assertEquals("Zaloguj się", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void getRating_UnassignedRecipeId_ThrowRecipeNotFoundException() {
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(new User()));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.getRating(UUID.randomUUID(), 1L);
+            fail("Should throw RecipeNotFoundException");
+        } catch (RecipeNotFoundException ex) {
+            assertEquals("Nie znaleziono przepisu", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void getRating_RecipeWithNoRatings_ThrowRatingNotFoundException() {
+
+        Recipe recipe = new Recipe();
+        recipe.setRatings(new ArrayList<>());
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(new User()));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        try {
+            recipeService.getRating(UUID.randomUUID(), 1L);
+            fail("Should throw RatingNotFoundException");
+        } catch (RatingNotFoundException ex) {
+            assertEquals("Ten użytkownik nie ocenił jeszcze tego przepisu", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void getRating__ReturnRating() {
+
+        User user = new User();
+
+        Rating rating = new Rating();
+        rating.setUser(user);
+        rating.setRating(5);
+
+        Recipe recipe = new Recipe();
+        List<Rating> ratings = new ArrayList<>();
+        ratings.add(rating);
+        recipe.setRatings(ratings);
+
+        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.of(user));
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        Integer returnedRating = recipeService.getRating(UUID.randomUUID(), 1L);
+        assertEquals(5, returnedRating);
+    }
+
+    @Test
+    public void getRatingsByRecipeId_UnassignedRecipeId_ThrowRecipeNotFoundException() {
+
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        try {
+            recipeService.getRatingsByRecipeId(1L);
+            fail("Should throw RecipeNotFoundException");
+        } catch (RecipeNotFoundException ex) {
+            assertEquals("Nie znaleziono przepisu", ex.getMessage());
+        }
+    }
+
+    private List<Rating> getRatings(int count) {
+        List<Rating> ratings = new ArrayList<>();
+        Random random = new Random();
+
+        for(int i=0; i<count; i++) {
+            Rating rating = new Rating();
+            rating.setRating(random.nextInt(5)+1);
+
+            ratings.add(rating);
+        }
+
+        return ratings;
+    }
+
+    @Test
+    public void getRatingsByRecipeId_RecipeWith0Ratings_ReturnStats() {
+
+        Recipe recipe = new Recipe();
+        recipe.setRatings(getRatings(0));
+
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        Double[] stats = recipeService.getRatingsByRecipeId(1L);
+        assertEquals(2, stats.length);
+        assertEquals(0.0, stats[0]);
+        assertEquals(0.0, stats[1]);
+    }
+
+    @Test
+    public void getRatingsByRecipeId_RecipeWith1Ratings_ReturnStats() {
+
+        Recipe recipe = new Recipe();
+        List<Rating> ratings = getRatings(1);
+        recipe.setRatings(ratings);
+
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        Double[] stats = recipeService.getRatingsByRecipeId(1L);
+        assertEquals(2, stats.length);
+        assertEquals(ratings.get(0).getRating(), stats[0], 0);
+        assertEquals(1.0, stats[1]);
+    }
+
+    @Test
+    public void getRatingsByRecipeId_RecipeWith10Ratings_ReturnStats() {
+
+        Recipe recipe = new Recipe();
+        List<Rating> ratings = getRatings(10);
+        Double sum = Double.valueOf(ratings.stream().map(Rating::getRating).reduce(Integer::sum).orElse(0));
+        recipe.setRatings(ratings);
+
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(recipe));
+
+        Double[] stats = recipeService.getRatingsByRecipeId(1L);
+        assertEquals(2, stats.length);
+        assertEquals(sum / 10, stats[0]);
+        assertEquals(10.0, stats[1]);
+    }
 
 
 

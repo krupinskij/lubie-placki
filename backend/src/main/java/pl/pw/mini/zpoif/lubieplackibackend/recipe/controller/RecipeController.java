@@ -164,17 +164,4 @@ public class RecipeController {
         UUID securityToken = UUID.fromString(securityTokenValue);
         return ResponseEntity.ok(recipeService.getRating(securityToken, recipe_id));
     }
-
-    @GetMapping(path = "/ratings")
-    public ResponseEntity getRatings() {
-        return ResponseEntity.ok(recipeService.getRatings());
-    }
-
-    @GetMapping(path = "/search")
-    public ResponseEntity getRecipesByTag(@RequestParam(required = false) String s) {
-        return ResponseEntity.ok(recipeService.getRecipesByTag(s));
-    }
-
-
-
 }
