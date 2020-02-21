@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByUserId(Long user_id) {
-        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
+        User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika"));
 
         List<Comment> comments = user.getComments();
         comments.sort(Comparator.comparing(Comment::getAdd_date));
@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByRecipeId(Long recipe_id) {
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
         List<Comment> comments = recipe.getComments();
         comments.sort(Comparator.comparing(Comment::getAdd_date));
@@ -51,8 +51,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment postComment(UUID securityToken, Long recipe_id, String text) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie ma takiego przepisu"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Recipe recipe = recipeRepository.findById(recipe_id).orElseThrow(() -> new RecipeNotFoundException("Nie znaleziono przepisu"));
 
         Comment comment = new Comment();
         comment.setText(text);
@@ -60,24 +60,32 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(user);
         comment.setRecipe(recipe);
 
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+
+        return comment;
     }
 
     @Override
     public void deleteComment(UUID securityToken, Long id) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś właścicielem tego komentarza"));
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie znaleziono komentarza"));
+
+        if(!comment.getUser().equals(user)) throw new UnauthorizedException("Nie jesteś właścicielem tego komentarza");
 
         commentRepository.delete(comment);
     }
 
     @Override
     public Comment updateComment(UUID securityToken, Long id, String text) {
-        userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie jesteś właścicielem tego komentarza"));
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie znaleziono komentarza"));
+
+        if(!comment.getUser().equals(user)) throw new UnauthorizedException("Nie jesteś właścicielem tego komentarza");
 
         comment.setText(text);
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+
+        return comment;
     }
 
 

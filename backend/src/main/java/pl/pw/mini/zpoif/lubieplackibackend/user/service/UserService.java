@@ -2,8 +2,6 @@ package pl.pw.mini.zpoif.lubieplackibackend.user.service;
 
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
