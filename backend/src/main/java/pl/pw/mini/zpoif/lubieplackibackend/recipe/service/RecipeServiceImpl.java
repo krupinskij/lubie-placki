@@ -128,6 +128,28 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes.get(random.nextInt(recipes.size())).getId();
     }
 
+    @Override
+    public Long getPagesCount(String type, String text, Long user_id) {
+        long length = recipeRepository.findAll().stream()
+                .filter(recipe -> type == null || type.equals("all") || recipe.getType().equals(type))
+                .filter(recipe -> {
+                    if(text == null) return true;
+
+                    for (Tag tag: recipe.getTags()) {
+                        if(tag.getText().equals(text)) return true;
+                    }
+
+                    return false;
+                })
+                .filter(recipe -> user_id == null || recipe.getUser().getId().equals(user_id))
+                .count();
+
+        length = (length + 9) / 10;
+        if(length == 0) length = 1L;
+
+        return length;
+    }
+
     // -- save recipe -- //
 
     @Override

@@ -6,9 +6,9 @@ class PageController extends React.Component {
         pages: []
     }
 
-    componentDidMount = () => {
+    componentWillReceiveProps = props => {
         this.setState({
-            pages: Array(this.props.length).fill(0)
+            pages: Array(props.length).fill(0)
         })
     }
 

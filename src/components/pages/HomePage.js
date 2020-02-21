@@ -14,10 +14,14 @@ class HomePage extends React.Component {
 	}
 
 	fetchQuery = parsed => {
-		this.setState({
-			type: parsed.type !== undefined ? parsed.type : 'all',
-			page: parsed.page !== undefined ? parsed.page : 1,
-		})
+		const type = parsed.type !== undefined ? parsed.type : 'all';
+		const page = parsed.page !== undefined ? parsed.page : 1;
+		this.setState({ type, page })
+
+		fetch("http://localhost:3004/recipes/pages?type=" + type)
+		.then(resp => resp.json())
+		.then(length => { this.setState({ length }) })
+
 	}
 
 	componentWillReceiveProps = nextProps => {
@@ -34,20 +38,15 @@ class HomePage extends React.Component {
 		this.props.history.push('/?type=' + this.state.type + '&page=' + page);
 	}
 	
-	setLength = length => {
-        this.setState({ length })
-    }
-	
 	render() {
 		return(
 			<div className="page">
 				<RecipesList
 					type={ this.state.type }
 					page={ this.state.page }
-                    setLength={ this.setLength }
 				/>
 				<PageController
-				length={this.state.length}
+					length={this.state.length}
                     currentPage={this.state.page} 
                     choosePage={this.handleChangePage}
                 />

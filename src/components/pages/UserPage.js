@@ -11,6 +11,7 @@ class UserPage extends React.Component {
 
     state = {
         user: {},
+        points: 0,
         page: 1,
         length: 1
     }    
@@ -26,6 +27,14 @@ class UserPage extends React.Component {
                 })
             })
 
+            fetch("http://localhost:3004/users/" + id + "/points")
+            .then(resp => resp.json())
+            .then(resp => {
+                this.setState({
+                    points: resp
+                })
+            })
+
 		const parsed = queryString.parse(this.props.history.location.search);
 		this.fetchQuery(parsed);
     }
@@ -36,9 +45,12 @@ class UserPage extends React.Component {
 	}
 
 	fetchQuery = parsed => {
-		this.setState({
-			page: parsed.page !== undefined ? parsed.page : 1
-		})
+        const page = parsed.page !== undefined ? parsed.page : 1
+		this.setState({ page })
+        
+        fetch("http://localhost:3004/recipes/pages?user=" + this.props.match.params.id)
+		.then(resp => resp.json())
+		.then(length => { this.setState({ length }) })
     }
     
     handleChangePage = (event, page) => {
@@ -52,7 +64,10 @@ class UserPage extends React.Component {
 	render() {
         return(
             <div className="page">
-                <User user={this.state.user}/>
+                <User 
+                    user={this.state.user}
+                    points={this.state.points}
+                />
                 <RecipesList
                     user_id={ this.props.match.params.id }
                     page={ this.state.page }

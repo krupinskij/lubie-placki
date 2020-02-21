@@ -16,10 +16,13 @@ class TopPage extends React.Component {
 	}
 
 	fetchQuery = parsed => {
-		this.setState({
-			sort: parsed.sort !== undefined ? parsed.sort : 'date',
-			page: parsed.page !== undefined ? parsed.page : 1,
-		})
+		const sort = parsed.sort !== undefined ? parsed.sort : 'date';
+		const page = parsed.page !== undefined ? parsed.page : 1;
+		this.setState({ sort, page });
+
+		fetch("http://localhost:3004/recipes/pages")
+		.then(resp => resp.json())
+		.then(length => { this.setState({ length }) })
 	}
 
 	componentWillReceiveProps = nextProps => {

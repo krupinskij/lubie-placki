@@ -17,10 +17,13 @@ class SearchPage extends React.Component {
     }
 
     fetchQuery = parsed => {
-		this.setState({
-			search: parsed.s !== undefined ? parsed.s : '',
-			page: parsed.page !== undefined ? parsed.page : 1,
-		})
+        const search = parsed.s !== undefined ? parsed.s : '';
+        const page = parsed.page !== undefined ? parsed.page : 1;
+        this.setState({ search, page })
+        
+        fetch("http://localhost:3004/recipes/pages?search=" + search)
+		.then(resp => resp.json())
+		.then(length => { this.setState({ length }) })
 	}
 
     componentWillReceiveProps = nextProps => {

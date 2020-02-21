@@ -58,6 +58,15 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getRandomId());
     }
 
+    @GetMapping(path = "/pages")
+    public ResponseEntity getPagesCount(
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Long user
+    ) {
+        return ResponseEntity.ok(recipeService.getPagesCount(type, search, user));
+    }
+
     @PostMapping(path = "")
     public ResponseEntity saveRecipe(@RequestHeader String securityTokenValue, @RequestBody Recipe recipe) {
         UUID securityToken = UUID.fromString(securityTokenValue);
@@ -165,5 +174,7 @@ public class RecipeController {
     public ResponseEntity getRecipesByTag(@RequestParam(required = false) String s) {
         return ResponseEntity.ok(recipeService.getRecipesByTag(s));
     }
+
+
 
 }

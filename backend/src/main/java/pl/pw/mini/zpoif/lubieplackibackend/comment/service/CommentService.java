@@ -14,6 +14,4 @@ public interface CommentService {
     void deleteComment(UUID securityToken, Long id);
 
     Comment updateComment(UUID securityToken, Long id, String text);
-
-    Comment likeComment(UUID securityToken, Long id);
 }

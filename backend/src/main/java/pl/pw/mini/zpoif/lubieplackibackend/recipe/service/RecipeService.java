@@ -19,6 +19,8 @@ public interface RecipeService {
 
     Long getRandomId();
 
+    Long getPagesCount(String type, String search, Long user_id);
+
     // -- save recipe -- //
 
     Recipe saveRecipe(UUID securityToken, Recipe recipe);

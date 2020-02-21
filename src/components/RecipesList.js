@@ -55,11 +55,6 @@ class RecipesList extends React.Component {
 			this.setState({ recipes })
 
 			setTimeout(this.props.deleteGetRecipesNotification, 3000);
-
-			let length = Math.floor((recipes.length + 9) / 10);
-			if(length === 0) length = 1;
-
-			this.props.setLength(length);
 		})
 	}
 

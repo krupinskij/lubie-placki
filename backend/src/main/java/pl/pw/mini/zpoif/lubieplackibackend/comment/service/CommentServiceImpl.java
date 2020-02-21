@@ -57,7 +57,6 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         comment.setText(text);
         comment.setAdd_date(LocalDateTime.now());
-        comment.setPoints(0);
         comment.setUser(user);
         comment.setRecipe(recipe);
 
@@ -78,15 +77,6 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
 
         comment.setText(text);
-        return commentRepository.save(comment);
-    }
-
-    @Override
-    public Comment likeComment(UUID securityToken, Long id) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Nie ma takiego komentarza"));
-
-        comment.setPoints(comment.getPoints()+1);
         return commentRepository.save(comment);
     }
 

@@ -15,7 +15,7 @@ class User extends React.Component {
                     {user.username}
                 </h1>
                 <div>
-                    Punkty: {user.points}
+                    Punkty: {this.props.points}
                 </div>
             </div>
 		)

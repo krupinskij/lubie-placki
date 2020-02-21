@@ -10,6 +10,8 @@ import pl.pw.mini.zpoif.lubieplackibackend.user.util.UserSerializer;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.UUID;
 
 @Entity
@@ -110,5 +112,19 @@ public class User implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Integer getPoints() {
+        Optional<Integer> points = recipes.stream()
+                .map(r -> {
+                    Integer ratings = 0;
+                    for(Rating rating: r.getRatings()) {
+                        ratings += rating.getRating();
+                    }
+                    return ratings;
+                })
+                .reduce(Integer::sum);
+
+        return points.orElse(0);
     }
 }

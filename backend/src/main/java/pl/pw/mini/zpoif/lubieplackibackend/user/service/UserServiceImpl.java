@@ -132,14 +132,6 @@ public class UserServiceImpl implements UserService {
     public Integer getPointsByUserId(Long user_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new UserNotFoundException("Nie ma takiego użytkownika"));
 
-        Integer recipePoints = user.getRecipes().stream()
-                .mapToInt(Recipe::getSumRating)
-                .reduce(Integer::sum).orElse(0);
-
-        Integer commentPoints = user.getComments().stream()
-                .mapToInt(Comment::getPoints)
-                .reduce(Integer::sum).orElse(0);
-
-        return recipePoints + commentPoints;
+        return user.getPoints();
     }
 }
