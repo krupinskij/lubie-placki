@@ -80,7 +80,7 @@ class CommentsList extends React.Component {
 
 		return (
 			<div>
-                <CommentInput postComment={this.postComment}/>
+                { this.props.token !== null && <CommentInput postComment={this.postComment}/> }
 
 				{comments}
 			</div>

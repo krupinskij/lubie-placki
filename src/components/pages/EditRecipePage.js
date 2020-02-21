@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ToLogin from '../ToLogin';
+
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
@@ -531,7 +533,7 @@ class EditRecipePage extends React.Component {
 
 	render() {
 
-		if (this.props.token == null) return <div className='page'>Musisz być zalogowany</div>
+		if (this.props.token == null) return <ToLogin/>
 
 		const ingredients = this.state.ingredients.map((a, i) => {
 			return (

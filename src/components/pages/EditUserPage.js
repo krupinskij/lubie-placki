@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ToLogin from '../ToLogin';
+
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
@@ -129,6 +131,8 @@ class EditUserPage extends React.Component {
     }
 
     render() {
+        if (this.props.token == null) return <ToLogin/>
+        
         return (
             <div className='page'>
                 <form className='component component--wide' onSubmit={this.handleSubmit}>
