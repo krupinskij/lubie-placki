@@ -45,9 +45,12 @@ public class UserServiceTest {
     @Test
     public void saveUser_NewUser_ReturnUUID() {
 
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("password");
         Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.empty());
 
-        userService.saveUser(new User());
+        userService.saveUser(user);
     }
 
     @Test
@@ -166,7 +169,7 @@ public class UserServiceTest {
     @Test
     public void getUserById_UnassignedId_ThrowUserNotFoundException() {
 
-        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
         try {
             userService.getUserById(1L);
@@ -191,7 +194,7 @@ public class UserServiceTest {
     @Test
     public void getUsernameByUserId_UnassignedId_ThrowUserNotFoundException() {
 
-        Mockito.when(userRepository.findBySecurityToken(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
         try {
             userService.getUsernameByUserId(1L);
