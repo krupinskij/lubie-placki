@@ -1,20 +1,15 @@
 package pl.pw.mini.zpoif.lubieplackibackend.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
-import pl.pw.mini.zpoif.lubieplackibackend.comment.model.Comment;
-import pl.pw.mini.zpoif.lubieplackibackend.recipe.model.Recipe;
 import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UnauthorizedException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.exception.UserNotFoundException;
 import pl.pw.mini.zpoif.lubieplackibackend.user.model.User;
 import pl.pw.mini.zpoif.lubieplackibackend.user.repository.UserRepository;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -54,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void logout(UUID securityToken) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Żeby się wylogować najpierw się zaloguj na swoje konto"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Żeby się wylogować najpierw się zaloguj XD"));
         user.setSecurityToken(null);
         userRepository.save(user);
     }
@@ -85,12 +80,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUsername(UUID securityToken, String username) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Nie ma takiego użytkownika"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
         User oldUser = userRepository.findByUsername(username).orElse(null);
         if(oldUser != null && !user.equals(oldUser)) throw new UnauthorizedException("Podana nazwa jest już zajęta");
 
         user.setUsername(username);
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return user;
     }
 
     @Override
@@ -121,11 +118,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserAvatar(UUID securityToken, byte[] avatar) {
-        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się na swoje konto"));
+        User user = userRepository.findBySecurityToken(securityToken).orElseThrow(() -> new UnauthorizedException("Zaloguj się"));
 
         user.setAvatar(avatar);
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return user;
     }
 
     @Override

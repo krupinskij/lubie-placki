@@ -15,7 +15,6 @@ public interface UserService {
     User getUserById(Long id);
 
     String getUsernameByUserId(Long user_id);
-
     User updateUsername(UUID securityToken, String username);
 
     byte[] getDefaultAvatar();
