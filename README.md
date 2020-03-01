@@ -1,42 +1,22 @@
 # Lubię Placki 
-Portal do dzielenia się przepisami na ciasta
+Serwis do dzielenia się przepisami na ciasta
 
 ## Jak otworzyć?
 
-Otwarcie strony internetowej składa się z czterech części:
-- pobranie repozytorium
+Otwarcie serwisu składa się z trzech części:
 - utworzenie bazy danych
 - uruchomienie serwera
 - uruchomienie strony
-
-### Pobranie repozytorium
-
-Pobierz to repozytorium na swój lokalny komputer (pobierz lub sklonuj):
-
-![repozytorium na GitHubie](https://pics.tinypic.pl/i/00994/jntcj5e1sc6h.png)
-
-Zapisz w wybranym przez siebie miejscu:
-
-![klonowanie w terminalu](https://pics.tinypic.pl/i/00994/3zkj10wohx2a.png)
 
 
 ### Utworzenie bazy danych
 `(pgAdmin 4)`
 
-
 Baza danych została stworzona na platformie PostgreSQL. Jeśli nie masz tego systemu, możesz go pobrać [TUTAJ](https://www.postgresql.org/download/)
 
-Otwieramy program *pgAdmin 4*:
+Używamy programu *pgAdmin 4*. Tworzymy nową bazę danych i nazywamy ją "*lubie-placki*"
 
-![program pgAdmin 4](https://pics.tinypic.pl/i/00994/dfv3m1rgxj51.png)
-
-Tworzymy nową bazę danych:
-
-![tworzenie bazy danych](https://pics.tinypic.pl/i/00994/albzeac4p7jp.png)
-
-Nazywamy bazę danych: *lubie-placki*:
-
-![nazywanie bazy danych](https://pics.tinypic.pl/i/00994/92lp38vibqzl.png)
+![tworzenie bazy danych](./screenshots/1_1.png)
 
 Podczas uruchomienia serwera tabele zostaną utworzone automatycznie.
 
@@ -47,19 +27,14 @@ Otwieramy folder *lubie-placki/backend*:
 
 W pliku *application.properties* w folderze *resources* zmieniamy nazwę użytkownika i hasło na to, które używamy korzystając z *pgAdmin 4*:
 
-![zmiana nazwy użytkownika i hasła](https://images.tinypic.pl/i/00996/pq6rrqzs7cuq.png)
+![zmiana nazwy użytkownika i hasła](./screenshots/1_2.png)
 
 Przy okazji warto wspomnieć, że z każdym uruchomieniem serwera, baza danych zostania stworzona na nowo, a wprowadzone przez nas zmiany (np. dodanie przepisu) zostaną usunięte. Aby tego uniknąć, po pierwszym uruchomieniu serwera (po uruchomieniu, żeby baza dazych się zainicjowała!) warto zakomentować linię z adresem do bazy danych. Znakiem komentarza jest `#`.
 
-![zakomentowanie linii z adresem do bazy danych](https://images.tinypic.pl/i/00996/3w1zixkobutd.png)
+![zakomentowanie linii z adresem do bazy danych](./screenshots/1_3.png)
 
-Następnie klikamy prawym przyciskiem myszy na plik *LubiePlackiBackendApplication* w drzewie projektu i wybieramy opcję *Run...*:
+Aby uruchomić serwer klikamy prawym przyciskiem myszy na plik *LubiePlackiBackendApplication* w drzewie projektu i wybieramy opcję *Run...*:
 
-![uruchamianie serwera](https://pics.tinypic.pl/i/00994/6rsv2dhgmglq.png)
-
-W ten sposób uruchomiliśmy serwer:
-
-![uruchomienie serwera](https://pics.tinypic.pl/i/00994/281i0krbrnem.png)
 
 ### Uruchomienie strony
 `(Visual Studio Code)`
@@ -68,14 +43,8 @@ Otwieramy folder *lubie-placki*
 
 Włączamy terminal (można utworzyć skrótu klawiszowego `` Ctrl + ` ``  ).
 
-W terminalu wpisujemy `npm install`, by zainstalować wszystkie dependencje.
-
-![wpisanie npm install](https://pics.tinypic.pl/i/00994/35g2dgldvbwd.png)
-
-A następnie `npm start`, by włączyć stronę
-
-![wpisanie npm start](https://pics.tinypic.pl/i/00994/9pogvbvi61f2.png)
+W terminalu wpisujemy `npm install`, by zainstalować wszystkie dependencje, a następnie `npm start`, by włączyć projekt
 
 Ostatecznie możemy cieszyć się naszą piękną stroną :)
 
-![widok strony internetowej](https://images.tinypic.pl/i/00996/ca05k0yhskrm.png)
+![widok strony internetowej](./screenshots/1_4.png)
