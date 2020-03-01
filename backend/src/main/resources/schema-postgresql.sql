@@ -198,7 +198,7 @@ CREATE TABLE public.users (
     username text NOT NULL,
     password text NOT NULL,
     avatar bytea,
-    UUID security_token
+    security_token UUID
 );
 
 ALTER TABLE public.users OWNER TO postgres;
@@ -326,9 +326,6 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.directions
     ADD CONSTRAINT directions_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
-
-ALTER TABLE ONLY public.recipes
-    ADD CONSTRAINT fk3phaesct2v9qwv650xsaww4rs FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
 ALTER TABLE ONLY public.hints
     ADD CONSTRAINT hints_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
