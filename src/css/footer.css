@@ -1,14 +1,11 @@
 .footer {
     position: absolute;
     bottom: 0;
-
     background-color: white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     box-shadow: 0px 0px 10px rgb(100, 100, 100);
-
     text-align: center;
-
     margin: 0% 30%;
     width: 30%;
     padding: 2% 5%;

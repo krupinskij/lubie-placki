@@ -2,10 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './css/index.css';
+import './css/component.css';
+
+import './css/navbar.css'; 
+import './css/footer.css'; 
+
+import './css/recipe.css'; 
+import './css/comment.css'; 
+import './css/user.css'; 
+import './css/form.css'; 
+import './css/controller.css'; 
+
 import './css/modal.css';
 import './css/notification.css';
-import './css/form.css';
-import './css/footer.css';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';

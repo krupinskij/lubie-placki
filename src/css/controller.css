@@ -1,0 +1,33 @@
+.page-controller {
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 5px;
+}
+
+.page-controller__button {
+    min-width: 100px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid black;
+    background: white;
+    border-radius: 5px;
+}
+
+.page-controller__button--current {
+    background: rgb(168, 0, 0);
+    color: white;
+}
+
+.controller__submit {
+    width: 100px;
+    height: 40px;
+    margin-top: 10px;
+    font-size: 110%;
+    font-family: 'Merriweather', serif;
+    background-color: rgb(168, 0, 0);
+    color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+}
