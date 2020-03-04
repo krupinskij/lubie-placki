@@ -5,6 +5,7 @@ import './css/index.css';
 import './css/modal.css';
 import './css/notification.css';
 import './css/form.css';
+import './css/footer.css';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';

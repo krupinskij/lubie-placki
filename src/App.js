@@ -24,6 +24,7 @@ import EditRecipePage from './components/pages/EditRecipePage';
 import SearchPage from './components/pages/SearchPage';
 import Loading from './components/Loading';
 import NotificationsList from './components/NotificationsList';
+import Footer from './components/Footer';
 
 const store = createStore(rootReducer, applyMiddleware(reduxLogger, reduxThunk))
 
@@ -32,7 +33,7 @@ class App extends React.Component {
 		return (
 			<Provider store={store}>
 				<BrowserRouter>
-					<div style={{ position: 'absolute', top: 0, flex: 1, alignSelf: 'stretch', right: 0, left: 0 }}>
+					<div style={{ position: 'absolute', top: 0, alignSelf: 'stretch', right: 0, left: 0, minHeight: '100vh' }}>
 						<Navbar />
 						<Route exact path='/' component={HomePage} />
 						<Route path='/recipe/:id' component={RecipePage} />
@@ -49,6 +50,8 @@ class App extends React.Component {
 						<Route path='/edit/:id' component={EditRecipePage} />
 
 						<Route path='/search' component={SearchPage} />
+
+						<Footer/>
 
 						<Loading/>
 						<NotificationsList/>

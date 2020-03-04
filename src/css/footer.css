@@ -1,0 +1,55 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0px 0px 10px rgb(100, 100, 100);
+
+    text-align: center;
+
+    margin: 0% 30%;
+    width: 30%;
+    padding: 2% 5%;
+}
+
+.footer__author {
+    font-size: 120%;
+    padding: 5px 0;
+    width: 100%;
+    background-color: rgb(168, 0, 0);
+    color: white;
+    border-bottom: 2px solid black;
+}
+
+.footer__link {
+    color: white;
+}
+
+.footer__link:hover {
+    color: black;
+}
+
+.footer__credits {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer__credit {
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.credit__icon {
+    margin: 3px;
+    width: 15px;
+}
+
+.credit__link {
+    font-size: 90%;
+}
